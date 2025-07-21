@@ -2,6 +2,8 @@
 using SistemaHotel.Services;
 using System;
 using System.Data;
+using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -126,6 +128,14 @@ namespace SistemaHotel.Views
                 return;
             }
 
+            //Validação do Email
+            if (!EmailHelper.IsValidEmail(txtEmail.Text))
+            {
+                ErroMensageService("E-mail inválido! Insira um e-mail válido.");
+                ControlHelper.ClearAndFocus(txtEmail, txtEmail);
+                return;
+            }
+
             try
             {
                 _dao.InserirFornecedor(
@@ -195,9 +205,9 @@ namespace SistemaHotel.Views
 
                 ControlHelper.ClearAndFocus(txtCod, maskCNPJ, txtNome, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP, maskTel, maskCelular, txtEmail, txtContato, txtObs);
 
-                EnableHelper.SetEnabled(false, maskCNPJ, txtNome, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP, maskTel, maskCelular, txtEmail, txtContato, txtObs);
+                EnableHelper.SetEnabled(false, txtNome, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP, maskTel, maskCelular, txtEmail, txtContato, txtObs);
 
-                EnableHelper.SetEnabled(true, btNovo, btSalvar);
+                EnableHelper.SetEnabled(true, maskCNPJ, btNovo, btSalvar);
                 EnableHelper.SetEnabled(false, btEditar, btExcluir);
 
                 ListarFornecedores();
@@ -238,7 +248,7 @@ namespace SistemaHotel.Views
                 HabilitarCampos(true);
                 ListarFornecedores();
                 SucessoMensageService.ShowSuccess("Fornecedor excluído com sucesso!");
-                EnableHelper.SetEnabled(true, btNovo);
+                EnableHelper.SetEnabled(true, btNovo, txtNome, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP, maskTel, maskCelular, txtEmail, txtContato, txtObs);
                 EnableHelper.SetEnabled(false, btEditar, btExcluir);
             }
             catch (Exception ex)
@@ -249,12 +259,12 @@ namespace SistemaHotel.Views
 
         private void TxtBuscarFornecedor_TextChanged(object sender, EventArgs e)
         {
-            BuscarFornecedorNome();
+
         }
 
         private void GridFornecedores_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            EnableHelper.SetEnabled(true, maskCNPJ, txtNome, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP, maskTel, maskCelular, txtEmail, txtContato, txtObs);
+            EnableHelper.SetEnabled(true, txtNome, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP, maskTel, maskCelular, txtEmail, txtContato, txtObs);
             EnableHelper.SetEnabled(false, txtCod); // Id desabilitado
 
             EnableHelper.SetEnabled(true, btEditar, btExcluir);
@@ -291,26 +301,63 @@ namespace SistemaHotel.Views
         //botão Pesquisar CEP
         private void btnPesquisarCep_Click(object sender, EventArgs e)
         {
+            // Evento do botão "Pesquisar CEP" - versão síncrona, sem async/await
+
+            // 1. Limpa e valida o CEP informado
+            string cep = maskCEP.Text.Trim().Replace("-", "").Replace(".", "");
+            if (string.IsNullOrWhiteSpace(cep) || cep.Length != 8 || !cep.All(char.IsDigit))
+            {
+                MessageBox.Show("Digite um CEP válido (8 dígitos numéricos).");
+                maskCEP.Focus();
+                return;
+            }
+
+            // 2. Monta a URL para consulta ViaCEP em formato XML
+            string url = $"https://viacep.com.br/ws/{cep}/xml/";
+
             try
             {
-                string cep = maskCEP.Text;
-                string xml = "https://viacep.com.br/ws/" + cep + "/xml/";
+                // 3. Cria requisição web síncrona para buscar o XML
+                var request = System.Net.WebRequest.Create(url);
+                using (var response = request.GetResponse())
+                using (var stream = response.GetResponseStream())
+                using (var reader = new System.IO.StreamReader(stream))
+                {
+                    string xmlString = reader.ReadToEnd();
 
-                DataSet ds = new DataSet();
-                ds.ReadXml(xml);
+                    // 4. Carrega o XML em um DataSet para fácil acesso aos campos
+                    DataSet ds = new DataSet();
+                    using (StringReader sr = new StringReader(xmlString))
+                    {
+                        ds.ReadXml(sr);
+                    }
 
-                txtEndereco.Text = ds.Tables[0].Rows[0]["logradouro"].ToString();
-                txtBairro.Text = ds.Tables[0].Rows[0]["bairro"].ToString();
-                txtCidade.Text = ds.Tables[0].Rows[0]["localidade"].ToString();
-                cbUF.Text = ds.Tables[0].Rows[0]["uf"].ToString();
+                    // 5. Verifica se o DataSet está preenchido corretamente e se não há erro de CEP inexistente
+                    if (ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0 || ds.Tables[0].Columns.Contains("erro"))
+                    {
+                        throw new Exception("CEP não encontrado.");
+                    }
 
+                    // 6. Preenche os campos do formulário com as informações retornadas
+                    var row = ds.Tables[0].Rows[0];
+                    txtEndereco.Text = row["logradouro"].ToString();
+                    txtBairro.Text = row["bairro"].ToString();
+                    txtCidade.Text = row["localidade"].ToString();
+                    cbUF.Text = row["uf"].ToString();
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                // 7. Em caso de qualquer erro: limpa o campo, foca novamente e avisa o usuário
                 maskCEP.Clear();
                 maskCEP.Focus();
-                MessageBox.Show("Endereço não encontrado,por favor digite o CEP manualmente.");
+                MessageBox.Show($"Endereço não encontrado. Por favor, digite o CEP manualmente.\n\nDetalhe técnico: {ex.Message}");
             }
+        }
+
+        private void txtBuscarNome_TextChanged(object sender, EventArgs e)
+        {
+            BuscarFornecedorNome();
         }
     }
 }

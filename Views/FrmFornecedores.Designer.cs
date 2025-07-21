@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtEndereco = new System.Windows.Forms.TextBox();
             this.txtNome = new System.Windows.Forms.TextBox();
             this.txtCod = new System.Windows.Forms.TextBox();
@@ -50,20 +50,6 @@
             this.txtBuscarNome = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.gridFornecedores = new System.Windows.Forms.DataGridView();
-            this.IdFornec = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cnpj = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Nome = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Endereco = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Bairro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cidade = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cep = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Telefone = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Celular = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Contato = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Observacoes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label8 = new System.Windows.Forms.Label();
             this.maskCNPJ = new System.Windows.Forms.MaskedTextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -81,6 +67,20 @@
             this.txtObs = new System.Windows.Forms.TextBox();
             this.cbUF = new System.Windows.Forms.ComboBox();
             this.toolTipFornec = new System.Windows.Forms.ToolTip(this.components);
+            this.IdFornec = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cnpj = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nome = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Endereco = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Bairro = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cidade = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cep = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Telefone = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Celular = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Contato = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Observacoes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridFornecedores)).BeginInit();
             this.SuspendLayout();
@@ -252,6 +252,7 @@
             this.txtBuscarNome.Name = "txtBuscarNome";
             this.txtBuscarNome.Size = new System.Drawing.Size(203, 22);
             this.txtBuscarNome.TabIndex = 9;
+            this.txtBuscarNome.TextChanged += new System.EventHandler(this.txtBuscarNome_TextChanged);
             // 
             // label7
             // 
@@ -291,126 +292,6 @@
             this.gridFornecedores.Size = new System.Drawing.Size(1094, 214);
             this.gridFornecedores.TabIndex = 33;
             this.gridFornecedores.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridFornecedores_CellClick);
-            // 
-            // IdFornec
-            // 
-            this.IdFornec.DataPropertyName = "IdFornec";
-            dataGridViewCellStyle5.Format = "#,##0";
-            this.IdFornec.DefaultCellStyle = dataGridViewCellStyle5;
-            this.IdFornec.HeaderText = "Cod ";
-            this.IdFornec.Name = "IdFornec";
-            this.IdFornec.ReadOnly = true;
-            this.IdFornec.Visible = false;
-            // 
-            // Cnpj
-            // 
-            this.Cnpj.DataPropertyName = "Cnpj";
-            this.Cnpj.HeaderText = "CNPJ";
-            this.Cnpj.Name = "Cnpj";
-            this.Cnpj.ReadOnly = true;
-            // 
-            // Nome
-            // 
-            this.Nome.DataPropertyName = "Nome";
-            this.Nome.HeaderText = "Nome";
-            this.Nome.Name = "Nome";
-            this.Nome.ReadOnly = true;
-            this.Nome.Width = 200;
-            // 
-            // Endereco
-            // 
-            this.Endereco.DataPropertyName = "Endereco";
-            this.Endereco.HeaderText = "Endereco";
-            this.Endereco.Name = "Endereco";
-            this.Endereco.ReadOnly = true;
-            this.Endereco.Visible = false;
-            this.Endereco.Width = 200;
-            // 
-            // Bairro
-            // 
-            this.Bairro.DataPropertyName = "Bairro";
-            this.Bairro.HeaderText = "Bairro";
-            this.Bairro.Name = "Bairro";
-            this.Bairro.ReadOnly = true;
-            this.Bairro.Visible = false;
-            // 
-            // Cidade
-            // 
-            this.Cidade.DataPropertyName = "Cidade";
-            this.Cidade.HeaderText = "Cidade";
-            this.Cidade.Name = "Cidade";
-            this.Cidade.ReadOnly = true;
-            // 
-            // Estado
-            // 
-            this.Estado.DataPropertyName = "Estado";
-            this.Estado.HeaderText = "UF";
-            this.Estado.Name = "Estado";
-            this.Estado.ReadOnly = true;
-            this.Estado.Visible = false;
-            this.Estado.Width = 20;
-            // 
-            // Cep
-            // 
-            this.Cep.DataPropertyName = "Cep";
-            this.Cep.HeaderText = "Cep";
-            this.Cep.Name = "Cep";
-            this.Cep.ReadOnly = true;
-            this.Cep.Visible = false;
-            this.Cep.Width = 50;
-            // 
-            // Telefone
-            // 
-            this.Telefone.DataPropertyName = "Telefone";
-            this.Telefone.HeaderText = "Telefone";
-            this.Telefone.Name = "Telefone";
-            this.Telefone.ReadOnly = true;
-            this.Telefone.Width = 80;
-            // 
-            // Celular
-            // 
-            this.Celular.DataPropertyName = "Celular";
-            this.Celular.HeaderText = "Celular";
-            this.Celular.Name = "Celular";
-            this.Celular.ReadOnly = true;
-            this.Celular.Width = 80;
-            // 
-            // Email
-            // 
-            this.Email.DataPropertyName = "Email";
-            this.Email.HeaderText = "Email";
-            this.Email.Name = "Email";
-            this.Email.ReadOnly = true;
-            this.Email.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Email.Width = 150;
-            // 
-            // Contato
-            // 
-            this.Contato.DataPropertyName = "Contato";
-            this.Contato.HeaderText = "Contato";
-            this.Contato.Name = "Contato";
-            this.Contato.ReadOnly = true;
-            this.Contato.Width = 150;
-            // 
-            // Data
-            // 
-            this.Data.DataPropertyName = "DataCadastro";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.Format = "d";
-            dataGridViewCellStyle6.NullValue = null;
-            this.Data.DefaultCellStyle = dataGridViewCellStyle6;
-            this.Data.HeaderText = "Data/Cadastro";
-            this.Data.Name = "Data";
-            this.Data.ReadOnly = true;
-            this.Data.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // Observacoes
-            // 
-            this.Observacoes.DataPropertyName = "Observacoes";
-            this.Observacoes.HeaderText = "Obs";
-            this.Observacoes.Name = "Observacoes";
-            this.Observacoes.ReadOnly = true;
-            this.Observacoes.Width = 150;
             // 
             // label8
             // 
@@ -600,6 +481,130 @@
             // 
             this.toolTipFornec.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
+            // IdFornec
+            // 
+            this.IdFornec.DataPropertyName = "IdFornec";
+            dataGridViewCellStyle3.Format = "#,##0";
+            this.IdFornec.DefaultCellStyle = dataGridViewCellStyle3;
+            this.IdFornec.HeaderText = "Cod ";
+            this.IdFornec.Name = "IdFornec";
+            this.IdFornec.ReadOnly = true;
+            this.IdFornec.Visible = false;
+            // 
+            // Cnpj
+            // 
+            this.Cnpj.DataPropertyName = "Cnpj";
+            this.Cnpj.HeaderText = "CNPJ";
+            this.Cnpj.Name = "Cnpj";
+            this.Cnpj.ReadOnly = true;
+            this.Cnpj.Width = 150;
+            // 
+            // Nome
+            // 
+            this.Nome.DataPropertyName = "Nome";
+            this.Nome.HeaderText = "Nome";
+            this.Nome.Name = "Nome";
+            this.Nome.ReadOnly = true;
+            this.Nome.Width = 220;
+            // 
+            // Endereco
+            // 
+            this.Endereco.DataPropertyName = "Endereco";
+            this.Endereco.HeaderText = "Endereco";
+            this.Endereco.Name = "Endereco";
+            this.Endereco.ReadOnly = true;
+            this.Endereco.Visible = false;
+            this.Endereco.Width = 200;
+            // 
+            // Bairro
+            // 
+            this.Bairro.DataPropertyName = "Bairro";
+            this.Bairro.HeaderText = "Bairro";
+            this.Bairro.Name = "Bairro";
+            this.Bairro.ReadOnly = true;
+            this.Bairro.Visible = false;
+            // 
+            // Cidade
+            // 
+            this.Cidade.DataPropertyName = "Cidade";
+            this.Cidade.HeaderText = "Cidade";
+            this.Cidade.Name = "Cidade";
+            this.Cidade.ReadOnly = true;
+            this.Cidade.Visible = false;
+            // 
+            // Estado
+            // 
+            this.Estado.DataPropertyName = "Estado";
+            this.Estado.HeaderText = "UF";
+            this.Estado.Name = "Estado";
+            this.Estado.ReadOnly = true;
+            this.Estado.Visible = false;
+            this.Estado.Width = 20;
+            // 
+            // Cep
+            // 
+            this.Cep.DataPropertyName = "Cep";
+            this.Cep.HeaderText = "Cep";
+            this.Cep.Name = "Cep";
+            this.Cep.ReadOnly = true;
+            this.Cep.Visible = false;
+            this.Cep.Width = 50;
+            // 
+            // Telefone
+            // 
+            this.Telefone.DataPropertyName = "Telefone";
+            this.Telefone.HeaderText = "Telefone";
+            this.Telefone.Name = "Telefone";
+            this.Telefone.ReadOnly = true;
+            this.Telefone.Width = 110;
+            // 
+            // Celular
+            // 
+            this.Celular.DataPropertyName = "Celular";
+            this.Celular.HeaderText = "Celular";
+            this.Celular.Name = "Celular";
+            this.Celular.ReadOnly = true;
+            this.Celular.Width = 110;
+            // 
+            // Email
+            // 
+            this.Email.DataPropertyName = "Email";
+            this.Email.HeaderText = "Email";
+            this.Email.Name = "Email";
+            this.Email.ReadOnly = true;
+            this.Email.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Email.Width = 200;
+            // 
+            // Contato
+            // 
+            this.Contato.DataPropertyName = "Contato";
+            this.Contato.HeaderText = "Contato";
+            this.Contato.Name = "Contato";
+            this.Contato.ReadOnly = true;
+            this.Contato.Width = 200;
+            // 
+            // Data
+            // 
+            this.Data.DataPropertyName = "DataCadastro";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Format = "d";
+            dataGridViewCellStyle4.NullValue = null;
+            this.Data.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Data.HeaderText = "Data/Cadastro";
+            this.Data.Name = "Data";
+            this.Data.ReadOnly = true;
+            this.Data.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Data.Visible = false;
+            // 
+            // Observacoes
+            // 
+            this.Observacoes.DataPropertyName = "Observacoes";
+            this.Observacoes.HeaderText = "Obs";
+            this.Observacoes.Name = "Observacoes";
+            this.Observacoes.ReadOnly = true;
+            this.Observacoes.Visible = false;
+            this.Observacoes.Width = 150;
+            // 
             // FrmFornecedores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -691,6 +696,8 @@
         private System.Windows.Forms.MaskedTextBox maskCelular;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtObs;
+        private System.Windows.Forms.ComboBox cbUF;
+        private System.Windows.Forms.ToolTip toolTipFornec;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdFornec;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cnpj;
         private System.Windows.Forms.DataGridViewTextBoxColumn Nome;
@@ -705,7 +712,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Contato;
         private System.Windows.Forms.DataGridViewTextBoxColumn Data;
         private System.Windows.Forms.DataGridViewTextBoxColumn Observacoes;
-        private System.Windows.Forms.ComboBox cbUF;
-        private System.Windows.Forms.ToolTip toolTipFornec;
     }
 }
