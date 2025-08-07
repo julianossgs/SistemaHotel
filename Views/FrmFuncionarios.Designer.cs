@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -68,6 +68,11 @@
             this.Observações = new System.Windows.Forms.Label();
             this.txtObs = new System.Windows.Forms.TextBox();
             this.toolTipFunc = new System.Windows.Forms.ToolTip(this.components);
+            this.btnSelecionarFuncEdicao = new System.Windows.Forms.Button();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridFuncionarios)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -159,15 +164,15 @@
             this.gridFuncionarios.ReadOnly = true;
             this.gridFuncionarios.RowTemplate.Height = 26;
             this.gridFuncionarios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridFuncionarios.Size = new System.Drawing.Size(926, 226);
+            this.gridFuncionarios.Size = new System.Drawing.Size(1038, 226);
             this.gridFuncionarios.TabIndex = 7;
             this.gridFuncionarios.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridFuncionarios_CellClick);
             // 
             // IdFunc
             // 
             this.IdFunc.DataPropertyName = "IdFunc";
-            dataGridViewCellStyle11.Format = "#,##0";
-            this.IdFunc.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle3.Format = "#,##0";
+            this.IdFunc.DefaultCellStyle = dataGridViewCellStyle3;
             this.IdFunc.HeaderText = "Cod";
             this.IdFunc.Name = "IdFunc";
             this.IdFunc.ReadOnly = true;
@@ -229,10 +234,10 @@
             // Data
             // 
             this.Data.DataPropertyName = "DataCadastro";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.Format = "d";
-            dataGridViewCellStyle12.NullValue = null;
-            this.Data.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Format = "d";
+            dataGridViewCellStyle4.NullValue = null;
+            this.Data.DefaultCellStyle = dataGridViewCellStyle4;
             this.Data.HeaderText = "Data";
             this.Data.Name = "Data";
             this.Data.ReadOnly = true;
@@ -364,33 +369,38 @@
             // 
             // btExcluir
             // 
+            this.btExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btExcluir.Enabled = false;
             this.btExcluir.Image = global::SistemaHotel.Properties.Resources.botaoDeletar;
-            this.btExcluir.Location = new System.Drawing.Point(589, 525);
+            this.btExcluir.Location = new System.Drawing.Point(1132, 337);
             this.btExcluir.Name = "btExcluir";
             this.btExcluir.Size = new System.Drawing.Size(65, 65);
             this.btExcluir.TabIndex = 19;
             this.toolTipFunc.SetToolTip(this.btExcluir, "EXCLUIR REGISTRO");
             this.btExcluir.UseVisualStyleBackColor = true;
+            this.btExcluir.Visible = false;
             this.btExcluir.Click += new System.EventHandler(this.BtExcluir_Click);
             // 
             // btEditar
             // 
+            this.btEditar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btEditar.Enabled = false;
             this.btEditar.Image = global::SistemaHotel.Properties.Resources.botaoEditar;
-            this.btEditar.Location = new System.Drawing.Point(494, 525);
+            this.btEditar.Location = new System.Drawing.Point(1132, 435);
             this.btEditar.Name = "btEditar";
             this.btEditar.Size = new System.Drawing.Size(65, 65);
             this.btEditar.TabIndex = 18;
             this.toolTipFunc.SetToolTip(this.btEditar, "ALTERAR REGISTRO");
             this.btEditar.UseVisualStyleBackColor = true;
+            this.btEditar.Visible = false;
             this.btEditar.Click += new System.EventHandler(this.BtEditar_Click);
             // 
             // btSalvar
             // 
+            this.btSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btSalvar.Enabled = false;
             this.btSalvar.Image = global::SistemaHotel.Properties.Resources.botaoSalvar;
-            this.btSalvar.Location = new System.Drawing.Point(399, 525);
+            this.btSalvar.Location = new System.Drawing.Point(649, 551);
             this.btSalvar.Name = "btSalvar";
             this.btSalvar.Size = new System.Drawing.Size(65, 65);
             this.btSalvar.TabIndex = 17;
@@ -400,8 +410,9 @@
             // 
             // btNovo
             // 
+            this.btNovo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btNovo.Image = global::SistemaHotel.Properties.Resources.botaoNovo;
-            this.btNovo.Location = new System.Drawing.Point(304, 525);
+            this.btNovo.Location = new System.Drawing.Point(528, 551);
             this.btNovo.Name = "btNovo";
             this.btNovo.Size = new System.Drawing.Size(65, 65);
             this.btNovo.TabIndex = 16;
@@ -449,12 +460,80 @@
             // 
             this.toolTipFunc.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
+            // btnSelecionarFuncEdicao
+            // 
+            this.btnSelecionarFuncEdicao.AllowDrop = true;
+            this.btnSelecionarFuncEdicao.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnSelecionarFuncEdicao.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSelecionarFuncEdicao.FlatAppearance.BorderSize = 2;
+            this.btnSelecionarFuncEdicao.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelecionarFuncEdicao.ForeColor = System.Drawing.Color.Red;
+            this.btnSelecionarFuncEdicao.Location = new System.Drawing.Point(1070, 293);
+            this.btnSelecionarFuncEdicao.Name = "btnSelecionarFuncEdicao";
+            this.btnSelecionarFuncEdicao.Size = new System.Drawing.Size(183, 38);
+            this.btnSelecionarFuncEdicao.TabIndex = 24;
+            this.btnSelecionarFuncEdicao.Text = "Selecionar Funcionário";
+            this.toolTipFunc.SetToolTip(this.btnSelecionarFuncEdicao, "Selecione para edição/exclusão");
+            this.btnSelecionarFuncEdicao.UseVisualStyleBackColor = true;
+            this.btnSelecionarFuncEdicao.Click += new System.EventHandler(this.btnSelecionarFuncEdicao_Click);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.Blue;
+            this.label17.Location = new System.Drawing.Point(508, 619);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(97, 13);
+            this.label17.TabIndex = 64;
+            this.label17.Text = "NOVO REGISTRO";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.Blue;
+            this.label9.Location = new System.Drawing.Point(625, 619);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(110, 13);
+            this.label9.TabIndex = 65;
+            this.label9.Text = "INSERIR REGISTRO";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Blue;
+            this.label10.Location = new System.Drawing.Point(1109, 503);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(116, 13);
+            this.label10.TabIndex = 66;
+            this.label10.Text = "ALTERAR REGISTRO";
+            this.label10.Visible = false;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.Red;
+            this.label11.Location = new System.Drawing.Point(1113, 405);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(112, 13);
+            this.label11.TabIndex = 67;
+            this.label11.Text = "EXCLUIR REGISTRO";
+            this.label11.Visible = false;
+            // 
             // FrmFuncionarios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(978, 611);
+            this.ClientSize = new System.Drawing.Size(1258, 643);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.btnSelecionarFuncEdicao);
             this.Controls.Add(this.txtObs);
             this.Controls.Add(this.Observações);
             this.Controls.Add(this.label8);
@@ -532,5 +611,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Data;
         private System.Windows.Forms.DataGridViewTextBoxColumn Observacoes;
         private System.Windows.Forms.ToolTip toolTipFunc;
+        private System.Windows.Forms.Button btnSelecionarFuncEdicao;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
     }
 }

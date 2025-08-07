@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btExcluir = new System.Windows.Forms.Button();
             this.btEditar = new System.Windows.Forms.Button();
             this.btSalvar = new System.Windows.Forms.Button();
@@ -46,6 +46,11 @@
             this.Servico = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Valor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolTipServico = new System.Windows.Forms.ToolTip(this.components);
+            this.btnSelecionarServicoEdicao = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridServicos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,31 +58,33 @@
             // 
             this.btExcluir.Enabled = false;
             this.btExcluir.Image = global::SistemaHotel.Properties.Resources.botaoDeletar;
-            this.btExcluir.Location = new System.Drawing.Point(374, 425);
+            this.btExcluir.Location = new System.Drawing.Point(582, 170);
             this.btExcluir.Name = "btExcluir";
             this.btExcluir.Size = new System.Drawing.Size(65, 65);
             this.btExcluir.TabIndex = 8;
             this.toolTipServico.SetToolTip(this.btExcluir, "EXCLUIR REGISTRO");
             this.btExcluir.UseVisualStyleBackColor = true;
+            this.btExcluir.Visible = false;
             this.btExcluir.Click += new System.EventHandler(this.BtExcluir_Click);
             // 
             // btEditar
             // 
             this.btEditar.Enabled = false;
             this.btEditar.Image = global::SistemaHotel.Properties.Resources.botaoEditar;
-            this.btEditar.Location = new System.Drawing.Point(279, 425);
+            this.btEditar.Location = new System.Drawing.Point(582, 268);
             this.btEditar.Name = "btEditar";
             this.btEditar.Size = new System.Drawing.Size(65, 65);
             this.btEditar.TabIndex = 9;
             this.toolTipServico.SetToolTip(this.btEditar, "ALTERAR REGISTRO");
             this.btEditar.UseVisualStyleBackColor = true;
+            this.btEditar.Visible = false;
             this.btEditar.Click += new System.EventHandler(this.BtEditar_Click);
             // 
             // btSalvar
             // 
             this.btSalvar.Enabled = false;
             this.btSalvar.Image = global::SistemaHotel.Properties.Resources.botaoSalvar;
-            this.btSalvar.Location = new System.Drawing.Point(184, 425);
+            this.btSalvar.Location = new System.Drawing.Point(393, 439);
             this.btSalvar.Name = "btSalvar";
             this.btSalvar.Size = new System.Drawing.Size(65, 65);
             this.btSalvar.TabIndex = 11;
@@ -88,7 +95,7 @@
             // btNovo
             // 
             this.btNovo.Image = global::SistemaHotel.Properties.Resources.botaoNovo;
-            this.btNovo.Location = new System.Drawing.Point(89, 425);
+            this.btNovo.Location = new System.Drawing.Point(261, 439);
             this.btNovo.Name = "btNovo";
             this.btNovo.Size = new System.Drawing.Size(65, 65);
             this.btNovo.TabIndex = 10;
@@ -105,6 +112,7 @@
             this.txtValor.Size = new System.Drawing.Size(100, 24);
             this.txtValor.TabIndex = 28;
             this.txtValor.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtValor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtValor_KeyPress);
             // 
             // txtServico
             // 
@@ -171,15 +179,15 @@
             this.gridServicos.ReadOnly = true;
             this.gridServicos.RowTemplate.Height = 26;
             this.gridServicos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridServicos.Size = new System.Drawing.Size(400, 297);
+            this.gridServicos.Size = new System.Drawing.Size(445, 297);
             this.gridServicos.TabIndex = 32;
             this.gridServicos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridServicos_CellClick);
             // 
             // IdServico
             // 
             this.IdServico.DataPropertyName = "IdServico";
-            dataGridViewCellStyle5.Format = "#,##0";
-            this.IdServico.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Format = "#,##0";
+            this.IdServico.DefaultCellStyle = dataGridViewCellStyle1;
             this.IdServico.HeaderText = "Cod";
             this.IdServico.Name = "IdServico";
             this.IdServico.ReadOnly = true;
@@ -192,15 +200,15 @@
             this.Servico.Name = "Servico";
             this.Servico.ReadOnly = true;
             this.Servico.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Servico.Width = 250;
+            this.Servico.Width = 290;
             // 
             // Valor
             // 
             this.Valor.DataPropertyName = "Valor";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.Format = "C2";
-            dataGridViewCellStyle6.NullValue = null;
-            this.Valor.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.Format = "C2";
+            dataGridViewCellStyle2.NullValue = null;
+            this.Valor.DefaultCellStyle = dataGridViewCellStyle2;
             this.Valor.HeaderText = "Valor R$";
             this.Valor.Name = "Valor";
             this.Valor.ReadOnly = true;
@@ -210,12 +218,79 @@
             // 
             this.toolTipServico.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
+            // btnSelecionarServicoEdicao
+            // 
+            this.btnSelecionarServicoEdicao.AllowDrop = true;
+            this.btnSelecionarServicoEdicao.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnSelecionarServicoEdicao.FlatAppearance.BorderSize = 2;
+            this.btnSelecionarServicoEdicao.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelecionarServicoEdicao.ForeColor = System.Drawing.Color.Red;
+            this.btnSelecionarServicoEdicao.Location = new System.Drawing.Point(522, 94);
+            this.btnSelecionarServicoEdicao.Name = "btnSelecionarServicoEdicao";
+            this.btnSelecionarServicoEdicao.Size = new System.Drawing.Size(183, 38);
+            this.btnSelecionarServicoEdicao.TabIndex = 49;
+            this.btnSelecionarServicoEdicao.Text = "Selecionar Serviço";
+            this.toolTipServico.SetToolTip(this.btnSelecionarServicoEdicao, "Selecione para alteração/exclusão");
+            this.btnSelecionarServicoEdicao.UseVisualStyleBackColor = true;
+            this.btnSelecionarServicoEdicao.Click += new System.EventHandler(this.btnSelecionarServicoEdicao_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Blue;
+            this.label10.Location = new System.Drawing.Point(369, 507);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(110, 13);
+            this.label10.TabIndex = 54;
+            this.label10.Text = "INSERIR REGISTRO";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Blue;
+            this.label3.Location = new System.Drawing.Point(560, 336);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(116, 13);
+            this.label3.TabIndex = 55;
+            this.label3.Text = "ALTERAR REGISTRO";
+            this.label3.Visible = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.Red;
+            this.label4.Location = new System.Drawing.Point(565, 238);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(112, 13);
+            this.label4.TabIndex = 56;
+            this.label4.Text = "EXCLUIR REGISTRO";
+            this.label4.Visible = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Blue;
+            this.label5.Location = new System.Drawing.Point(242, 507);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(97, 13);
+            this.label5.TabIndex = 57;
+            this.label5.Text = "NOVO REGISTRO";
+            // 
             // FrmServicos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(536, 511);
+            this.ClientSize = new System.Drawing.Size(717, 541);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.btnSelecionarServicoEdicao);
             this.Controls.Add(this.gridServicos);
             this.Controls.Add(this.txtValor);
             this.Controls.Add(this.txtServico);
@@ -254,9 +329,14 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView gridServicos;
+        private System.Windows.Forms.ToolTip toolTipServico;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdServico;
         private System.Windows.Forms.DataGridViewTextBoxColumn Servico;
         private System.Windows.Forms.DataGridViewTextBoxColumn Valor;
-        private System.Windows.Forms.ToolTip toolTipServico;
+        private System.Windows.Forms.Button btnSelecionarServicoEdicao;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }

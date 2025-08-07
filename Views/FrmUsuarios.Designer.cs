@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btExcluir = new System.Windows.Forms.Button();
             this.btEditar = new System.Windows.Forms.Button();
             this.btSalvar = new System.Windows.Forms.Button();
@@ -42,6 +42,13 @@
             this.label7 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.gridUsuarios = new System.Windows.Forms.DataGridView();
+            this.IdUsuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nome = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cargo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Usuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Senha = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SenhaSalt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtCod = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -49,13 +56,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtSenha = new System.Windows.Forms.TextBox();
-            this.IdUsuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Nome = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cargo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Usuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Senha = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolTipUsuario = new System.Windows.Forms.ToolTip(this.components);
+            this.btnSelecionarUsuarioEdicao = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridUsuarios)).BeginInit();
             this.SuspendLayout();
@@ -64,31 +70,33 @@
             // 
             this.btExcluir.Enabled = false;
             this.btExcluir.Image = global::SistemaHotel.Properties.Resources.botaoDeletar;
-            this.btExcluir.Location = new System.Drawing.Point(523, 442);
+            this.btExcluir.Location = new System.Drawing.Point(909, 237);
             this.btExcluir.Name = "btExcluir";
             this.btExcluir.Size = new System.Drawing.Size(65, 65);
             this.btExcluir.TabIndex = 0;
             this.toolTipUsuario.SetToolTip(this.btExcluir, "EXCLUIR REGISTRO");
             this.btExcluir.UseVisualStyleBackColor = true;
+            this.btExcluir.Visible = false;
             this.btExcluir.Click += new System.EventHandler(this.BtExcluir_Click);
             // 
             // btEditar
             // 
             this.btEditar.Enabled = false;
             this.btEditar.Image = global::SistemaHotel.Properties.Resources.botaoEditar;
-            this.btEditar.Location = new System.Drawing.Point(428, 442);
+            this.btEditar.Location = new System.Drawing.Point(909, 333);
             this.btEditar.Name = "btEditar";
             this.btEditar.Size = new System.Drawing.Size(65, 65);
             this.btEditar.TabIndex = 0;
             this.toolTipUsuario.SetToolTip(this.btEditar, "ALTERAR REGISTRO");
             this.btEditar.UseVisualStyleBackColor = true;
+            this.btEditar.Visible = false;
             this.btEditar.Click += new System.EventHandler(this.BtEditar_Click);
             // 
             // btSalvar
             // 
             this.btSalvar.Enabled = false;
             this.btSalvar.Image = global::SistemaHotel.Properties.Resources.botaoSalvar;
-            this.btSalvar.Location = new System.Drawing.Point(333, 442);
+            this.btSalvar.Location = new System.Drawing.Point(581, 446);
             this.btSalvar.Name = "btSalvar";
             this.btSalvar.Size = new System.Drawing.Size(65, 65);
             this.btSalvar.TabIndex = 5;
@@ -99,7 +107,7 @@
             // btNovo
             // 
             this.btNovo.Image = global::SistemaHotel.Properties.Resources.botaoNovo;
-            this.btNovo.Location = new System.Drawing.Point(238, 442);
+            this.btNovo.Location = new System.Drawing.Point(440, 446);
             this.btNovo.Name = "btNovo";
             this.btNovo.Size = new System.Drawing.Size(65, 65);
             this.btNovo.TabIndex = 0;
@@ -159,7 +167,7 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.txtBuscarNome);
             this.panel1.Controls.Add(this.label7);
-            this.panel1.Location = new System.Drawing.Point(527, 16);
+            this.panel1.Location = new System.Drawing.Point(561, 16);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(283, 62);
             this.panel1.TabIndex = 30;
@@ -178,6 +186,7 @@
             this.Cargo,
             this.Usuario,
             this.Senha,
+            this.SenhaSalt,
             this.Data});
             this.gridUsuarios.Location = new System.Drawing.Point(20, 184);
             this.gridUsuarios.MultiSelect = false;
@@ -185,9 +194,75 @@
             this.gridUsuarios.ReadOnly = true;
             this.gridUsuarios.RowTemplate.Height = 26;
             this.gridUsuarios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridUsuarios.Size = new System.Drawing.Size(790, 226);
+            this.gridUsuarios.Size = new System.Drawing.Size(824, 226);
             this.gridUsuarios.TabIndex = 29;
             this.gridUsuarios.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridUsuarios_CellClick);
+            // 
+            // IdUsuario
+            // 
+            this.IdUsuario.DataPropertyName = "IdUsuario";
+            dataGridViewCellStyle1.Format = "#,##0";
+            this.IdUsuario.DefaultCellStyle = dataGridViewCellStyle1;
+            this.IdUsuario.HeaderText = "Cod";
+            this.IdUsuario.Name = "IdUsuario";
+            this.IdUsuario.ReadOnly = true;
+            this.IdUsuario.Visible = false;
+            // 
+            // Nome
+            // 
+            this.Nome.DataPropertyName = "Nome";
+            this.Nome.HeaderText = "Nome";
+            this.Nome.Name = "Nome";
+            this.Nome.ReadOnly = true;
+            this.Nome.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Nome.Width = 160;
+            // 
+            // Cargo
+            // 
+            this.Cargo.DataPropertyName = "Cargo";
+            this.Cargo.HeaderText = "Cargo";
+            this.Cargo.Name = "Cargo";
+            this.Cargo.ReadOnly = true;
+            this.Cargo.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Cargo.Width = 110;
+            // 
+            // Usuario
+            // 
+            this.Usuario.DataPropertyName = "Usuario";
+            this.Usuario.HeaderText = "Usuario";
+            this.Usuario.Name = "Usuario";
+            this.Usuario.ReadOnly = true;
+            this.Usuario.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // Senha
+            // 
+            this.Senha.DataPropertyName = "SenhaHash";
+            this.Senha.HeaderText = "Senha Hash";
+            this.Senha.Name = "Senha";
+            this.Senha.ReadOnly = true;
+            this.Senha.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Senha.Width = 150;
+            // 
+            // SenhaSalt
+            // 
+            this.SenhaSalt.DataPropertyName = "SenhaSalt";
+            this.SenhaSalt.HeaderText = "Senha Salt";
+            this.SenhaSalt.Name = "SenhaSalt";
+            this.SenhaSalt.ReadOnly = true;
+            this.SenhaSalt.Width = 110;
+            // 
+            // Data
+            // 
+            this.Data.DataPropertyName = "DataCadastro";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.Format = "d";
+            dataGridViewCellStyle2.NullValue = null;
+            this.Data.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Data.HeaderText = "Data de Cadastro";
+            this.Data.Name = "Data";
+            this.Data.ReadOnly = true;
+            this.Data.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Data.Width = 110;
             // 
             // txtCod
             // 
@@ -255,75 +330,82 @@
             this.txtSenha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTipUsuario.SetToolTip(this.txtSenha, "Somente números máximo de 6 digitos!");
             // 
-            // IdUsuario
-            // 
-            this.IdUsuario.DataPropertyName = "IdUsuario";
-            dataGridViewCellStyle7.Format = "#,##0";
-            this.IdUsuario.DefaultCellStyle = dataGridViewCellStyle7;
-            this.IdUsuario.HeaderText = "Cod";
-            this.IdUsuario.Name = "IdUsuario";
-            this.IdUsuario.ReadOnly = true;
-            this.IdUsuario.Visible = false;
-            // 
-            // Nome
-            // 
-            this.Nome.DataPropertyName = "Nome";
-            this.Nome.HeaderText = "Nome";
-            this.Nome.Name = "Nome";
-            this.Nome.ReadOnly = true;
-            this.Nome.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Nome.Width = 200;
-            // 
-            // Cargo
-            // 
-            this.Cargo.DataPropertyName = "Cargo";
-            this.Cargo.HeaderText = "Cargo";
-            this.Cargo.Name = "Cargo";
-            this.Cargo.ReadOnly = true;
-            this.Cargo.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Cargo.Width = 140;
-            // 
-            // Usuario
-            // 
-            this.Usuario.DataPropertyName = "Usuario";
-            this.Usuario.HeaderText = "Usuario";
-            this.Usuario.Name = "Usuario";
-            this.Usuario.ReadOnly = true;
-            this.Usuario.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Usuario.Width = 150;
-            // 
-            // Senha
-            // 
-            this.Senha.DataPropertyName = "Senha";
-            this.Senha.HeaderText = "Senha";
-            this.Senha.Name = "Senha";
-            this.Senha.ReadOnly = true;
-            this.Senha.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Senha.Width = 140;
-            // 
-            // Data
-            // 
-            this.Data.DataPropertyName = "DataCadastro";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.Format = "d";
-            dataGridViewCellStyle8.NullValue = null;
-            this.Data.DefaultCellStyle = dataGridViewCellStyle8;
-            this.Data.HeaderText = "Data";
-            this.Data.Name = "Data";
-            this.Data.ReadOnly = true;
-            this.Data.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Data.Width = 110;
-            // 
             // toolTipUsuario
             // 
             this.toolTipUsuario.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            // 
+            // btnSelecionarUsuarioEdicao
+            // 
+            this.btnSelecionarUsuarioEdicao.AllowDrop = true;
+            this.btnSelecionarUsuarioEdicao.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnSelecionarUsuarioEdicao.FlatAppearance.BorderSize = 2;
+            this.btnSelecionarUsuarioEdicao.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelecionarUsuarioEdicao.ForeColor = System.Drawing.Color.Red;
+            this.btnSelecionarUsuarioEdicao.Location = new System.Drawing.Point(850, 184);
+            this.btnSelecionarUsuarioEdicao.Name = "btnSelecionarUsuarioEdicao";
+            this.btnSelecionarUsuarioEdicao.Size = new System.Drawing.Size(183, 38);
+            this.btnSelecionarUsuarioEdicao.TabIndex = 31;
+            this.btnSelecionarUsuarioEdicao.Text = "Selecionar Usuário";
+            this.btnSelecionarUsuarioEdicao.UseVisualStyleBackColor = true;
+            this.btnSelecionarUsuarioEdicao.Click += new System.EventHandler(this.btnSelecionarUsuarioEdicao_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Blue;
+            this.label3.Location = new System.Drawing.Point(421, 514);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(97, 13);
+            this.label3.TabIndex = 52;
+            this.label3.Text = "NOVO REGISTRO";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.Blue;
+            this.label8.Location = new System.Drawing.Point(884, 401);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(109, 13);
+            this.label8.TabIndex = 53;
+            this.label8.Text = "ALERAR REGISTRO";
+            this.label8.Visible = false;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.Blue;
+            this.label9.Location = new System.Drawing.Point(557, 514);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(110, 13);
+            this.label9.TabIndex = 54;
+            this.label9.Text = "INSERIR REGISTRO";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Red;
+            this.label10.Location = new System.Drawing.Point(887, 305);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(112, 13);
+            this.label10.TabIndex = 55;
+            this.label10.Text = "EXCLUIR REGISTRO";
+            this.label10.Visible = false;
             // 
             // FrmUsuarios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(828, 519);
+            this.ClientSize = new System.Drawing.Size(1056, 543);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.btnSelecionarUsuarioEdicao);
             this.Controls.Add(this.txtSenha);
             this.Controls.Add(this.btExcluir);
             this.Controls.Add(this.btEditar);
@@ -375,12 +457,18 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtSenha;
+        private System.Windows.Forms.ToolTip toolTipUsuario;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdUsuario;
         private System.Windows.Forms.DataGridViewTextBoxColumn Nome;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cargo;
         private System.Windows.Forms.DataGridViewTextBoxColumn Usuario;
         private System.Windows.Forms.DataGridViewTextBoxColumn Senha;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SenhaSalt;
         private System.Windows.Forms.DataGridViewTextBoxColumn Data;
-        private System.Windows.Forms.ToolTip toolTipUsuario;
+        private System.Windows.Forms.Button btnSelecionarUsuarioEdicao;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
     }
 }

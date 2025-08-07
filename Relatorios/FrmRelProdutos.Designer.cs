@@ -28,69 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
-            this.produtosFornecedoresBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.hotelDataSet = new SistemaHotel.HotelDataSet();
             this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
-            this.tblProdutosBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tblProdutosTableAdapter = new SistemaHotel.HotelDataSetTableAdapters.TblProdutosTableAdapter();
-            this.produtosFornecedoresTableAdapter = new SistemaHotel.HotelDataSetTableAdapters.ProdutosFornecedoresTableAdapter();
-            ((System.ComponentModel.ISupportInitialize)(this.produtosFornecedoresBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hotelDataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tblProdutosBindingSource)).BeginInit();
             this.SuspendLayout();
-            // 
-            // produtosFornecedoresBindingSource
-            // 
-            this.produtosFornecedoresBindingSource.DataMember = "ProdutosFornecedores";
-            this.produtosFornecedoresBindingSource.DataSource = this.hotelDataSet;
-            // 
-            // hotelDataSet
-            // 
-            this.hotelDataSet.DataSetName = "HotelDataSet";
-            this.hotelDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // reportViewer1
             // 
+            this.reportViewer1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.reportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            reportDataSource1.Name = "DataSetProdutos";
-            reportDataSource1.Value = this.produtosFornecedoresBindingSource;
-            this.reportViewer1.LocalReport.DataSources.Add(reportDataSource1);
+            this.reportViewer1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.reportViewer1.LocalReport.ReportEmbeddedResource = "SistemaHotel.Relatorios.RelProdutos.rdlc";
             this.reportViewer1.Location = new System.Drawing.Point(0, 0);
             this.reportViewer1.Name = "reportViewer1";
             this.reportViewer1.ServerReport.BearerToken = null;
-            this.reportViewer1.Size = new System.Drawing.Size(734, 661);
+            this.reportViewer1.Size = new System.Drawing.Size(1107, 749);
             this.reportViewer1.TabIndex = 0;
-            // 
-            // tblProdutosBindingSource
-            // 
-            this.tblProdutosBindingSource.DataMember = "TblProdutos";
-            this.tblProdutosBindingSource.DataSource = this.hotelDataSet;
-            // 
-            // tblProdutosTableAdapter
-            // 
-            this.tblProdutosTableAdapter.ClearBeforeFill = true;
-            // 
-            // produtosFornecedoresTableAdapter
-            // 
-            this.produtosFornecedoresTableAdapter.ClearBeforeFill = true;
+            this.reportViewer1.Load += new System.EventHandler(this.reportViewer1_Load);
             // 
             // FrmRelProdutos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 661);
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(1107, 749);
             this.Controls.Add(this.reportViewer1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MinimizeBox = false;
             this.Name = "FrmRelProdutos";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RELATÓRIO DE PRODUTOS";
             this.Load += new System.EventHandler(this.FrmRelProdutos_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.produtosFornecedoresBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hotelDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tblProdutosBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -98,10 +64,5 @@
         #endregion
 
         private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
-        private HotelDataSet hotelDataSet;
-        private System.Windows.Forms.BindingSource tblProdutosBindingSource;
-        private HotelDataSetTableAdapters.TblProdutosTableAdapter tblProdutosTableAdapter;
-        private System.Windows.Forms.BindingSource produtosFornecedoresBindingSource;
-        private HotelDataSetTableAdapters.ProdutosFornecedoresTableAdapter produtosFornecedoresTableAdapter;
     }
 }

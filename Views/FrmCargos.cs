@@ -21,11 +21,6 @@ namespace SistemaHotel.Views
             EnableHelper.SetEnabled(false, txtCod, txtCargo);
         }
 
-        private void ErroMensageService(string msg)
-        {
-            MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-        }
-
         private void HabilitarCampos(bool vr)
         {
             EnableHelper.SetEnabled(vr, txtCargo, btEditar, btExcluir, btSalvar);
@@ -40,31 +35,19 @@ namespace SistemaHotel.Views
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao Listar Cargos: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao Listar Cargos: " + ex.Message);
             }
         }
 
-        // Buscar cargos por nome
-        //private void BuscarCargoNome()
-        //{
-        //    try
-        //    {
-        //        gridCargos.DataSource = _dao.BuscarCargoPorNome(txtBuscarCargo.Text);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ErroMensageService("Erro ao Buscar: " + ex.Message);
-        //    }
-        //}
-
-        // Botões
         string op = "";
 
         private void BtNovo_Click(object sender, EventArgs e)
         {
             op = "Novo";
-            txtCargo.Focus();
-            ControlHelper.ClearAndFocus(txtCod, txtCargo);
+            //txtCargo.Focus();
+            Globais.idGasto = null;
+
+            ControlHelper.ClearAndFocus(txtCargo);
 
             // Habilita campos
             EnableHelper.SetEnabled(true, txtCargo);
@@ -78,47 +61,50 @@ namespace SistemaHotel.Views
         {
             if (txtCargo.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Insira o nome do Cargo!");
-                ControlHelper.ClearAndFocus(txtCargo, txtCargo);
-                return;
-            }
-
-            // Verifica se o cargo já existe
-            if (_dao.ExisteCargo(txtCargo.Text))
-            {
-                ErroMensageService("Cargo já registrado! Erro ao salvar!");
+                ErroMensageService.ShowError("Insira o nome do Cargo!");
                 ControlHelper.ClearAndFocus(txtCargo, txtCargo);
                 return;
             }
 
             try
             {
-                _dao.InserirCargo(txtCargo.Text);
+                if (string.IsNullOrWhiteSpace(txtCod.Text)) // INSERÇÃO
+                {
+                    if (_dao.ExisteCargo(txtCargo.Text))
+                    {
+                        ErroMensageService.ShowError("Cargo já registrado! Erro ao salvar!");
+                        ControlHelper.ClearAndFocus(txtCargo, txtCargo);
+                        return;
+                    }
 
-                // Limpa os campos após salvar
+                    _dao.InserirCargo(txtCargo.Text);
+                    SucessoMensageService.ShowSuccess("Cargo salvo com sucesso!");
+                }
+                else // EDIÇÃO
+                {
+                    _dao.EditarCargo(Convert.ToInt32(txtCod.Text), txtCargo.Text);
+                    SucessoMensageService.ShowSuccess("Cargo alterado com sucesso!");
+                }
+
+                // Após inserção ou edição:
                 ControlHelper.ClearAndFocus(txtCod, txtCargo);
-
-                // Desabilita os campos após salvar
                 EnableHelper.SetEnabled(false, txtCargo);
-
-                // Habilita botões "Novo" e "Editar", desabilita "Salvar" e "Excluir"
-                EnableHelper.SetEnabled(true, btNovo, btEditar);
-                EnableHelper.SetEnabled(false, btSalvar, btExcluir);
+                EnableHelper.SetEnabled(true, btNovo);
+                EnableHelper.SetEnabled(false, btSalvar, btEditar, btExcluir);
 
                 ListarCargos();
-                SucessoMensageService.ShowSuccess("Cargo salvo com sucesso!");
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao cadastrar: " + ex.Message + ex.StackTrace);
+                ErroMensageService.ShowError("Erro ao salvar: " + ex.Message + ex.StackTrace);
             }
         }
-
+        #region Código não utilizado
         private void BtEditar_Click(object sender, EventArgs e)
         {
             if (txtCargo.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Selecione um registro para alterar!");
+                ErroMensageService.ShowError("Selecione um registro para alterar!");
                 ControlHelper.ClearAndFocus(txtCargo);
                 return;
             }
@@ -142,7 +128,7 @@ namespace SistemaHotel.Views
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao alterar: " + ex.Message + ex.StackTrace);
+                ErroMensageService.ShowError("Erro ao alterar: " + ex.Message + ex.StackTrace);
             }
         }
 
@@ -150,7 +136,7 @@ namespace SistemaHotel.Views
         {
             if (txtCargo.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Selecione um registro para excluir!");
+                ErroMensageService.ShowError("Selecione um registro para excluir!");
                 txtCargo.Focus();
                 return;
             }
@@ -169,29 +155,67 @@ namespace SistemaHotel.Views
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao excluir: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao excluir: " + ex.Message);
             }
         }
 
-        // Busca dinâmica por nome
-        //private void TxtBuscarCargo_TextChanged(object sender, EventArgs e)
-        //{
-        //    BuscarCargoNome();
-        //}
-
         private void GridCargos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Habilita campos
-            EnableHelper.SetEnabled(true, txtCargo);
-            EnableHelper.SetEnabled(false, txtCod); // Id desabilitado
 
-            // Habilita "Editar" e "Excluir", desabilita "Novo" e "Salvar"
-            EnableHelper.SetEnabled(true, btEditar, btExcluir);
-            EnableHelper.SetEnabled(false, btNovo, btSalvar);
+        }
 
+        #endregion
+
+        #region Evento para selecionar cargo na grid para edição/exclusão
+        // Evento para selecionar cargo na grid para edição/exclusão
+        private void btnSelecionarCargoEdicao_Click(object sender, EventArgs e)
+        {
+            if (gridCargos.CurrentRow == null)
+            {
+                MessageBox.Show("Selecione um cargo na grade para alterar ou excluir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult resposta = MessageBox.Show("Deseja ALTERAR este cargo? (Sim) ou EXCLUIR? (Não)", "Confirmação", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+            if (resposta == DialogResult.Cancel) return;
+
+            // Preenche os campos com os dados da linha selecionada
             txtCod.Text = gridCargos.CurrentRow.Cells[0].Value.ToString();
             txtCargo.Text = gridCargos.CurrentRow.Cells[1].Value.ToString();
+
+            if (resposta == DialogResult.Yes) // ALTERAR
+            {
+
+                EnableHelper.SetEnabled(true, txtCargo, btSalvar);
+                ControlHelper.ClearAndFocus(txtCargo); //foca no txtCargo
+                EnableHelper.SetEnabled(false, txtCod, btNovo); // código não editável
+
+
+                MessageBox.Show("Edite o campo desejado e clique em 'INSERIR REGISTRO' para confirmar a alteração.", "Modo de edição", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (resposta == DialogResult.No) // EXCLUIR
+            {
+                DialogResult confirma = MessageBox.Show("Tem certeza que deseja EXCLUIR este cargo?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirma == DialogResult.Yes)
+                {
+                    try
+                    {
+                        _dao.ExcluirCargo(Convert.ToInt32(txtCod.Text));
+                        ControlHelper.ClearAndFocus(txtCod, txtCargo);
+                        EnableHelper.SetEnabled(true, btNovo); // reabilita o botão de novo
+                        EnableHelper.SetEnabled(false, btSalvar);
+                        ListarCargos();
+                        SucessoMensageService.ShowSuccess("Cargo excluído com sucesso!");
+                    }
+                    catch (Exception ex)
+                    {
+                        ErroMensageService.ShowError("Erro ao excluir: " + ex.Message);
+                    }
+                }
+            }
         }
+        #endregion
     }
 }
 

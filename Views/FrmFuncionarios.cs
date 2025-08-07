@@ -26,10 +26,6 @@ namespace SistemaHotel.Views
             EnableHelper.SetEnabled(false, txtCod, txtNome, txtEndereco, maskTelefone, cBCargos, txtEmail, txtObs);
         }
 
-        private void ErroMensageService(string msg)
-        {
-            MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-        }
 
 
         private void HabilitarCampos(bool vr)
@@ -71,7 +67,7 @@ namespace SistemaHotel.Views
             catch (Exception ex)
             {
 
-                ErroMensageService("Erro ao Listar Funcionários: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao Listar Funcionários: " + ex.Message);
             }
         }
 
@@ -86,7 +82,7 @@ namespace SistemaHotel.Views
             catch (Exception ex)
             {
 
-                ErroMensageService("Erro ao Buscar: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao Buscar: " + ex.Message);
             }
         }
 
@@ -101,7 +97,7 @@ namespace SistemaHotel.Views
             catch (Exception ex)
             {
 
-                ErroMensageService("Erro ao Buscar: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao Buscar: " + ex.Message);
             }
         }
 
@@ -127,89 +123,95 @@ namespace SistemaHotel.Views
         {
             if (txtNome.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Insira o Nome do Funcionário!");
-                ControlHelper.ClearAndFocus(txtNome, txtNome);
+                ErroMensageService.ShowError("Insira o Nome do Funcionário!");
+                ControlHelper.ClearAndFocus(txtNome);
                 return;
             }
-            if (maskCpf.Text == "   .   .   -")
+
+            if (maskCpf.Text == "   .   .   -" || !CpfHelper.IsValidCpf(maskCpf.Text))
             {
-                ErroMensageService("Insira o CPF do Funcionário!");
+                ErroMensageService.ShowError("CPF inválido! Insira um CPF válido.");
                 ControlHelper.ClearAndFocus(maskCpf);
                 return;
             }
 
-            //Validação do CPF
-            if (!CpfHelper.IsValidCpf(maskCpf.Text))
-            {
-                ErroMensageService("CPF inválido! Insira um CPF válido.");
-                ControlHelper.ClearAndFocus(maskCpf, maskCpf);
-                return;
-            }
-
-            //Validação do Email
             if (!EmailHelper.IsValidEmail(txtEmail.Text))
             {
-                ErroMensageService("E-mail inválido! Insira um e-mail válido.");
-                ControlHelper.ClearAndFocus(txtEmail, txtEmail);
-                return;
-            }
-
-            //verificar se o cpf do funcionário já existe no banco
-
-            if (_dao.ExisteCpf(maskCpf.Text))
-            {
-                ErroMensageService("CPF já registrado ! Erro ao salvar!");
-                ControlHelper.ClearAndFocus(maskCpf, maskCpf);
+                ErroMensageService.ShowError("E-mail inválido! Insira um e-mail válido.");
+                ControlHelper.ClearAndFocus(txtEmail);
                 return;
             }
 
             Funcionario func = new Funcionario
             {
-                Nome = txtNome.Text,
-                Cpf = maskCpf.Text,
-                Endereco = txtEndereco.Text,
-                Telefone = maskTelefone.Text,
-                Email = txtEmail.Text,
-                Cargo = cBCargos.Text,
-                Observacoes = txtObs.Text
+                Nome = txtNome.Text.Trim(),
+                Cpf = maskCpf.Text.Trim(),
+                Endereco = txtEndereco.Text.Trim(),
+                Telefone = maskTelefone.Text.Trim(),
+                Email = txtEmail.Text.Trim(),
+                Cargo = cBCargos.Text.Trim(),
+                Observacoes = txtObs.Text.Trim()
             };
 
             try
             {
-                _dao.InserirFuncionario(func);
+                if (string.IsNullOrEmpty(txtCod.Text))
+                {
+                    // Inserção
+                    if (_dao.ExisteCpf(maskCpf.Text))
+                    {
+                        ErroMensageService.ShowError("CPF já registrado! Erro ao salvar.");
+                        ControlHelper.ClearAndFocus(maskCpf);
+                        return;
+                    }
 
-                // Limpa os campos após a edição
-                ControlHelper.ClearAndFocus(txtCod, txtEmail, txtEndereco, txtNome, txtObs, maskCpf, maskTelefone);
+                    _dao.InserirFuncionario(func);
+                    SucessoMensageService.ShowSuccess("Funcionário cadastrado com sucesso!");
+                }
+                else
+                {
+                    // Atualização
+                    func.IdFunc = Convert.ToInt32(txtCod.Text);
 
-                // Desabilita os campos após salvar
+                    if (Globais.CpfAntigo != func.Cpf && _dao.ExisteCpf(func.Cpf))
+                    {
+                        ErroMensageService.ShowError("CPF já registrado para outro funcionário!");
+                        ControlHelper.ClearAndFocus(maskCpf);
+                        return;
+                    }
+
+                    _dao.EditarFuncionario(func);
+                    SucessoMensageService.ShowSuccess("Funcionário atualizado com sucesso!");
+                }
+
+                // Limpeza e controle de campos/botões
+                ControlHelper.ClearAndFocus(txtCod, txtNome, maskCpf, txtEndereco, maskTelefone, txtEmail, cBCargos, txtObs);
                 EnableHelper.SetEnabled(false, txtNome, txtEndereco, maskTelefone, cBCargos, txtEmail, txtObs, maskCpf);
-
-                // Habilita botões "Novo" e "Editar", desabilita "Salvar" e "Excluir"
                 EnableHelper.SetEnabled(true, btNovo, btEditar);
                 EnableHelper.SetEnabled(false, btSalvar, btExcluir);
 
                 ListarFuncionarios();
-                SucessoMensageService.ShowSuccess("Registro salvo com sucesso!");
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao cadastrar: " + ex.Message + ex.StackTrace);
+                ErroMensageService.ShowError("Erro ao salvar funcionário: " + ex.Message);
             }
         }
 
+        #region Código não utilizado
         //Botão Editar/Alterar
         private void BtEditar_Click(object sender, EventArgs e)
         {
             if (txtNome.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Selecione um Registro para Alterar!");
+                ErroMensageService.ShowError("Selecione um Registro para Alterar!");
                 ControlHelper.ClearAndFocus(txtNome);
                 return;
             }
             // Verifica se o CPF foi alterado e se já existe
             if (maskCpf.Text != Globais.CpfAntigo && _dao.ExisteCpf(maskCpf.Text))
             {
-                ErroMensageService("CPF já registrado ! Erro ao alterar!");
+                ErroMensageService.ShowError("CPF já registrado ! Erro ao alterar!");
                 maskCpf.Clear();
                 maskCpf.Focus();
                 return;
@@ -247,7 +249,7 @@ namespace SistemaHotel.Views
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao alterar: " + ex.Message + ex.StackTrace);
+                ErroMensageService.ShowError("Erro ao alterar: " + ex.Message + ex.StackTrace);
             }
 
         }
@@ -256,7 +258,7 @@ namespace SistemaHotel.Views
         {
             if (txtNome.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Selecione um Registro para excluir!");
+                ErroMensageService.ShowError("Selecione um Registro para excluir!");
                 txtNome.Focus();
                 return;
             }
@@ -275,9 +277,10 @@ namespace SistemaHotel.Views
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao excluir: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao excluir: " + ex.Message);
             }
         }
+        #endregion
 
         private void RBNome_CheckedChanged(object sender, EventArgs e)
         {
@@ -310,32 +313,69 @@ namespace SistemaHotel.Views
 
         private void GridFuncionarios_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Habilita campos
-            EnableHelper.SetEnabled(true, txtNome, txtEndereco, maskTelefone, cBCargos, txtEmail, txtObs, maskCpf);
-            EnableHelper.SetEnabled(false, maskCpf); // CPF desabilitado
-
-
-            // Habilita "Editar" e "Excluir", desabilita "Novo" e "Salvar"
-            EnableHelper.SetEnabled(true, btEditar, btExcluir);
-            EnableHelper.SetEnabled(false, btNovo, btSalvar);
-
-            txtCod.Text = gridFuncionarios.CurrentRow.Cells[0].Value.ToString();
-            txtNome.Text = gridFuncionarios.CurrentRow.Cells[1].Value.ToString();
-            maskCpf.Text = gridFuncionarios.CurrentRow.Cells[2].Value.ToString();
-            txtEndereco.Text = gridFuncionarios.CurrentRow.Cells[3].Value.ToString();
-            maskTelefone.Text = gridFuncionarios.CurrentRow.Cells[4].Value.ToString();
-            cBCargos.Text = gridFuncionarios.CurrentRow.Cells[6].Value.ToString();
-            txtEmail.Text = gridFuncionarios.CurrentRow.Cells[5].Value.ToString();
-            txtObs.Text = gridFuncionarios.CurrentRow.Cells[7].Value.ToString();
-
-            //extraindo a valor do cpf no grid
-            Globais.CpfAntigo = gridFuncionarios.CurrentRow.Cells[2].Value.ToString();
 
         }
 
         private void maskCpf_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
         {
 
+        }
+
+        // Botão Selecionar Funcionário
+        private void btnSelecionarFuncEdicao_Click(object sender, EventArgs e)
+        {
+            if (gridFuncionarios.CurrentRow == null)
+            {
+                MessageBox.Show("Selecione um funcionário na grade para alterar ou excluir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult resposta = MessageBox.Show("Deseja ALTERAR este funcionário? (Sim) ou EXCLUIR? (Não)", "Confirmação", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            if (resposta == DialogResult.Cancel) return;
+
+            txtCod.Text = gridFuncionarios.CurrentRow.Cells[0].Value.ToString();
+            txtNome.Text = gridFuncionarios.CurrentRow.Cells[1].Value.ToString();
+            maskCpf.Text = gridFuncionarios.CurrentRow.Cells[2].Value.ToString();
+            txtEndereco.Text = gridFuncionarios.CurrentRow.Cells[3].Value.ToString();
+            maskTelefone.Text = gridFuncionarios.CurrentRow.Cells[4].Value.ToString();
+            txtEmail.Text = gridFuncionarios.CurrentRow.Cells[5].Value.ToString();
+            cBCargos.Text = gridFuncionarios.CurrentRow.Cells[6].Value.ToString();
+            txtObs.Text = gridFuncionarios.CurrentRow.Cells[7].Value.ToString();
+
+            // Guarda o CPF antigo para validações
+            Globais.CpfAntigo = maskCpf.Text;
+
+            if (resposta == DialogResult.Yes) // ALTERAR
+            {
+                EnableHelper.SetEnabled(true, txtNome, txtEndereco, maskTelefone, txtEmail, cBCargos, txtObs, btSalvar);
+                EnableHelper.SetEnabled(false, txtCod, btNovo);
+
+                ControlHelper.ClearAndFocus(txtNome);
+
+                MessageBox.Show("Edite o campo desejado e clique em 'INSERIR REGISTRO' para confirmar a alteração.", "Modo de edição", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (resposta == DialogResult.No) // EXCLUIR
+            {
+                DialogResult confirma = MessageBox.Show("Tem certeza que deseja EXCLUIR este funcionário?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirma == DialogResult.Yes)
+                {
+                    try
+                    {
+                        _dao.ExcluirFuncionario(Convert.ToInt32(txtCod.Text));
+
+                        ControlHelper.ClearAndFocus(txtCod, txtCod, txtNome, maskCpf, txtEndereco, maskTelefone, txtEmail, cBCargos, txtObs);
+                        EnableHelper.SetEnabled(true, btNovo);
+                        EnableHelper.SetEnabled(false, btSalvar);
+
+                        ListarFuncionarios();
+                        SucessoMensageService.ShowSuccess("Funcionário excluído com sucesso!");
+                    }
+                    catch (Exception ex)
+                    {
+                        ErroMensageService.ShowError("Erro ao excluir: " + ex.Message);
+                    }
+                }
+            }
         }
     }
 }

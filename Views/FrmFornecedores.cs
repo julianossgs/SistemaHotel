@@ -25,10 +25,10 @@ namespace SistemaHotel.Views
             ListarFornecedores();
         }
 
-        private void ErroMensageService(string msg)
-        {
-            MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-        }
+        //private void ErroMensageService(string msg)
+        //{
+        //    MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+        //}
 
         private void HabilitarCampos(bool vr)
         {
@@ -43,7 +43,7 @@ namespace SistemaHotel.Views
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao Listar Fornecedores: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao Listar Fornecedores: " + ex.Message);
             }
         }
 
@@ -55,7 +55,7 @@ namespace SistemaHotel.Views
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao Buscar: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao Buscar: " + ex.Message);
             }
         }
 
@@ -77,110 +77,124 @@ namespace SistemaHotel.Views
         private void BtSalvar_Click(object sender, EventArgs e)
         {
             string cnpj = maskCNPJ.Text.Trim();
-
-            // 1. CNPJ preenchido
-            if (string.IsNullOrEmpty(cnpj))
-            {
-                ErroMensageService("Insira o CNPJ do Fornecedor!");
-                ControlHelper.ClearAndFocus(maskCNPJ, maskCNPJ);
-                return;
-            }
-
-            // 2. CNPJ válido
-            if (!CnpjHelper.IsValidCNPJ(cnpj))
-            {
-                ErroMensageService("CNPJ inválido! Verifique e tente novamente.");
-                ControlHelper.ClearAndFocus(maskCNPJ, maskCNPJ);
-                return;
-            }
-
-            // 3. CNPJ único
-            if (_dao.ExisteCNPJ(Regex.Replace(cnpj, "[^0-9]", ""))) // remove máscara para comparar
-            {
-                ErroMensageService("CNPJ já cadastrado! Não é possível salvar duplicado.");
-                ControlHelper.ClearAndFocus(maskCNPJ, maskCNPJ);
-                return;
-            }
-
-            // 4. Nome preenchido
-            if (txtNome.Text.Trim() == string.Empty)
-            {
-                ErroMensageService("Insira o nome do Fornecedor!");
-                ControlHelper.ClearAndFocus(txtNome, txtNome);
-                return;
-            }
-
-            // 5. Nome único (opcional, se quiser manter)
-            if (_dao.ExisteFornecedor(txtNome.Text))
-            {
-                ErroMensageService("Fornecedor já registrado! Erro ao salvar!");
-                ControlHelper.ClearAndFocus(txtNome, txtNome);
-                return;
-            }
-
+            string nome = txtNome.Text.Trim();
             string uf = cbUF.Text.Trim();
 
-            // Validação: só letras e exatamente 2 caracteres
-            if (string.IsNullOrEmpty(uf) || uf.Length != 2 || !System.Text.RegularExpressions.Regex.IsMatch(uf, "^[A-Za-z]{2}$"))
+            // Validações
+            if (string.IsNullOrEmpty(cnpj))
             {
-                ErroMensageService("UF inválido! Insira apenas as duas letras do estado, sem números ou espaços.");
-                ControlHelper.ClearAndFocus(txtUF, txtUF);
-                return;
+                ErroMensageService.ShowError("Insira o CNPJ do Fornecedor!");
+                ControlHelper.ClearAndFocus(maskCNPJ); return;
             }
 
-            //Validação do Email
+            if (!CnpjHelper.IsValidCNPJ(cnpj))
+            {
+                ErroMensageService.ShowError("CNPJ inválido! Verifique e tente novamente.");
+                ControlHelper.ClearAndFocus(maskCNPJ); return;
+            }
+
+            if (string.IsNullOrEmpty(nome))
+            {
+                ErroMensageService.ShowError("Insira o nome do Fornecedor!");
+                ControlHelper.ClearAndFocus(txtNome); return;
+            }
+
+            if (string.IsNullOrEmpty(uf) || uf.Length != 2 || !Regex.IsMatch(uf, "^[A-Za-z]{2}$"))
+            {
+                ErroMensageService.ShowError("UF inválido! Insira apenas duas letras.");
+                ControlHelper.ClearAndFocus(cbUF); return;
+            }
+
             if (!EmailHelper.IsValidEmail(txtEmail.Text))
             {
-                ErroMensageService("E-mail inválido! Insira um e-mail válido.");
-                ControlHelper.ClearAndFocus(txtEmail, txtEmail);
-                return;
+                ErroMensageService.ShowError("E-mail inválido!");
+                ControlHelper.ClearAndFocus(txtEmail); return;
             }
 
             try
             {
-                _dao.InserirFornecedor(
-                    cnpj,
-                    txtNome.Text,
-                    txtEndereco.Text,
-                    txtBairro.Text,
-                    txtCidade.Text,
-                    cbUF.Text,
-                    maskCEP.Text,
-                    maskTel.Text,
-                    maskCelular.Text,
-                    txtEmail.Text,
-                    txtContato.Text,
-                    txtObs.Text
-                );
+                bool isEdicao = !string.IsNullOrWhiteSpace(txtCod.Text);
+                string cnpjLimpo = Regex.Replace(cnpj, "[^0-9]", "");
 
+                if (isEdicao)
+                {
+                    _dao.AtualizarFornecedor(
+                        Convert.ToInt32(txtCod.Text),
+                        cnpjLimpo,
+                        nome,
+                        txtEndereco.Text,
+                        txtBairro.Text,
+                        txtCidade.Text,
+                        cbUF.Text,
+                        maskCEP.Text,
+                        maskTel.Text,
+                        maskCelular.Text,
+                        txtEmail.Text,
+                        txtContato.Text,
+                        txtObs.Text
+                    );
+
+                    SucessoMensageService.ShowSuccess("Fornecedor atualizado com sucesso!");
+                }
+                else
+                {
+                    if (_dao.ExisteCNPJ(cnpjLimpo))
+                    {
+                        ErroMensageService.ShowError("CNPJ já cadastrado!");
+                        ControlHelper.ClearAndFocus(maskCNPJ); return;
+                    }
+
+                    if (_dao.ExisteFornecedor(nome))
+                    {
+                        ErroMensageService.ShowError("Fornecedor já registrado!");
+                        ControlHelper.ClearAndFocus(txtNome); return;
+                    }
+
+                    _dao.InserirFornecedor(
+                        cnpjLimpo,
+                        nome,
+                        txtEndereco.Text,
+                        txtBairro.Text,
+                        txtCidade.Text,
+                        cbUF.Text,
+                        maskCEP.Text,
+                        maskTel.Text,
+                        maskCelular.Text,
+                        txtEmail.Text,
+                        txtContato.Text,
+                        txtObs.Text
+                    );
+
+                    SucessoMensageService.ShowSuccess("Fornecedor salvo com sucesso!");
+                }
+
+                // Pós-operação
                 ControlHelper.ClearAndFocus(txtCod, maskCNPJ, txtNome, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP, maskTel, maskCelular, txtEmail, txtContato, txtObs);
-
                 EnableHelper.SetEnabled(false, maskCNPJ, txtNome, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP, maskTel, maskCelular, txtEmail, txtContato, txtObs);
-
                 EnableHelper.SetEnabled(true, btNovo, btEditar);
                 EnableHelper.SetEnabled(false, btSalvar, btExcluir);
 
                 ListarFornecedores();
-                SucessoMensageService.ShowSuccess("Fornecedor salvo com sucesso!");
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao cadastrar: " + ex.Message + ex.StackTrace);
+                ErroMensageService.ShowError("Erro ao salvar: " + ex.Message);
             }
         }
 
+        #region Código não utilizado
         //botão Editar
         private void BtEditar_Click(object sender, EventArgs e)
         {
             if (txtNome.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Selecione um registro para alterar!");
+                ErroMensageService.ShowError("Selecione um registro para alterar!");
                 ControlHelper.ClearAndFocus(txtNome);
                 return;
             }
             if (maskCNPJ.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Insira o CNPJ do Fornecedor!");
+                ErroMensageService.ShowError("Insira o CNPJ do Fornecedor!");
                 ControlHelper.ClearAndFocus(maskCNPJ);
                 return;
             }
@@ -215,7 +229,7 @@ namespace SistemaHotel.Views
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao alterar: " + ex.Message + ex.StackTrace);
+                ErroMensageService.ShowError("Erro ao alterar: " + ex.Message + ex.StackTrace);
             }
         }
 
@@ -224,7 +238,7 @@ namespace SistemaHotel.Views
         {
             if (txtNome.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Selecione um registro para excluir!");
+                ErroMensageService.ShowError("Selecione um registro para excluir!");
                 txtNome.Focus();
                 return;
             }
@@ -253,50 +267,11 @@ namespace SistemaHotel.Views
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao excluir: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao excluir: " + ex.Message);
             }
         }
+        #endregion
 
-        private void TxtBuscarFornecedor_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void GridFornecedores_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            EnableHelper.SetEnabled(true, txtNome, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP, maskTel, maskCelular, txtEmail, txtContato, txtObs);
-            EnableHelper.SetEnabled(false, txtCod); // Id desabilitado
-
-            EnableHelper.SetEnabled(true, btEditar, btExcluir);
-            EnableHelper.SetEnabled(false, btNovo, btSalvar);
-
-
-
-            txtCod.Text = gridFornecedores.CurrentRow.Cells[0].Value.ToString();
-            maskCNPJ.Text = gridFornecedores.CurrentRow.Cells[1].Value.ToString();
-            txtNome.Text = gridFornecedores.CurrentRow.Cells[2].Value.ToString();
-            txtEndereco.Text = gridFornecedores.CurrentRow.Cells[3].Value.ToString();
-            txtBairro.Text = gridFornecedores.CurrentRow.Cells[4].Value.ToString();
-            txtCidade.Text = gridFornecedores.CurrentRow.Cells[5].Value.ToString();
-            cbUF.Text = gridFornecedores.CurrentRow.Cells[6].Value.ToString();
-            maskCEP.Text = gridFornecedores.CurrentRow.Cells[7].Value.ToString();
-            maskTel.Text = gridFornecedores.CurrentRow.Cells[8].Value.ToString();
-            maskCelular.Text = gridFornecedores.CurrentRow.Cells[9].Value.ToString();
-            txtEmail.Text = gridFornecedores.CurrentRow.Cells[10].Value.ToString();
-            txtContato.Text = gridFornecedores.CurrentRow.Cells[11].Value.ToString();
-        DataCadastro: gridFornecedores.CurrentRow.Cells[12].Value.ToString();
-            txtObs.Text = gridFornecedores.CurrentRow.Cells[13].Value.ToString();
-        }
-
-        private void maskCelular_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-
-        }
-
-        private void label13_Click(object sender, EventArgs e)
-        {
-
-        }
 
         //botão Pesquisar CEP
         private void btnPesquisarCep_Click(object sender, EventArgs e)
@@ -358,6 +333,63 @@ namespace SistemaHotel.Views
         private void txtBuscarNome_TextChanged(object sender, EventArgs e)
         {
             BuscarFornecedorNome();
+        }
+
+        // Botão Selecionar Fornecedor
+        private void btnSelecionarFornecEdicao_Click(object sender, EventArgs e)
+        {
+            if (gridFornecedores.CurrentRow == null)
+            {
+                MessageBox.Show("Selecione um fornecedor na grade para alterar ou excluir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult resposta = MessageBox.Show("Deseja ALTERAR este fornecedor? (Sim) ou EXCLUIR? (Não)", "Confirmação", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            if (resposta == DialogResult.Cancel) return;
+
+            // Preenche os campos com os dados da linha selecionada
+            txtCod.Text = gridFornecedores.CurrentRow.Cells[0].Value.ToString();
+            maskCNPJ.Text = gridFornecedores.CurrentRow.Cells[1].Value.ToString();
+            txtNome.Text = gridFornecedores.CurrentRow.Cells[2].Value.ToString();
+            txtEndereco.Text = gridFornecedores.CurrentRow.Cells[3].Value.ToString();
+            txtBairro.Text = gridFornecedores.CurrentRow.Cells[4].Value.ToString();
+            txtCidade.Text = gridFornecedores.CurrentRow.Cells[5].Value.ToString();
+            cbUF.Text = gridFornecedores.CurrentRow.Cells[6].Value.ToString();
+            maskCEP.Text = gridFornecedores.CurrentRow.Cells[7].Value.ToString();
+            maskTel.Text = gridFornecedores.CurrentRow.Cells[8].Value.ToString();
+            maskCelular.Text = gridFornecedores.CurrentRow.Cells[9].Value.ToString();
+            txtEmail.Text = gridFornecedores.CurrentRow.Cells[10].Value.ToString();
+            txtContato.Text = gridFornecedores.CurrentRow.Cells[11].Value.ToString();
+            txtObs.Text = gridFornecedores.CurrentRow.Cells[13].Value.ToString();
+
+            if (resposta == DialogResult.Yes) // Edição
+            {
+                EnableHelper.SetEnabled(true, maskCNPJ, txtNome, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP, maskTel, maskCelular, txtEmail, txtContato, txtObs);
+                EnableHelper.SetEnabled(false, txtCod, btNovo);
+                EnableHelper.SetEnabled(true, btSalvar);
+
+                MessageBox.Show("Edite o campo desejado e clique em 'INSERIR REGISTRO' para confirmar a alteração.", "Modo de edição", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (resposta == DialogResult.No) // Exclusão
+            {
+                DialogResult confirma = MessageBox.Show("Tem certeza que deseja EXCLUIR este fornecedor?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirma == DialogResult.Yes)
+                {
+                    try
+                    {
+                        _dao.ExcluirFornecedor(Convert.ToInt32(txtCod.Text));
+                        ListarFornecedores();
+                        ControlHelper.ClearAndFocus(txtCod, maskCNPJ, txtNome, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP, maskTel, maskCelular, txtEmail, txtContato, txtObs);
+                        EnableHelper.SetEnabled(true, btNovo);
+                        EnableHelper.SetEnabled(false, btSalvar);
+                        SucessoMensageService.ShowSuccess("Fornecedor excluído com sucesso!");
+                    }
+                    catch (Exception ex)
+                    {
+                        ErroMensageService.ShowError("Erro ao excluir: " + ex.Message);
+                    }
+                }
+            }
         }
     }
 }

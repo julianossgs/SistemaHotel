@@ -1,8 +1,6 @@
-﻿using MySql.Data.MySqlClient;
-using SistemaHotel.Dados;
+﻿using SistemaHotel.Repositories.gastoDAO;
 using SistemaHotel.Services;
 using System;
-using System.Data;
 using System.Windows.Forms;
 
 namespace SistemaHotel.Views
@@ -11,7 +9,8 @@ namespace SistemaHotel.Views
     {
 
 
-        Conexao con = new Conexao();
+        private gastoDAO _dao = new gastoDAO();
+
         public FrmGastos()
         {
             InitializeComponent();
@@ -22,386 +21,171 @@ namespace SistemaHotel.Views
             ListarGastos();
         }
 
-        //Métodos
-        private void MsgOk(string msg)
-        {
-            MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-        }
-
-        private void MsgErro(string msg)
-        {
-            MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-        }
-
         private void LimparCampos()
         {
-            txtDescricao.Clear();
-            txtValor.Clear();
-
+            ControlHelper.ClearAndFocus(txtDescricao, txtDescricao, txtValor);
         }
 
         private void HabilitarCampos(bool vr)
         {
-            if (vr)
-            {
-                txtDescricao.Enabled = true;
-                txtDescricao.Focus();
-                txtValor.Enabled = true;
-
-            }
-            else
-            {
-                txtDescricao.Enabled = false;
-                txtValor.Enabled = false;
-            }
+            EnableHelper.SetEnabled(vr, txtDescricao, txtValor);
+            if (vr) txtDescricao.Focus();
         }
 
-        //Método de listar os gastos
         private void ListarGastos()
         {
             try
             {
-                con.AbrirCon();
-                MySqlCommand Cmd1 = new MySqlCommand();
-                Cmd1.Connection = con.Con;
-                Cmd1.CommandText = "spListarGastos";
-                Cmd1.CommandType = CommandType.StoredProcedure;
-                MySqlDataAdapter Da = new MySqlDataAdapter();
-                Da.SelectCommand = Cmd1;
-                DataTable Dt = new DataTable();
-                Da.Fill(Dt);
-                gridGastos.DataSource = Dt;
+                gridGastos.DataSource = _dao.ListarGastos();
                 Totalizar();
-                con.FecharCon();
             }
             catch (Exception ex)
             {
-
-                MsgErro("Erro ao listar os gastos: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao listar os gastos: " + ex.Message);
             }
         }
 
-        //Método de salvar/inserir gastos
-        private void InserirGastos()
-        {
-            try
-            {
-                con.AbrirCon();
-                MySqlCommand Cmd2 = new MySqlCommand();
-                Cmd2.Connection = con.Con;
-                Cmd2.CommandText = "spInserirGastos";
-                Cmd2.CommandType = CommandType.StoredProcedure;
-                Cmd2.Parameters.AddWithValue("@Descricao", txtDescricao.Text);
-                Cmd2.Parameters.AddWithValue("@Valor", Convert.ToDecimal(txtValor.Text));
-                Cmd2.Parameters.AddWithValue("@Funcionario", Globais.nomeUsuario);
-                Cmd2.ExecuteNonQuery();
-                con.FecharCon();
-            }
-            catch (Exception ex)
-            {
-
-                MsgErro("Erro ao inserir gastos: " + ex.Message);
-            }
-        }
-
-        //Método p/ recuperar último Id do gasto
-        private void RecuperarUltimoIdGasto()
-        {
-            try
-            {
-                con.AbrirCon();
-                MySqlCommand CmdVerificar = new MySqlCommand();
-                CmdVerificar.Connection = con.Con;
-                CmdVerificar.CommandText = "spRecuperarUltimoIdGasto";
-                CmdVerificar.CommandType = CommandType.StoredProcedure;
-
-                MySqlDataReader reader;
-                reader = CmdVerificar.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    //extraindo informações da consulta
-                    while (reader.Read())
-                    {
-                        Globais.ultimoIdGastos = Convert.ToString(reader["IdGasto"]);
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-
-                MsgErro("Erro ao recuperar ultimo id do gasto: " + ex.Message);
-            }
-        }
-
-        //Método p/ lançar gastos nas movimentações
-        private void LancarGastosMovimentacoes()
-        {
-            try
-            {
-                con.AbrirCon();
-                MySqlCommand Cmd3 = new MySqlCommand();
-                Cmd3.Connection = con.Con;
-                Cmd3.CommandText = "spLancarGastosMovimentacoes";
-                Cmd3.CommandType = CommandType.StoredProcedure;
-                Cmd3.Parameters.AddWithValue("@Tipo", "Saída");
-                Cmd3.Parameters.AddWithValue("@Movimento", "Gastos");
-                Cmd3.Parameters.AddWithValue("@Valor", Convert.ToDecimal(txtValor.Text));
-                Cmd3.Parameters.AddWithValue("@Funcionario", Globais.nomeUsuario);
-                Cmd3.Parameters.AddWithValue("@Id_Movimento", Globais.ultimoIdGastos);
-                Cmd3.ExecuteNonQuery();
-                con.FecharCon();
-            }
-            catch (Exception ex)
-            {
-
-                MsgErro("Erro ao lançar gastos nas movimentações: " + ex.Message);
-            }
-        }
-
-        //Método p/ Editar gastos
-        private void EditarGastos()
-        {
-            try
-            {
-                con.AbrirCon();
-                MySqlCommand Cmd4 = new MySqlCommand();
-                Cmd4.Connection = con.Con;
-                Cmd4.CommandText = "spAlterarGastos";
-                Cmd4.CommandType = CommandType.StoredProcedure;
-                Cmd4.Parameters.AddWithValue("@Descricao", txtDescricao.Text);
-                Cmd4.Parameters.AddWithValue("@Valor", Convert.ToDecimal(txtValor.Text));
-                Cmd4.Parameters.AddWithValue("@Funcionario", Globais.nomeUsuario);
-                Cmd4.Parameters.AddWithValue("@IdGasto", Globais.idGasto);
-                Cmd4.ExecuteNonQuery();
-                con.FecharCon();
-            }
-            catch (Exception ex)
-            {
-
-                MsgErro("Erro ao editar gastos: " + ex.Message);
-            }
-        }
-
-        //Método p/ atualizar o valor na movimentação
-        private void AtualizarValorMovimentacao()
-        {
-            try
-            {
-                con.AbrirCon();
-                MySqlCommand Cmd5 = new MySqlCommand();
-                Cmd5.Connection = con.Con;
-                Cmd5.CommandText = "spAtualizarValorMovimentacao";
-                Cmd5.CommandType = CommandType.StoredProcedure;
-                Cmd5.Parameters.AddWithValue("@Valor", Convert.ToDecimal(txtValor.Text));
-                Cmd5.Parameters.AddWithValue("@Funcionario", Globais.nomeUsuario);
-                Cmd5.Parameters.AddWithValue("@Id_Movimento", Globais.idGasto);
-                Cmd5.Parameters.AddWithValue("@Movimento", "Gastos");
-                Cmd5.ExecuteNonQuery();
-                con.FecharCon();
-            }
-            catch (Exception ex)
-            {
-
-                MsgErro("Erro ao atualizar o valor na movimentação: " + ex.Message);
-            }
-        }
-
-        //Método p/ Excluir os gastos
-        private void ExcluirGastos()
-        {
-            try
-            {
-                con.AbrirCon();
-                MySqlCommand Cmd6 = new MySqlCommand();
-                Cmd6.Connection = con.Con;
-                Cmd6.CommandText = "spExcluirGastos";
-                Cmd6.CommandType = CommandType.StoredProcedure;
-                Cmd6.Parameters.AddWithValue("@IdGasto", Globais.idGasto);
-                Cmd6.ExecuteNonQuery();
-                con.FecharCon();
-            }
-            catch (Exception ex)
-            {
-
-                MsgErro("Erro ao excluir gastos: " + ex.Message);
-            }
-        }
-
-        //Método de exclusão do movimento do gasto
-        private void ExcluirMovGasto()
-        {
-            try
-            {
-                con.AbrirCon();
-                MySqlCommand Cmd7 = new MySqlCommand();
-                Cmd7.Connection = con.Con;
-                Cmd7.CommandText = "spExcluirMovGasto";
-                Cmd7.CommandType = CommandType.StoredProcedure;
-                Cmd7.Parameters.AddWithValue("@IdGasto", Globais.idGasto);
-                Cmd7.Parameters.AddWithValue("@Movimento", "Gastos");
-                Cmd7.ExecuteNonQuery();
-                con.FecharCon();
-            }
-            catch (Exception ex)
-            {
-
-                MsgErro("Erro ao excluir movimento gasto" + ex.Message);
-            }
-        }
-
-        //Método de buscar por datas
-        private void BuscarGastosData()
-        {
-            try
-            {
-                con.AbrirCon();
-                MySqlCommand Cmd8 = new MySqlCommand();
-                Cmd8.Connection = con.Con;
-                Cmd8.CommandText = "spBuscarGastosData";
-                Cmd8.CommandType = CommandType.StoredProcedure;
-                Cmd8.Parameters.AddWithValue("@Data", Convert.ToDateTime(dtBuscar.Text));
-                MySqlDataAdapter Da = new MySqlDataAdapter();
-                Da.SelectCommand = Cmd8;
-                DataTable Dt = new DataTable();
-                Da.Fill(Dt);
-                gridGastos.DataSource = Dt;
-
-                con.FecharCon();
-            }
-            catch (Exception ex)
-            {
-
-                MsgErro("Erro ao buscar por data: " + ex.Message);
-            }
-        }
-
-
-
-        //*****************BOTÕES********************
-        //botão NOVO
         private void BtNovo_Click(object sender, EventArgs e)
         {
             HabilitarCampos(true);
-            btSalvar.Enabled = true;
-            btNovo.Enabled = false;
-            btEditar.Enabled = false;
-            btExcluir.Enabled = false;
+            EnableHelper.SetEnabled(true, btSalvar);
+            EnableHelper.SetEnabled(false, btNovo, btEditar, btExcluir);
             LimparCampos();
         }
 
-        //botão SALVAR
         private void BtSalvar_Click(object sender, EventArgs e)
         {
             if (txtDescricao.Text.Trim() == string.Empty)
             {
-                MsgErro("Preencha a Descrição!");
+                ErroMensageService.ShowError("Preencha a Descrição!");
                 txtDescricao.Focus();
                 return;
             }
 
             if (txtValor.Text.Trim() == string.Empty)
             {
-                MsgErro("Preencha o Valor!");
+                ErroMensageService.ShowError("Preencha o Valor!");
                 txtValor.Focus();
                 return;
             }
 
-            //Cód p/ salvar/inserir gastos
-            InserirGastos();
+            try
+            {
+                if (string.IsNullOrEmpty(Globais.idGasto)) // INSERÇÃO
+                {
+                    _dao.InserirGasto(txtDescricao.Text, Convert.ToDecimal(txtValor.Text), Globais.nomeUsuario);
 
-            //Método p/ recuperar último Id do gasto
-            RecuperarUltimoIdGasto();
+                    string ultimoId = _dao.RecuperarUltimoIdGasto();
+                    Globais.ultimoIdGastos = ultimoId;
 
-            //Método p/ lançar gastos nas movimentações
-            LancarGastosMovimentacoes();
+                    _dao.LancarGastosMovimentacoes("Saída", "Gastos", Convert.ToDecimal(txtValor.Text), Globais.nomeUsuario, Convert.ToInt32(ultimoId));
 
-            MsgOk("Registro salvo com sucesso!");
-            btNovo.Enabled = true;
-            btSalvar.Enabled = false;
-            LimparCampos();
-            HabilitarCampos(true);
-            // Totalizar();
-            ListarGastos();
+                    SucessoMensageService.ShowSuccess("Gasto inserido com sucesso!");
+                }
+                else // EDIÇÃO
+                {
+                    _dao.EditarGasto(
+
+                    Convert.ToInt32(Globais.idGasto),
+                         txtDescricao.Text,
+                         Convert.ToDecimal(txtValor.Text),
+                          Globais.nomeUsuario
+
+                    );
+
+                    SucessoMensageService.ShowSuccess("Gasto atualizado com sucesso!");
+                }
+
+                ListarGastos();
+                LimparCampos();
+                EnableHelper.SetEnabled(true, btNovo);
+                EnableHelper.SetEnabled(false, btSalvar);
+                HabilitarCampos(false);
+            }
+            catch (Exception ex)
+            {
+                ErroMensageService.ShowError("Erro ao salvar: " + ex.Message);
+            }
         }
 
-
-        //botão de EDITAR
+        #region Código não utilizado
         private void BtEditar_Click(object sender, EventArgs e)
         {
             if (txtDescricao.Text.Trim() == string.Empty)
             {
-                MsgErro("Preencha o campo Descrição!");
+                ErroMensageService.ShowError("Preencha o campo Descrição!");
                 txtDescricao.Focus();
                 return;
             }
 
             if (txtValor.Text.Trim() == string.Empty)
             {
-                MsgErro("Preencha o campo Valor!");
-                txtDescricao.Focus();
+                ErroMensageService.ShowError("Preencha o campo Valor!");
+                txtValor.Focus();
                 return;
             }
+            try
+            {
+                int idGasto = Convert.ToInt32(Globais.idGasto);
+                _dao.EditarGasto(idGasto, txtDescricao.Text, Convert.ToDecimal(txtValor.Text), Globais.nomeUsuario);
+                _dao.AtualizarValorMovimentacao(Convert.ToDecimal(txtValor.Text), Globais.nomeUsuario, idGasto, "Gastos");
 
-            //Cód p/ editar
-            EditarGastos();
-
-            //Atualizar o valor na movimentação
-            AtualizarValorMovimentacao();
-
-            MsgOk("Registro alterado com sucesso!");
-            btNovo.Enabled = true;
-            btEditar.Enabled = false;
-            btExcluir.Enabled = false;
-            HabilitarCampos(false);
-            //Totalizar();
-            ListarGastos();
+                SucessoMensageService.ShowSuccess("Registro alterado com sucesso!");
+                EnableHelper.SetEnabled(true, btNovo);
+                EnableHelper.SetEnabled(false, btEditar, btExcluir);
+                HabilitarCampos(false);
+                ListarGastos();
+            }
+            catch (Exception ex)
+            {
+                ErroMensageService.ShowError("Erro ao editar gastos: " + ex.Message);
+            }
         }
 
-        //botão EXCLUIR
         private void BtExcluir_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show("Deseja excluir?", "Excluir Registro", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                //Método p/ excluir os gastos
-                ExcluirGastos();
+                try
+                {
+                    int idGasto = Convert.ToInt32(Globais.idGasto);
+                    _dao.ExcluirGasto(idGasto);
+                    _dao.ExcluirMovGasto(idGasto, "Gastos");
 
-                //Método p/ excluir do movimento gastos
-                ExcluirMovGasto();
-
-                MsgOk("Registro excluido com sucesso!");
-                btNovo.Enabled = true;
-                btEditar.Enabled = true;
-                btExcluir.Enabled = false;
-                LimparCampos();
-                HabilitarCampos(false);
-                // Totalizar();
-                ListarGastos();
+                    SucessoMensageService.ShowSuccess("Registro excluido com sucesso!");
+                    EnableHelper.SetEnabled(true, btNovo, btEditar);
+                    EnableHelper.SetEnabled(false, btExcluir);
+                    LimparCampos();
+                    HabilitarCampos(false);
+                    ListarGastos();
+                }
+                catch (Exception ex)
+                {
+                    ErroMensageService.ShowError("Erro ao excluir gastos: " + ex.Message);
+                }
             }
         }
 
-        //grid
         private void GridGastos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            btEditar.Enabled = true;
-            btExcluir.Enabled = true;
-            btSalvar.Enabled = false;
-            HabilitarCampos(true);
-            Globais.idGasto = gridGastos.CurrentRow.Cells[0].Value.ToString();
-            txtDescricao.Text = gridGastos.CurrentRow.Cells[2].Value.ToString();
-            txtValor.Text = gridGastos.CurrentRow.Cells[3].Value.ToString();
-        }
 
-        //evento p/ buscar por datas
+        }
+        #endregion
+
         private void DtBuscar_ValueChanged(object sender, EventArgs e)
         {
-            BuscarGastosData();
-            Totalizar();
+            try
+            {
+                gridGastos.DataSource = _dao.BuscarGastosData(dtBuscar.Value);
+                Totalizar();
+            }
+            catch (Exception ex)
+            {
+                ErroMensageService.ShowError("Erro ao buscar por data: " + ex.Message);
+            }
         }
 
-        //Método de totalizar
         private void Totalizar()
         {
             try
@@ -409,17 +193,72 @@ namespace SistemaHotel.Views
                 decimal total = 0;
                 foreach (DataGridViewRow linha in gridGastos.Rows)
                 {
-                    total += Convert.ToDecimal(linha.Cells["Valor"].Value);
+                    if (linha.Cells["Valor"].Value != null)
+                        total += Convert.ToDecimal(linha.Cells["Valor"].Value);
                 }
-                lblTotal.Text = Convert.ToDecimal(total).ToString("C2");
+                lblTotal.Text = total.ToString("C2");
             }
             catch (Exception ex)
             {
-
-                MsgErro("Erro ao Totalizar: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao Totalizar: " + ex.Message);
             }
         }
 
+        //Evento de validação dos campos para somente números/valores monetários
+        private void txtValor_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            InputValidator.OnlyNumericInput(sender, e);
+        }
 
+
+        private void btnSelecionarGastoEdicao_Click(object sender, EventArgs e)
+        {
+            if (gridGastos.CurrentRow == null)
+            {
+                MessageBox.Show("Selecione um gasto na grade para alterar ou excluir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult resposta = MessageBox.Show("Deseja ALTERAR este gasto? (Sim) ou EXCLUIR? (Não)", "Confirmação", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            if (resposta == DialogResult.Cancel) return;
+
+            Globais.idGasto = gridGastos.CurrentRow.Cells[0].Value.ToString();
+            txtDescricao.Text = gridGastos.CurrentRow.Cells[2].Value.ToString();
+            txtValor.Text = gridGastos.CurrentRow.Cells[3].Value.ToString();
+
+            if (resposta == DialogResult.Yes) // ALTERAR
+            {
+                EnableHelper.SetEnabled(true, txtDescricao, txtValor, btSalvar);
+                EnableHelper.SetEnabled(false, btNovo);
+
+                ControlHelper.ClearAndFocus(txtDescricao);
+                MessageBox.Show("Edite os campos desejados e clique em 'INSERIR REGISTRO' para confirmar a alteração.", "Modo de edição", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (resposta == DialogResult.No) // EXCLUIR
+            {
+                DialogResult confirma = MessageBox.Show("Tem certeza que deseja EXCLUIR este gasto?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirma == DialogResult.Yes)
+                {
+                    try
+                    {
+                        // _dao.ExcluirGasto(Convert.ToInt32(txtId.Text));
+                        int idGasto = Convert.ToInt32(Globais.idGasto);
+                        _dao.ExcluirGasto(idGasto);
+                        _dao.ExcluirMovGasto(idGasto, "Gastos");
+
+                        SucessoMensageService.ShowSuccess("Gasto excluído com sucesso!");
+                        ListarGastos();
+                        LimparCampos();
+                        EnableHelper.SetEnabled(true, btNovo);
+                        EnableHelper.SetEnabled(false, btSalvar);
+                        HabilitarCampos(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        ErroMensageService.ShowError("Erro ao excluir: " + ex.Message);
+                    }
+                }
+            }
+        }
     }
 }

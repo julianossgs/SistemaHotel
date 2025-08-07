@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -68,6 +69,12 @@
             this.btEditar = new System.Windows.Forms.Button();
             this.btSalvar = new System.Windows.Forms.Button();
             this.btNovo = new System.Windows.Forms.Button();
+            this.toolTipProdutos = new System.Windows.Forms.ToolTip(this.components);
+            this.btnSelecionarProdutoEdicao = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridProdutos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxProdutos)).BeginInit();
@@ -165,8 +172,8 @@
             this.gridProdutos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridProdutos.Size = new System.Drawing.Size(951, 226);
             this.gridProdutos.TabIndex = 27;
-            this.gridProdutos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridFuncionarios_CellClick);
-            this.gridProdutos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridFuncionarios_CellDoubleClick);
+            this.gridProdutos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridProdutos_CellClick_1);
+            this.gridProdutos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridProdutos_CellDoubleClick_1);
             // 
             // IdProduto
             // 
@@ -244,7 +251,7 @@
             // 
             // Data
             // 
-            this.Data.DataPropertyName = "Data";
+            this.Data.DataPropertyName = "DataCadastro";
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle5.Format = "d";
             dataGridViewCellStyle5.NullValue = null;
@@ -257,7 +264,7 @@
             // 
             // Fornecedor
             // 
-            this.Fornecedor.DataPropertyName = "Nome";
+            this.Fornecedor.DataPropertyName = "Fornecedor";
             this.Fornecedor.HeaderText = "Fornecedor";
             this.Fornecedor.Name = "Fornecedor";
             this.Fornecedor.ReadOnly = true;
@@ -337,6 +344,7 @@
             this.txtVrVenda.Size = new System.Drawing.Size(100, 24);
             this.txtVrVenda.TabIndex = 4;
             this.txtVrVenda.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtVrVenda.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVrVenda_KeyPress);
             // 
             // txtEstoque
             // 
@@ -357,6 +365,7 @@
             this.txtVrCompra.Size = new System.Drawing.Size(100, 24);
             this.txtVrCompra.TabIndex = 43;
             this.txtVrCompra.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtVrCompra.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVrCompra_KeyPress);
             // 
             // label9
             // 
@@ -369,6 +378,7 @@
             // 
             // btRemoverImagem
             // 
+            this.btRemoverImagem.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btRemoverImagem.Enabled = false;
             this.btRemoverImagem.Image = global::SistemaHotel.Properties.Resources._1481313424_minus;
             this.btRemoverImagem.Location = new System.Drawing.Point(899, 79);
@@ -380,6 +390,7 @@
             // 
             // btAddImagem
             // 
+            this.btAddImagem.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btAddImagem.Enabled = false;
             this.btAddImagem.Image = global::SistemaHotel.Properties.Resources._1481313373_sign_add;
             this.btAddImagem.Location = new System.Drawing.Point(899, 4);
@@ -400,53 +411,131 @@
             // 
             // btExcluir
             // 
+            this.btExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btExcluir.Enabled = false;
             this.btExcluir.Image = global::SistemaHotel.Properties.Resources.botaoDeletar;
-            this.btExcluir.Location = new System.Drawing.Point(610, 442);
+            this.btExcluir.Location = new System.Drawing.Point(722, 441);
             this.btExcluir.Name = "btExcluir";
             this.btExcluir.Size = new System.Drawing.Size(65, 65);
             this.btExcluir.TabIndex = 0;
+            this.toolTipProdutos.SetToolTip(this.btExcluir, "EXCLUIR REGISTRO");
             this.btExcluir.UseVisualStyleBackColor = true;
             this.btExcluir.Click += new System.EventHandler(this.BtExcluir_Click);
             // 
             // btEditar
             // 
+            this.btEditar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btEditar.Enabled = false;
             this.btEditar.Image = global::SistemaHotel.Properties.Resources.botaoEditar;
-            this.btEditar.Location = new System.Drawing.Point(515, 442);
+            this.btEditar.Location = new System.Drawing.Point(607, 441);
             this.btEditar.Name = "btEditar";
             this.btEditar.Size = new System.Drawing.Size(65, 65);
             this.btEditar.TabIndex = 0;
+            this.toolTipProdutos.SetToolTip(this.btEditar, "ALTERAR REGISTRO");
             this.btEditar.UseVisualStyleBackColor = true;
             this.btEditar.Click += new System.EventHandler(this.BtEditar_Click);
             // 
             // btSalvar
             // 
+            this.btSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btSalvar.Enabled = false;
             this.btSalvar.Image = global::SistemaHotel.Properties.Resources.botaoSalvar;
-            this.btSalvar.Location = new System.Drawing.Point(420, 442);
+            this.btSalvar.Location = new System.Drawing.Point(488, 441);
             this.btSalvar.Name = "btSalvar";
             this.btSalvar.Size = new System.Drawing.Size(65, 65);
             this.btSalvar.TabIndex = 7;
+            this.toolTipProdutos.SetToolTip(this.btSalvar, "INSERIR REGISTRO");
             this.btSalvar.UseVisualStyleBackColor = true;
             this.btSalvar.Click += new System.EventHandler(this.BtSalvar_Click);
             // 
             // btNovo
             // 
+            this.btNovo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btNovo.Image = global::SistemaHotel.Properties.Resources.botaoNovo;
-            this.btNovo.Location = new System.Drawing.Point(325, 442);
+            this.btNovo.Location = new System.Drawing.Point(369, 441);
             this.btNovo.Name = "btNovo";
             this.btNovo.Size = new System.Drawing.Size(65, 65);
             this.btNovo.TabIndex = 0;
+            this.toolTipProdutos.SetToolTip(this.btNovo, "NOVO REGISTRO");
             this.btNovo.UseVisualStyleBackColor = true;
             this.btNovo.Click += new System.EventHandler(this.BtNovo_Click);
+            // 
+            // toolTipProdutos
+            // 
+            this.toolTipProdutos.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            // 
+            // btnSelecionarProdutoEdicao
+            // 
+            this.btnSelecionarProdutoEdicao.AllowDrop = true;
+            this.btnSelecionarProdutoEdicao.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnSelecionarProdutoEdicao.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSelecionarProdutoEdicao.FlatAppearance.BorderSize = 2;
+            this.btnSelecionarProdutoEdicao.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelecionarProdutoEdicao.ForeColor = System.Drawing.Color.Red;
+            this.btnSelecionarProdutoEdicao.Location = new System.Drawing.Point(977, 184);
+            this.btnSelecionarProdutoEdicao.Name = "btnSelecionarProdutoEdicao";
+            this.btnSelecionarProdutoEdicao.Size = new System.Drawing.Size(183, 38);
+            this.btnSelecionarProdutoEdicao.TabIndex = 57;
+            this.btnSelecionarProdutoEdicao.Text = "Selecionar Produto";
+            this.toolTipProdutos.SetToolTip(this.btnSelecionarProdutoEdicao, "Selecione para alteração/exclusão");
+            this.btnSelecionarProdutoEdicao.UseVisualStyleBackColor = true;
+            this.btnSelecionarProdutoEdicao.Click += new System.EventHandler(this.btnSelecionarProdutoEdicao_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Blue;
+            this.label10.Location = new System.Drawing.Point(352, 509);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(97, 13);
+            this.label10.TabIndex = 53;
+            this.label10.Text = "NOVO REGISTRO";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.Blue;
+            this.label11.Location = new System.Drawing.Point(463, 509);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(110, 13);
+            this.label11.TabIndex = 54;
+            this.label11.Text = "INSERIR REGISTRO";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.Color.Blue;
+            this.label12.Location = new System.Drawing.Point(582, 509);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(116, 13);
+            this.label12.TabIndex = 55;
+            this.label12.Text = "ALTERAR REGISTRO";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.ForeColor = System.Drawing.Color.Red;
+            this.label13.Location = new System.Drawing.Point(703, 509);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(112, 13);
+            this.label13.TabIndex = 56;
+            this.label13.Text = "EXCLUIR REGISTRO";
             // 
             // FrmProdutos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(1004, 519);
+            this.ClientSize = new System.Drawing.Size(1166, 533);
+            this.Controls.Add(this.btnSelecionarProdutoEdicao);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.txtVrCompra);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.btRemoverImagem);
@@ -524,5 +613,11 @@
         private System.Windows.Forms.DataGridViewImageColumn Imagem;
         private System.Windows.Forms.DataGridViewTextBoxColumn Data;
         private System.Windows.Forms.DataGridViewTextBoxColumn Fornecedor;
+        private System.Windows.Forms.ToolTip toolTipProdutos;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button btnSelecionarProdutoEdicao;
     }
 }

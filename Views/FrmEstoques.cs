@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using SistemaHotel.Dados;
+using SistemaHotel.Repositories.estoqueDAO;
 using SistemaHotel.Services;
 using System;
 using System.Data;
@@ -9,55 +10,20 @@ namespace SistemaHotel.Views
 {
     public partial class FrmEstoques : Form
     {
+        private estoqueDAO _dao = new estoqueDAO();
 
         public FrmEstoques()
         {
             InitializeComponent();
         }
 
-        private void MsgOk(string msg)
-        {
-            MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-        }
-
-        private void MsgErro(string msg)
-        {
-            MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-        }
 
         private void FrmEstoques_Load(object sender, EventArgs e)
         {
-            HabilitarCampos(false);
+            EnableHelper.SetEnabled(false, txtProduto, txtEstoque, txtQuant, txtVrCompra, cBFornecedor, btSalvar);
             PreencherCBoxFornecedor();
         }
 
-        private void LimparCampos()
-        {
-            txtEstoque.Clear();
-            txtQuant.Clear();
-            txtVrCompra.Clear();
-            txtProduto.Clear();
-        }
-
-        private void HabilitarCampos(bool vr)
-        {
-            if (vr)
-            {
-                txtEstoque.Enabled = true;
-                txtQuant.Enabled = true;
-                txtVrCompra.Enabled = true;
-                cBFornecedor.Enabled = true;
-                btSalvar.Enabled = true;
-            }
-            else
-            {
-                txtEstoque.Enabled = false;
-                txtQuant.Enabled = false;
-                txtVrCompra.Enabled = false;
-                cBFornecedor.Enabled = false;
-                btSalvar.Enabled = false;
-            }
-        }
 
         //carregar combox de fornecedores
         private void PreencherCBoxFornecedor()
@@ -85,10 +51,11 @@ namespace SistemaHotel.Views
         //botão de add produtos
         private void BtAddProdutos_Click(object sender, EventArgs e)
         {
-            HabilitarCampos(true);
-            LimparCampos();
-            //variável global criada na classe Program
-            Globais.chamadaProdutos = "estoque";
+            EnableHelper.SetEnabled(true, cBFornecedor, txtVrCompra, txtQuant, btSalvar);
+            EnableHelper.SetEnabled(false, txtProduto);
+            ControlHelper.ClearAndFocus(btAddProdutos, txtEstoque, txtQuant, txtVrCompra, txtProduto);
+
+            Globais.chamadaProdutos = "estoque"; //variável global
 
             //abrindo o Frm de Produtos
             FrmProdutos frm = new FrmProdutos();
@@ -98,92 +65,90 @@ namespace SistemaHotel.Views
         //botão salvar
         private void BtSalvar_Click(object sender, EventArgs e)
         {
-            if (txtProduto.Text.ToString().Trim() == string.Empty)
+            if (string.IsNullOrWhiteSpace(txtProduto.Text) ||
+                 string.IsNullOrWhiteSpace(txtEstoque.Text) ||
+                string.IsNullOrWhiteSpace(txtQuant.Text))
             {
-                txtProduto.Clear();
-                MsgErro("Selecione um Produto!");
-                txtProduto.Focus();
+                MessageBox.Show("Todos os campos são obrigatórios.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (txtQuant.Text == string.Empty)
+
+            // ✅ Validação de formato numérico com tentativa de conversão segura
+            if (!decimal.TryParse(txtEstoque.Text, out decimal preco))
             {
-                txtQuant.Clear();
-                MsgErro("Informe a Quantidade!");
-                txtQuant.Focus();
+                MessageBox.Show("Digite um valor válido para o preço.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Conexao con = new Conexao();
-            con.AbrirCon();
-            MySqlCommand Cmd2 = new MySqlCommand();
-            Cmd2.Connection = con.Con;
-            Cmd2.CommandText = "spAlteraProdutoFornecedor";
-            Cmd2.CommandType = CommandType.StoredProcedure;
-            Cmd2.Parameters.AddWithValue("@IdProduto", Globais.idProduto);
 
-            Cmd2.Parameters.AddWithValue("@Estoque", Convert.ToDecimal(txtQuant.Text) + Convert.ToDecimal(txtEstoque.Text));
-            Cmd2.Parameters.AddWithValue("@ValorCompra", Convert.ToDecimal(txtVrCompra.Text));
-            Cmd2.Parameters.AddWithValue("@Id_Fornec", cBFornecedor.SelectedValue);
-            Cmd2.ExecuteNonQuery();
-            con.FecharCon();
-            MsgOk("Lançamento feito com sucesso!");
-
-            //lançar o valor do pedido nos gastos
-            con.AbrirCon();
-            MySqlCommand Cmdg = new MySqlCommand();
-            Cmdg.Connection = con.Con;
-            Cmdg.CommandText = "spInserirGastos";
-            Cmdg.CommandType = CommandType.StoredProcedure;
-            Cmdg.Parameters.AddWithValue("@Descricao", "Compra de Produtos");
-            Cmdg.Parameters.AddWithValue("@Funcionario", Globais.nomeUsuario);
-            Cmdg.Parameters.AddWithValue("@Valor", Convert.ToDecimal(txtVrCompra.Text) * Convert.ToDecimal(txtQuant.Text));
-            Cmdg.ExecuteNonQuery();
-            con.FecharCon();
-
-            //recuperar ultimo Id do gasto
-            con.AbrirCon();
-            MySqlCommand Cmdt = new MySqlCommand();
-            Cmdt.Connection = con.Con;
-            Cmdt.CommandText = "spRecuperarUltimoIdGasto";
-            Cmdt.CommandType = CommandType.StoredProcedure;
-            MySqlDataReader reader;
-            reader = Cmdt.ExecuteReader();
-
-            if (reader.HasRows)
+            if (!int.TryParse(txtQuant.Text, out int quantidade))
             {
-                //extraindo informações da consulta
-                while (reader.Read())
-                {
-                    Globais.ultimoIdGasto = Convert.ToString(reader["IdGasto"]);
-                }
-
+                MessageBox.Show("Digite uma quantidade válida (somente números inteiros).", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
-            //lançar o valor do pedido nas movimentações
-            con.AbrirCon();
-            MySqlCommand Cmd3 = new MySqlCommand();
-            Cmd3.Connection = con.Con;
-            Cmd3.CommandText = "spInserirMovimentacoesGastos";
-            Cmd3.CommandType = CommandType.StoredProcedure;
-            Cmd3.Parameters.AddWithValue("@Tipo", "Saída");
-            Cmd3.Parameters.AddWithValue("@Movimento", "Gastos");
-            Cmd3.Parameters.AddWithValue("@Valor", Convert.ToDecimal(txtVrCompra.Text) * Convert.ToDecimal(txtQuant.Text));
-            Cmd3.Parameters.AddWithValue("@Funcionario", Globais.nomeUsuario);
-            Cmd3.Parameters.AddWithValue("@Id_Movimento", Globais.ultimoIdGasto);
-            Cmd3.ExecuteNonQuery();
-            con.FecharCon();
-            LimparCampos();
-            HabilitarCampos(false);
+            try
+            {
+                // Atualiza o estoque e valor de compra do produto fornecedor
+                int idProduto = int.Parse(Globais.idProduto);
+                decimal estoqueAtual = Convert.ToDecimal(txtEstoque.Text);
+                decimal quant = Convert.ToDecimal(txtQuant.Text);
+                decimal valorCompra = Convert.ToDecimal(txtVrCompra.Text);
+                int idFornecedor = Convert.ToInt32(cBFornecedor.SelectedValue);
+
+                _dao.AlterarProdutoFornecedor(idProduto, estoqueAtual, quantidade, valorCompra, idFornecedor);
+
+                // Insere o gasto da compra de produtos
+                string descricao = "Compra de Produtos";
+                string funcionario = Globais.nomeUsuario;
+                decimal valorGasto = valorCompra * quantidade;
+                _dao.InserirGasto(descricao, funcionario, valorGasto);
+
+                // Recupera o último Id do gasto
+                string ultimoIdGasto = _dao.RecuperarUltimoIdGasto();
+                Globais.ultimoIdGasto = ultimoIdGasto;
+
+                // Insere movimentação de gasto
+                _dao.InserirMovimentacaoGasto("Saída", "Gastos", valorGasto, funcionario, ultimoIdGasto);
+
+                SucessoMensageService.ShowSuccess("Lançamento feito com sucesso!");
+                ControlHelper.ClearAndFocus(btAddProdutos, txtEstoque, txtQuant, txtVrCompra, txtProduto);
+                EnableHelper.SetEnabled(false, txtProduto, txtEstoque, txtQuant, txtVrCompra, cBFornecedor, btSalvar);
+
+            }
+            catch (Exception ex)
+            {
+                ErroMensageService.ShowError("Erro ao salvar: " + ex.Message);
+            }
         }
 
 
         //evento que ativa o formulário p/ buscar de informações
         private void FrmEstoques_Activated(object sender, EventArgs e)
         {
-            //variáveis globais criadas na classe Program
+            //variáveis globais
             //está passando também o IdProduto,que não é necessário mostrar em tela
+
             txtEstoque.Text = Globais.estoqueProduto;
             txtProduto.Text = Globais.nomeProduto;
             txtVrCompra.Text = Globais.VrCompra;
+        }
+
+
+        //Eventos de validações nos campos
+        private void txtVrCompra_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            InputValidator.OnlyNumericInput(sender, e);
+        }
+
+
+        private void txtQuant_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            InputValidator.OnlyIntegerInput(sender, e);
+        }
+
+        private void txtEstoque_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            InputValidator.OnlyIntegerInput(sender, e);
         }
     }
 }

@@ -50,6 +50,20 @@
             this.txtBuscarNome = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.gridFornecedores = new System.Windows.Forms.DataGridView();
+            this.IdFornec = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cnpj = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nome = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Endereco = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Bairro = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cidade = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cep = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Telefone = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Celular = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Contato = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Observacoes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label8 = new System.Windows.Forms.Label();
             this.maskCNPJ = new System.Windows.Forms.MaskedTextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -67,20 +81,11 @@
             this.txtObs = new System.Windows.Forms.TextBox();
             this.cbUF = new System.Windows.Forms.ComboBox();
             this.toolTipFornec = new System.Windows.Forms.ToolTip(this.components);
-            this.IdFornec = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cnpj = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Nome = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Endereco = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Bairro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cidade = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cep = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Telefone = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Celular = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Contato = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Observacoes = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnSelecionarFornecEdicao = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridFornecedores)).BeginInit();
             this.SuspendLayout();
@@ -135,31 +140,33 @@
             // 
             this.btExcluir.Enabled = false;
             this.btExcluir.Image = global::SistemaHotel.Properties.Resources.botaoDeletar;
-            this.btExcluir.Location = new System.Drawing.Point(637, 496);
+            this.btExcluir.Location = new System.Drawing.Point(1122, 414);
             this.btExcluir.Name = "btExcluir";
             this.btExcluir.Size = new System.Drawing.Size(65, 65);
             this.btExcluir.TabIndex = 25;
             this.toolTipFornec.SetToolTip(this.btExcluir, "EXCLUIR REGISTRO");
             this.btExcluir.UseVisualStyleBackColor = true;
+            this.btExcluir.Visible = false;
             this.btExcluir.Click += new System.EventHandler(this.BtExcluir_Click);
             // 
             // btEditar
             // 
             this.btEditar.Enabled = false;
             this.btEditar.Image = global::SistemaHotel.Properties.Resources.botaoEditar;
-            this.btEditar.Location = new System.Drawing.Point(542, 496);
+            this.btEditar.Location = new System.Drawing.Point(1122, 320);
             this.btEditar.Name = "btEditar";
             this.btEditar.Size = new System.Drawing.Size(65, 65);
             this.btEditar.TabIndex = 24;
             this.toolTipFornec.SetToolTip(this.btEditar, "ALTERAR REGISTRO");
             this.btEditar.UseVisualStyleBackColor = true;
+            this.btEditar.Visible = false;
             this.btEditar.Click += new System.EventHandler(this.BtEditar_Click);
             // 
             // btSalvar
             // 
             this.btSalvar.Enabled = false;
             this.btSalvar.Image = global::SistemaHotel.Properties.Resources.botaoSalvar;
-            this.btSalvar.Location = new System.Drawing.Point(447, 496);
+            this.btSalvar.Location = new System.Drawing.Point(675, 507);
             this.btSalvar.Name = "btSalvar";
             this.btSalvar.Size = new System.Drawing.Size(65, 65);
             this.btSalvar.TabIndex = 23;
@@ -170,7 +177,7 @@
             // btNovo
             // 
             this.btNovo.Image = global::SistemaHotel.Properties.Resources.botaoNovo;
-            this.btNovo.Location = new System.Drawing.Point(352, 496);
+            this.btNovo.Location = new System.Drawing.Point(548, 507);
             this.btNovo.Name = "btNovo";
             this.btNovo.Size = new System.Drawing.Size(65, 65);
             this.btNovo.TabIndex = 22;
@@ -289,197 +296,8 @@
             this.gridFornecedores.Location = new System.Drawing.Point(19, 276);
             this.gridFornecedores.Name = "gridFornecedores";
             this.gridFornecedores.ReadOnly = true;
-            this.gridFornecedores.Size = new System.Drawing.Size(1094, 214);
+            this.gridFornecedores.Size = new System.Drawing.Size(1037, 214);
             this.gridFornecedores.TabIndex = 33;
-            this.gridFornecedores.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridFornecedores_CellClick);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 18);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(38, 15);
-            this.label8.TabIndex = 34;
-            this.label8.Text = "CNPJ";
-            // 
-            // maskCNPJ
-            // 
-            this.maskCNPJ.Location = new System.Drawing.Point(72, 15);
-            this.maskCNPJ.Mask = "00.000.000/0000-00";
-            this.maskCNPJ.Name = "maskCNPJ";
-            this.maskCNPJ.Size = new System.Drawing.Size(141, 21);
-            this.maskCNPJ.TabIndex = 1;
-            this.maskCNPJ.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(15, 92);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(40, 15);
-            this.label9.TabIndex = 36;
-            this.label9.Text = "Bairro";
-            // 
-            // txtBairro
-            // 
-            this.txtBairro.Enabled = false;
-            this.txtBairro.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBairro.Location = new System.Drawing.Point(72, 85);
-            this.txtBairro.Name = "txtBairro";
-            this.txtBairro.Size = new System.Drawing.Size(279, 22);
-            this.txtBairro.TabIndex = 4;
-            // 
-            // txtCidade
-            // 
-            this.txtCidade.Enabled = false;
-            this.txtCidade.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCidade.Location = new System.Drawing.Point(436, 85);
-            this.txtCidade.Name = "txtCidade";
-            this.txtCidade.Size = new System.Drawing.Size(279, 22);
-            this.txtCidade.TabIndex = 5;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(384, 92);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(46, 15);
-            this.label10.TabIndex = 39;
-            this.label10.Text = "Cidade";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(16, 140);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(29, 15);
-            this.label11.TabIndex = 40;
-            this.label11.Text = "Cep";
-            // 
-            // maskCEP
-            // 
-            this.maskCEP.Location = new System.Drawing.Point(72, 134);
-            this.maskCEP.Mask = "00000-000";
-            this.maskCEP.Name = "maskCEP";
-            this.maskCEP.Size = new System.Drawing.Size(85, 21);
-            this.maskCEP.TabIndex = 6;
-            this.maskCEP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // btnPesquisarCep
-            // 
-            this.btnPesquisarCep.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.btnPesquisarCep.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPesquisarCep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPesquisarCep.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPesquisarCep.Location = new System.Drawing.Point(175, 124);
-            this.btnPesquisarCep.Name = "btnPesquisarCep";
-            this.btnPesquisarCep.Size = new System.Drawing.Size(131, 31);
-            this.btnPesquisarCep.TabIndex = 42;
-            this.btnPesquisarCep.Text = "Pesquisar  CEP";
-            this.btnPesquisarCep.UseVisualStyleBackColor = false;
-            this.btnPesquisarCep.Click += new System.EventHandler(this.btnPesquisarCep_Click);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(409, 135);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(23, 15);
-            this.label12.TabIndex = 43;
-            this.label12.Text = "UF";
-            // 
-            // txtUF
-            // 
-            this.txtUF.Enabled = false;
-            this.txtUF.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUF.Location = new System.Drawing.Point(720, 128);
-            this.txtUF.MaxLength = 2;
-            this.txtUF.Name = "txtUF";
-            this.txtUF.Size = new System.Drawing.Size(74, 22);
-            this.txtUF.TabIndex = 7;
-            this.txtUF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtUF.Visible = false;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(231, 186);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(46, 15);
-            this.label13.TabIndex = 45;
-            this.label13.Text = "Celular";
-            this.label13.Click += new System.EventHandler(this.label13_Click);
-            // 
-            // maskCelular
-            // 
-            this.maskCelular.Enabled = false;
-            this.maskCelular.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.maskCelular.Location = new System.Drawing.Point(283, 179);
-            this.maskCelular.Mask = "(00)00000-0000";
-            this.maskCelular.Name = "maskCelular";
-            this.maskCelular.Size = new System.Drawing.Size(132, 22);
-            this.maskCelular.TabIndex = 9;
-            this.maskCelular.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.maskCelular.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.maskCelular_MaskInputRejected);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(15, 226);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(78, 15);
-            this.label14.TabIndex = 47;
-            this.label14.Text = "Observações";
-            // 
-            // txtObs
-            // 
-            this.txtObs.Enabled = false;
-            this.txtObs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtObs.Location = new System.Drawing.Point(99, 219);
-            this.txtObs.Multiline = true;
-            this.txtObs.Name = "txtObs";
-            this.txtObs.Size = new System.Drawing.Size(384, 51);
-            this.txtObs.TabIndex = 12;
-            // 
-            // cbUF
-            // 
-            this.cbUF.FormattingEnabled = true;
-            this.cbUF.Items.AddRange(new object[] {
-            "AC",
-            "AL",
-            "AP",
-            "AM",
-            "BA",
-            "CE",
-            "DF",
-            "ES",
-            "GO",
-            "MA",
-            "MT",
-            "MS",
-            "MG",
-            "PA",
-            "PB",
-            "PR",
-            "PE",
-            "PI",
-            "RJ",
-            "RN",
-            "RS",
-            "RO",
-            "RR",
-            "SC",
-            "SP",
-            "SE",
-            "TO"});
-            this.cbUF.Location = new System.Drawing.Point(438, 128);
-            this.cbUF.Name = "cbUF";
-            this.cbUF.Size = new System.Drawing.Size(74, 23);
-            this.cbUF.TabIndex = 7;
-            // 
-            // toolTipFornec
-            // 
-            this.toolTipFornec.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
             // IdFornec
             // 
@@ -605,12 +423,265 @@
             this.Observacoes.Visible = false;
             this.Observacoes.Width = 150;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(15, 18);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(38, 15);
+            this.label8.TabIndex = 34;
+            this.label8.Text = "CNPJ";
+            // 
+            // maskCNPJ
+            // 
+            this.maskCNPJ.Location = new System.Drawing.Point(72, 15);
+            this.maskCNPJ.Mask = "00.000.000/0000-00";
+            this.maskCNPJ.Name = "maskCNPJ";
+            this.maskCNPJ.Size = new System.Drawing.Size(141, 21);
+            this.maskCNPJ.TabIndex = 1;
+            this.maskCNPJ.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(15, 92);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(40, 15);
+            this.label9.TabIndex = 36;
+            this.label9.Text = "Bairro";
+            // 
+            // txtBairro
+            // 
+            this.txtBairro.Enabled = false;
+            this.txtBairro.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBairro.Location = new System.Drawing.Point(72, 85);
+            this.txtBairro.Name = "txtBairro";
+            this.txtBairro.Size = new System.Drawing.Size(279, 22);
+            this.txtBairro.TabIndex = 4;
+            // 
+            // txtCidade
+            // 
+            this.txtCidade.Enabled = false;
+            this.txtCidade.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCidade.Location = new System.Drawing.Point(436, 85);
+            this.txtCidade.Name = "txtCidade";
+            this.txtCidade.Size = new System.Drawing.Size(279, 22);
+            this.txtCidade.TabIndex = 5;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(384, 92);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(46, 15);
+            this.label10.TabIndex = 39;
+            this.label10.Text = "Cidade";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(16, 140);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(29, 15);
+            this.label11.TabIndex = 40;
+            this.label11.Text = "Cep";
+            // 
+            // maskCEP
+            // 
+            this.maskCEP.Location = new System.Drawing.Point(72, 134);
+            this.maskCEP.Mask = "00000-000";
+            this.maskCEP.Name = "maskCEP";
+            this.maskCEP.Size = new System.Drawing.Size(85, 21);
+            this.maskCEP.TabIndex = 6;
+            this.maskCEP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // btnPesquisarCep
+            // 
+            this.btnPesquisarCep.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.btnPesquisarCep.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPesquisarCep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPesquisarCep.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPesquisarCep.Location = new System.Drawing.Point(175, 124);
+            this.btnPesquisarCep.Name = "btnPesquisarCep";
+            this.btnPesquisarCep.Size = new System.Drawing.Size(131, 31);
+            this.btnPesquisarCep.TabIndex = 42;
+            this.btnPesquisarCep.Text = "Pesquisar  CEP";
+            this.btnPesquisarCep.UseVisualStyleBackColor = false;
+            this.btnPesquisarCep.Click += new System.EventHandler(this.btnPesquisarCep_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(409, 135);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(23, 15);
+            this.label12.TabIndex = 43;
+            this.label12.Text = "UF";
+            // 
+            // txtUF
+            // 
+            this.txtUF.Enabled = false;
+            this.txtUF.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUF.Location = new System.Drawing.Point(720, 128);
+            this.txtUF.MaxLength = 2;
+            this.txtUF.Name = "txtUF";
+            this.txtUF.Size = new System.Drawing.Size(74, 22);
+            this.txtUF.TabIndex = 7;
+            this.txtUF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtUF.Visible = false;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(231, 186);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(46, 15);
+            this.label13.TabIndex = 45;
+            this.label13.Text = "Celular";
+            // 
+            // maskCelular
+            // 
+            this.maskCelular.Enabled = false;
+            this.maskCelular.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.maskCelular.Location = new System.Drawing.Point(283, 179);
+            this.maskCelular.Mask = "(00)00000-0000";
+            this.maskCelular.Name = "maskCelular";
+            this.maskCelular.Size = new System.Drawing.Size(132, 22);
+            this.maskCelular.TabIndex = 9;
+            this.maskCelular.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(15, 226);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(78, 15);
+            this.label14.TabIndex = 47;
+            this.label14.Text = "Observações";
+            // 
+            // txtObs
+            // 
+            this.txtObs.Enabled = false;
+            this.txtObs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtObs.Location = new System.Drawing.Point(99, 219);
+            this.txtObs.Multiline = true;
+            this.txtObs.Name = "txtObs";
+            this.txtObs.Size = new System.Drawing.Size(384, 51);
+            this.txtObs.TabIndex = 12;
+            // 
+            // cbUF
+            // 
+            this.cbUF.FormattingEnabled = true;
+            this.cbUF.Items.AddRange(new object[] {
+            "AC",
+            "AL",
+            "AP",
+            "AM",
+            "BA",
+            "CE",
+            "DF",
+            "ES",
+            "GO",
+            "MA",
+            "MT",
+            "MS",
+            "MG",
+            "PA",
+            "PB",
+            "PR",
+            "PE",
+            "PI",
+            "RJ",
+            "RN",
+            "RS",
+            "RO",
+            "RR",
+            "SC",
+            "SP",
+            "SE",
+            "TO"});
+            this.cbUF.Location = new System.Drawing.Point(438, 128);
+            this.cbUF.Name = "cbUF";
+            this.cbUF.Size = new System.Drawing.Size(74, 23);
+            this.cbUF.TabIndex = 7;
+            // 
+            // toolTipFornec
+            // 
+            this.toolTipFornec.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            // 
+            // btnSelecionarFornecEdicao
+            // 
+            this.btnSelecionarFornecEdicao.AllowDrop = true;
+            this.btnSelecionarFornecEdicao.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnSelecionarFornecEdicao.FlatAppearance.BorderSize = 2;
+            this.btnSelecionarFornecEdicao.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelecionarFornecEdicao.ForeColor = System.Drawing.Color.Red;
+            this.btnSelecionarFornecEdicao.Location = new System.Drawing.Point(1062, 276);
+            this.btnSelecionarFornecEdicao.Name = "btnSelecionarFornecEdicao";
+            this.btnSelecionarFornecEdicao.Size = new System.Drawing.Size(183, 38);
+            this.btnSelecionarFornecEdicao.TabIndex = 48;
+            this.btnSelecionarFornecEdicao.Text = "Selecionar Forneçedor";
+            this.toolTipFornec.SetToolTip(this.btnSelecionarFornecEdicao, "Selecione para alteração/exclusão");
+            this.btnSelecionarFornecEdicao.UseVisualStyleBackColor = true;
+            this.btnSelecionarFornecEdicao.Click += new System.EventHandler(this.btnSelecionarFornecEdicao_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.Location = new System.Drawing.Point(1101, 482);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(112, 13);
+            this.label1.TabIndex = 59;
+            this.label1.Text = "EXCLUIR REGISTRO";
+            this.label1.Visible = false;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.Color.Blue;
+            this.label15.Location = new System.Drawing.Point(1102, 388);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(116, 13);
+            this.label15.TabIndex = 60;
+            this.label15.Text = "ALTERAR REGISTRO";
+            this.label15.Visible = false;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.ForeColor = System.Drawing.Color.Blue;
+            this.label16.Location = new System.Drawing.Point(653, 575);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(110, 13);
+            this.label16.TabIndex = 61;
+            this.label16.Text = "INSERIR REGISTRO";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.Blue;
+            this.label17.Location = new System.Drawing.Point(528, 575);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(97, 13);
+            this.label17.TabIndex = 62;
+            this.label17.Text = "NOVO REGISTRO";
+            // 
             // FrmFornecedores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(1125, 561);
+            this.ClientSize = new System.Drawing.Size(1249, 598);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnSelecionarFornecEdicao);
             this.Controls.Add(this.cbUF);
             this.Controls.Add(this.txtObs);
             this.Controls.Add(this.label14);
@@ -712,5 +783,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Contato;
         private System.Windows.Forms.DataGridViewTextBoxColumn Data;
         private System.Windows.Forms.DataGridViewTextBoxColumn Observacoes;
+        private System.Windows.Forms.Button btnSelecionarFornecEdicao;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
     }
 }

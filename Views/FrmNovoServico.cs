@@ -1,6 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
 using SistemaHotel.Dados;
-using SistemaHotel.Relatorios;
+using SistemaHotel.Models;
+using SistemaHotel.Repositories.novoServicoDAO;
+using SistemaHotel.Repositories.quartoDAO;
+using SistemaHotel.Repositories.servicoDAO;
 using SistemaHotel.Services;
 using System;
 using System.Data;
@@ -13,7 +16,6 @@ namespace SistemaHotel.Views
         //variáveis globais
         Conexao con = new Conexao();
 
-
         public FrmNovoServico()
         {
             InitializeComponent();
@@ -21,80 +23,33 @@ namespace SistemaHotel.Views
 
         private void FrmNovoServico_Load(object sender, EventArgs e)
         {
-            HabilitarCampos(false);
+
+            ControlHelper.ClearTextBoxes(txtQuant, txtTotal, txtValor, txtHospede);
+
+            EnableHelper.SetEnabled(false, txtHospede, cBQuartos, txtValor, txtTotal, cBServicos, txtQuant, dateNovoServico);
             ListarNovosServicos();
             dtBuscarServicos.Value = DateTime.Today;
             CarregarCBoxServicos();
             CarregarCBquartos();
+            txtValor.Clear();
         }
 
         //MÉTODOS
-        private void MsgOk(string msg)
-        {
-            MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-        }
-
-        private void MsgErro(string msg)
-        {
-            MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-        }
-
-        private void LimparCampos()
-        {
-            txtHospede.Clear();
-            txtQuant.Clear();
-            txtValor.Clear();
-
-        }
-
-        private void HabilitarCampos(bool vr)
-        {
-            if (vr)
-            {
-                txtHospede.Enabled = true;
-                txtQuant.Enabled = true;
-                txtValor.Enabled = true;
-                cBQuartos.Enabled = true;
-                cBServicos.Enabled = true;
-                btAddHospedes.Enabled = true;
-                txtQuant.Focus();
-            }
-            else
-            {
-                txtHospede.Enabled = false;
-                txtQuant.Enabled = false;
-                txtValor.Enabled = false;
-                cBQuartos.Enabled = false;
-                cBServicos.Enabled = false;
-                btAddHospedes.Enabled = false;
-                txtQuant.Focus();
-            }
-        }
 
         //Carregar ComboBox de serviços
         private void CarregarCBoxServicos()
         {
             try
             {
-                con.AbrirCon();
-                MySqlCommand Cmd3 = new MySqlCommand();
-
-                Cmd3.Connection = con.Con;
-                Cmd3.CommandText = "spListarServicos";
-                Cmd3.CommandType = CommandType.StoredProcedure;
-                MySqlDataAdapter da = new MySqlDataAdapter();
-                da.SelectCommand = Cmd3;
-                DataTable Dt = new DataTable();
-                da.Fill(Dt);
-                cBServicos.DataSource = Dt;
+                servicoDAO dao = new servicoDAO();
+                cBServicos.DataSource = dao.ListarServicos();
                 cBServicos.DisplayMember = "Servico";
-
-                con.FecharCon();
+                cBServicos.ValueMember = "IdServico";
             }
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao carregar os serviços: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao carregar os serviços: " + ex.Message);
             }
         }
 
@@ -103,24 +58,15 @@ namespace SistemaHotel.Views
         {
             try
             {
-                con.AbrirCon();
-                MySqlCommand Cmd4 = new MySqlCommand();
-
-                Cmd4.Connection = con.Con;
-                Cmd4.CommandText = "spListarQuartos";
-                Cmd4.CommandType = CommandType.StoredProcedure;
-                MySqlDataAdapter da = new MySqlDataAdapter();
-                da.SelectCommand = Cmd4;
-                DataTable Dt = new DataTable();
-                da.Fill(Dt);
-                cBQuartos.DataSource = Dt;
+                quartoDAO dao = new quartoDAO();
+                cBQuartos.DataSource = dao.ListarQuartos();
                 cBQuartos.DisplayMember = "Quarto";
-                con.FecharCon();
+                cBQuartos.ValueMember = "IdQuarto";
             }
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao carregar os quartos: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao carregar os quartos: " + ex.Message);
             }
         }
 
@@ -130,24 +76,12 @@ namespace SistemaHotel.Views
         {
             try
             {
-
-                con.AbrirCon();
-                MySqlCommand Cmd0 = new MySqlCommand();
-
-                Cmd0.Connection = con.Con;
-                Cmd0.CommandText = "spListarNovosServicos";
-                Cmd0.CommandType = CommandType.StoredProcedure;
-                MySqlDataAdapter da = new MySqlDataAdapter();
-                da.SelectCommand = Cmd0;
-                DataTable Dt = new DataTable();
-                da.Fill(Dt);
-                gridNovoServico.DataSource = Dt;
-                con.FecharCon();
+                novoServicoDAO dao = new novoServicoDAO();
+                gridNovoServico.DataSource = dao.Listar();
             }
             catch (Exception ex)
             {
-
-                MsgErro("Erro ao listar serviços: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao listar serviços: " + ex.Message);
             }
         }
 
@@ -156,100 +90,90 @@ namespace SistemaHotel.Views
         //botão NOVO
         private void BtNovo_Click(object sender, EventArgs e)
         {
-            if (cBServicos.Text == string.Empty)
-            {
-                MsgErro("È preciso cadastrar um Serviço!");
-                Close();
-            }
-
-            if (cBQuartos.Text == string.Empty)
-            {
-                MsgErro("È preciso cadastrar um Quarto!");
-                Close();
-            }
-            HabilitarCampos(true);
-            btSalvar.Enabled = true;
             btNovo.Enabled = false;
+            ControlHelper.ClearTextBoxes(txtQuant, txtTotal, txtValor, txtHospede);
+            EnableHelper.SetEnabled(false, btExcluir, btNovo);
+            EnableHelper.SetEnabled(true, btSalvar, btAddHospedes, txtHospede, cBQuartos, cBServicos, txtQuant, dateNovoServico);
+
         }
 
         //botão SALVAR
         private void BtSalvar_Click(object sender, EventArgs e)
         {
-            if (txtHospede.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(txtHospede.Text))
             {
-                MsgErro("Insira um Hóspede!");
+                ErroMensageService.ShowError("Insira um Hóspede!");
                 btAddHospedes.Focus();
                 return;
             }
-            if (txtQuant.Text == string.Empty)
+
+            if (string.IsNullOrWhiteSpace(txtQuant.Text))
             {
-                MsgErro("Insira uma quantidade!");
+                ErroMensageService.ShowError("Insira uma quantidade!");
                 txtQuant.Focus();
                 return;
             }
-            if (txtValor.Text == string.Empty)
+
+            if (string.IsNullOrWhiteSpace(txtValor.Text))
             {
-                MsgErro("Insira o valor do serviço!");
+                ErroMensageService.ShowError("Insira o valor do serviço!");
                 txtValor.Focus();
                 return;
             }
 
-            //Cód p/ salvar
-            con.AbrirCon();
-            MySqlCommand Cmd1 = new MySqlCommand();
-            Cmd1.Connection = con.Con;
-            Cmd1.CommandText = "spInserirNovosServicos";
-            Cmd1.CommandType = CommandType.StoredProcedure;
-            Cmd1.Parameters.AddWithValue("@Hospede", txtHospede.Text);
-            Cmd1.Parameters.AddWithValue("@Servico", cBServicos.Text);
-            Cmd1.Parameters.AddWithValue("@Quarto", cBQuartos.Text);
-            Cmd1.Parameters.AddWithValue("@Valor", Convert.ToDecimal(txtQuant.Text) * Convert.ToDecimal(txtValor.Text));
-            Cmd1.Parameters.AddWithValue("@Funcionario", Globais.nomeUsuario);
-
-            Cmd1.ExecuteNonQuery();
-            con.FecharCon();
-
-            //recuperar ultimo Id do serviço
-            MySqlCommand CmdVerificar = new MySqlCommand();
-            con.AbrirCon();
-            CmdVerificar.Connection = con.Con;
-            CmdVerificar.CommandText = "spRecuperarUltimoIdServico";
-            CmdVerificar.CommandType = CommandType.StoredProcedure;
-            MySqlDataReader reader;
-            reader = CmdVerificar.ExecuteReader();
-
-            if (reader.HasRows)
+            try
             {
-                //extraindo informações da consulta do login
-                while (reader.Read())
+                NovosServicos servico = new NovosServicos();
+                servico.Hospede = txtHospede.Text;
+                servico.Servico = cBServicos.Text;
+                servico.Quarto = cBQuartos.Text;
+                servico.Quantidade = int.Parse(txtQuant.Text);
+                servico.Valor = Convert.ToDecimal(txtValor.Text);
+                servico.ValorTotal = Convert.ToDecimal(txtQuant.Text) * Convert.ToDecimal(txtValor.Text);
+
+                servico.Funcionario = Globais.nomeUsuario;
+                servico.DataCadastro = dateNovoServico.Value;
+
+                novoServicoDAO dao = new novoServicoDAO();
+
+                if (!string.IsNullOrWhiteSpace(Globais.idNovoServico))
                 {
-                    Globais.ultimoIdServico = Convert.ToString(reader["IdNovoServico"]);
+                    // ALTERAÇÃO
+                    int idServico = Convert.ToInt32(Globais.idNovoServico);
+                    dao.Alterar(idServico, servico.DataCadastro, servico.Hospede, servico.Servico, servico.Quarto, servico.Valor, servico.Quantidade, servico.ValorTotal);
+
+                    ControlHelper.ClearTextBoxes(txtQuant, txtTotal, txtValor, txtHospede);
+
+                    SucessoMensageService.ShowSuccess("Serviço alterado com sucesso!");
                 }
+                else
+                {
+                    // INSERÇÃO
+                    int ultimoId = dao.Inserir(servico);
+                    Globais.ultimoIdServico = ultimoId.ToString();
+
+                    // Grava na movimentação
+                    dao.InserirMovimentacao("Entrada", "Servico", servico.Valor, servico.Funcionario, ultimoId);
+
+                    ControlHelper.ClearTextBoxes(txtQuant, txtTotal, txtValor, txtHospede);
+
+                    SucessoMensageService.ShowSuccess("Serviço salvo com sucesso!");
+                }
+
+                // LimparCampos();
+                EnableHelper.SetEnabled(true, btNovo);
+                EnableHelper.SetEnabled(false, btSalvar);
+                ListarNovosServicos();
+                Globais.idNovoServico = ""; // limpa para voltar ao estado padrão
             }
-
-            //salvar o serviço na tabela de movimentações
-            con.AbrirCon();
-            MySqlCommand Cmd2 = new MySqlCommand();
-            Cmd2.Connection = con.Con;
-            Cmd2.CommandText = "spInserirServicosMovimentacoes";
-            Cmd2.CommandType = CommandType.StoredProcedure;
-            Cmd2.Parameters.AddWithValue("@Tipo", "Entrada");
-            Cmd2.Parameters.AddWithValue("@Movimento", "Servico");
-            Cmd2.Parameters.AddWithValue("@Valor", Convert.ToDecimal(txtValor.Text) * Convert.ToDecimal(txtQuant.Text));
-            Cmd2.Parameters.AddWithValue("@Funcionario", Globais.nomeUsuario);
-            Cmd2.Parameters.AddWithValue("@Id_Movimento", Globais.ultimoIdServico);
-            Cmd2.ExecuteNonQuery();
-            con.FecharCon();
-
-            MsgOk("Serviço salvo com sucesso!");
-            btNovo.Enabled = true;
-            btSalvar.Enabled = false;
-            LimparCampos();
-            HabilitarCampos(false);
-            ListarNovosServicos();
+            catch (Exception ex)
+            {
+                ErroMensageService.ShowError("Erro ao salvar serviço: " + ex.Message);
+            }
 
         }
 
+        #region Código não utilizado
         //botão EDITAR
         private void BtEditar_Click(object sender, EventArgs e)
         {
@@ -259,64 +183,57 @@ namespace SistemaHotel.Views
         //botão EXCLUIR
         private void BtExcluir_Click(object sender, EventArgs e)
         {
-            if (Globais.cargoUsuario == "Gerente")
+            if (Globais.cargoUsuario != "Gerente")
             {
-                var result = MessageBox.Show("Deseja excluir o registro?", "Excluir Registro", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                ErroMensageService.ShowError("Somente um Gerente pode excluir um serviço!");
+                return;
+            }
 
-                if (result == DialogResult.Yes)
+            if (MessageBox.Show("Deseja excluir o registro?", "Excluir Registro", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
                 {
+                    int id = int.Parse(Globais.idNovoServico);
+                    novoServicoDAO dao = new novoServicoDAO();
+                    dao.Excluir(id);
+                    dao.ExcluirMovimentacao(id, "Servico");
 
-                    try
-                    {
-                        con.AbrirCon();
-                        MySqlCommand Cmd5 = new MySqlCommand();
-                        Cmd5.Connection = con.Con;
-                        Cmd5.CommandText = "spExcluirNovosServicos";
-                        Cmd5.CommandType = CommandType.StoredProcedure;
-                        Cmd5.Parameters.AddWithValue("@IdNovoServico", Globais.idNovoServico);
-                        Cmd5.ExecuteNonQuery();
-                        con.FecharCon();
-                        MsgOk("Registro excluido com sucesso! ");
-
-                        //exclusão do serviço no Movimento
-                        con.AbrirCon();
-                        MySqlCommand Cmd6 = new MySqlCommand();
-                        Cmd6.Connection = con.Con;
-                        Cmd6.CommandText = "spExcluirNovoServicoMovimentacao";
-                        Cmd6.CommandType = CommandType.StoredProcedure;
-                        Cmd6.Parameters.AddWithValue("@Id_Movimento", Globais.idNovoServico);
-                        Cmd6.Parameters.AddWithValue("@Movimento", "Servico");
-                        Cmd6.ExecuteNonQuery();
-                        con.FecharCon();
-
-                        btNovo.Enabled = true;
-                        btExcluir.Enabled = false;
-                        LimparCampos();
-                        HabilitarCampos(false);
-                        ListarNovosServicos();
-
-                    }
-                    catch (Exception ex)
-                    {
-
-                        MsgErro("Erro ao excluir servico: " + ex.Message);
-                    }
-
+                    SucessoMensageService.ShowSuccess("Registro excluído com sucesso!");
+                    btNovo.Enabled = true;
+                    btExcluir.Enabled = false;
+                    EnableHelper.SetEnabled(true, btNovo);
+                    EnableHelper.SetEnabled(false, btNovo, btAddHospedes, txtHospede, cBQuartos, cBServicos, txtQuant, dateNovoServico);
+                    //LimparCampos();
+                    // HabilitarCampos(false);
+                    ListarNovosServicos();
+                }
+                catch (Exception ex)
+                {
+                    ErroMensageService.ShowError("Erro ao excluir serviço: " + ex.Message);
                 }
             }
-            else
-            {
-                MsgErro("Somente um Gerente pode excluir um serviço!");
-            }
         }
+        #endregion
 
         //botão HOSPEDE
         //buscando o hospede através do FrmHospede
         private void BtAddHospedes_Click(object sender, EventArgs e)
         {
+
             Globais.chamadaHospedes = "hospedes";
-            FrmHospedes frmHospedes = new FrmHospedes();
-            frmHospedes.Show();
+
+            using (FrmHospedes frmHospedes = new FrmHospedes())
+            {
+                var resultado = frmHospedes.ShowDialog(); // Modal
+
+                if (resultado == DialogResult.OK && !string.IsNullOrEmpty(frmHospedes.NomeSelecionado))
+                {
+                    txtHospede.Text = frmHospedes.NomeSelecionado;
+                }
+            }
+
+            Globais.chamadaHospedes = "";
+
         }
 
         private void FrmNovoServico_Activated(object sender, EventArgs e)
@@ -333,7 +250,7 @@ namespace SistemaHotel.Views
             CmdVerificar.Connection = con.Con;
             CmdVerificar.CommandText = "spListarServicosValor";
             CmdVerificar.CommandType = CommandType.StoredProcedure;
-            CmdVerificar.Parameters.AddWithValue("@Servico", cBServicos.Text);
+            CmdVerificar.Parameters.AddWithValue("@pServico", cBServicos.Text);
 
             MySqlDataReader reader;
             reader = CmdVerificar.ExecuteReader();
@@ -354,21 +271,87 @@ namespace SistemaHotel.Views
         //Grid
         private void GridNovoServico_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            btExcluir.Enabled = true;
-            btSalvar.Enabled = false;
-            btRelatorios.Enabled = true;
-            HabilitarCampos(true);
 
-            Globais.idNovoServico = gridNovoServico.CurrentRow.Cells[0].Value.ToString();
-            Globais.idNovoServico = Globais.idNovoServico;
         }
 
         //botão RELATÓRIO
         private void BtRelatorios_Click(object sender, EventArgs e)
         {
             btRelatorios.Enabled = false;
-            FrmRelComprovanteServicos frm = new FrmRelComprovanteServicos();
-            frm.Show();
+            // FrmRelComprovanteServicos frm = new FrmRelComprovanteServicos();
+            // frm.Show();
+        }
+
+        //botão SELECIONAR NOVO SERVIÇO PARA EDIÇÃO/EXCLUSÃO
+        private void btnSelecionarNovoServicoEdicao_Click(object sender, EventArgs e)
+        {
+            if (gridNovoServico.CurrentRow == null)
+            {
+                MessageBox.Show("Selecione uma linha no grid para editar ou excluir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult resposta = MessageBox.Show("Deseja ALTERAR este serviço? (Sim) ou EXCLUIR? (Não)", "Confirmação", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+            if (resposta == DialogResult.Cancel) return;
+
+            // Habilita os campos para edição
+            // Preenche os campos com os dados da linha selecionada
+            dateNovoServico.Value = Convert.ToDateTime(gridNovoServico.CurrentRow.Cells["Data"].Value);
+            txtHospede.Text = gridNovoServico.CurrentRow.Cells["Hospede"].Value.ToString();
+            cBServicos.Text = gridNovoServico.CurrentRow.Cells["Servico"].Value.ToString();
+            cBQuartos.Text = gridNovoServico.CurrentRow.Cells["Quarto"].Value.ToString();
+            txtQuant.Text = gridNovoServico.CurrentRow.Cells["Quant"].Value.ToString();
+            txtValor.Text = gridNovoServico.CurrentRow.Cells["Valor"].Value.ToString();
+            txtTotal.Text = gridNovoServico.CurrentRow.Cells["ValorTotal"].Value.ToString();
+            // Globais.idNovoServico = gridNovoServico.CurrentRow.Cells[0].Value.ToString();
+
+            Globais.idNovoServico = gridNovoServico.CurrentRow.Cells["IdNovoServico"].Value.ToString();
+
+
+            if (resposta == DialogResult.Yes) // ALTERAR
+            {
+                EnableHelper.SetEnabled(false, btNovo, txtValor);
+                EnableHelper.SetEnabled(true, btAddHospedes, btSalvar, cBServicos, cBQuartos, txtQuant, dateNovoServico);
+
+                MessageBox.Show("ALTERE os campos desejados e clique em 'Salvar' para confirmar a alteração.", "Modo de edição", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtHospede.Text = gridNovoServico.CurrentRow.Cells["Hospede"].Value.ToString();
+
+
+            }
+
+
+            else if (resposta == DialogResult.No) // EXCLUIR
+            {
+                DialogResult confirma = MessageBox.Show("Tem certeza que deseja excluir este serviço?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirma == DialogResult.Yes)
+                {
+                    int idExcluir = Convert.ToInt32(Globais.idNovoServico);
+                    novoServicoDAO dao = new novoServicoDAO();
+                    dao.Excluir(idExcluir);
+                    SucessoMensageService.ShowSuccess("Serviço excluído com sucesso!");
+                    ListarNovosServicos();
+
+                }
+            }
+        }
+
+        // Evento para validar a entrada de números no campo Quantidade
+        private void txtQuant_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            InputValidator.OnlyIntegerInput(sender, e);
+        }
+
+        // Evento para validar a entrada de números no campo Valor
+        private void txtValor_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            InputValidator.OnlyNumericInput(sender, e);
+        }
+
+        //
+        private void txtTotal_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            InputValidator.OnlyNumericInput(sender, e);
         }
     }
 }
