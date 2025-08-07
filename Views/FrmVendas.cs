@@ -1,9 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
 using SistemaHotel.Dados;
-using SistemaHotel.Relatorios;
 using SistemaHotel.Services;
 using System;
 using System.Data;
+using System.Globalization;
 using System.Windows.Forms;
 
 
@@ -21,6 +21,8 @@ namespace SistemaHotel.Views
         string ultimoIdVenda;
         string IdVenda;
 
+
+
         public FrmVendas()
         {
             InitializeComponent();
@@ -30,22 +32,17 @@ namespace SistemaHotel.Views
         private void FrmVendas_Load(object sender, EventArgs e)
         {
             ListarVendas();
-            HabilitarCampos(false);
+            EnableHelper.SetEnabled(false, btSalvar, btAddHospedes, btAddProdutos, btAddItens, btRemoverItens, btExcluir, txtQuant);
+            ControlHelper.ClearAndFocus(txtQuant);
+            FormatarDGVendas();
+            FormatarDGDetalhesVenda();
             totalVenda = "0";
             dtBuscarVendas.Value = DateTime.Today;
 
         }
 
         //************* MÉTODOS ************************
-        private void MsgOk(string msg)
-        {
-            MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-        }
 
-        private void MsgErro(string msg)
-        {
-            MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-        }
 
         private void LimparCampos()
         {
@@ -133,15 +130,15 @@ namespace SistemaHotel.Views
                 Cmd6.Connection = con.Con;
                 Cmd6.CommandText = "spAtualizarEstoque";
                 Cmd6.CommandType = CommandType.StoredProcedure;
-                Cmd6.Parameters.AddWithValue("@IdProduto", Globais.idProduto);
-                Cmd6.Parameters.AddWithValue("@Estoque", Convert.ToDecimal(txtEstoque.Text) - Convert.ToDecimal(txtQuant.Text));
+                Cmd6.Parameters.AddWithValue("@pIdProduto", Globais.idProduto);
+                Cmd6.Parameters.AddWithValue("@pEstoque", Convert.ToDecimal(txtEstoque.Text) - Convert.ToDecimal(txtQuant.Text));
                 Cmd6.ExecuteNonQuery();
                 con.FecharCon();
             }
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao atualizar o estoque: " + ex.Message);
+                SucessoMensageService.ShowSuccess("Erro ao atualizar o estoque: " + ex.Message);
             }
 
         }
@@ -155,8 +152,8 @@ namespace SistemaHotel.Views
             Cmd5.Connection = con.Con;
             Cmd5.CommandText = "spDevolverQuantEstoque";
             Cmd5.CommandType = CommandType.StoredProcedure;
-            Cmd5.Parameters.AddWithValue("@IdProduto", idProduto);
-            Cmd5.Parameters.AddWithValue("@Estoque", Convert.ToDecimal(txtEstoque.Text) + Convert.ToDecimal(txtQuant.Text));
+            Cmd5.Parameters.AddWithValue("@pIdProduto", idProduto);
+            Cmd5.Parameters.AddWithValue("@pEstoque", Convert.ToDecimal(txtEstoque.Text) + Convert.ToDecimal(txtQuant.Text));
             Cmd5.ExecuteNonQuery();
             con.FecharCon();
         }
@@ -178,7 +175,8 @@ namespace SistemaHotel.Views
                 //extraindo informações da consulta
                 while (reader.Read())
                 {
-                    ultimoIdVenda = Convert.ToString(reader["IdVenda"]);
+                    ultimoIdVenda = reader.GetInt32("IdVenda").ToString();
+
                 }
 
             }
@@ -195,8 +193,8 @@ namespace SistemaHotel.Views
             Cmd7.Connection = con.Con;
             Cmd7.CommandText = "spRelacionarItensVendas";
             Cmd7.CommandType = CommandType.StoredProcedure;
-            Cmd7.Parameters.AddWithValue("@IdDetalhe", "0");
-            Cmd7.Parameters.AddWithValue("@Id_Venda", ultimoIdVenda);
+            Cmd7.Parameters.AddWithValue("@pIdDetalhe", 1);
+            Cmd7.Parameters.AddWithValue("@pId_Venda", ultimoIdVenda);
             Cmd7.ExecuteNonQuery();
             con.FecharCon();
         }
@@ -212,7 +210,7 @@ namespace SistemaHotel.Views
                 Cmd8.Connection = con.Con;
                 Cmd8.CommandText = "spRemoverItenVenda";
                 Cmd8.CommandType = CommandType.StoredProcedure;
-                Cmd8.Parameters.AddWithValue("@IdDetalhe", IdDetVenda);
+                Cmd8.Parameters.AddWithValue("@pIdDetalhe", IdDetVenda);
 
                 Cmd8.ExecuteNonQuery();
                 con.FecharCon();
@@ -220,7 +218,7 @@ namespace SistemaHotel.Views
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao remover item da venda: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao remover item da venda: " + ex.Message);
             }
 
         }
@@ -254,7 +252,7 @@ namespace SistemaHotel.Views
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao Listar as Vendas: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao Listar as Vendas: " + ex.Message);
             }
         }
 
@@ -269,8 +267,8 @@ namespace SistemaHotel.Views
                 Cmd3.Connection = con.Con;
                 Cmd3.CommandText = "spListarDetalhesVendas";
                 Cmd3.CommandType = CommandType.StoredProcedure;
-                Cmd3.Parameters.AddWithValue("@Id_Venda", "0");
-                Cmd3.Parameters.AddWithValue("@Funcionario", Globais.nomeUsuario);
+                Cmd3.Parameters.AddWithValue("@pId_Venda", "0");
+                Cmd3.Parameters.AddWithValue("@pFuncionario", Globais.nomeUsuario);
                 MySqlDataAdapter Da = new MySqlDataAdapter();
                 Da.SelectCommand = Cmd3;
                 DataTable Dt = new DataTable();
@@ -284,7 +282,7 @@ namespace SistemaHotel.Views
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao Listar os Detalhes da Venda: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao Listar os Detalhes da Venda: " + ex.Message);
             }
 
         }
@@ -300,7 +298,7 @@ namespace SistemaHotel.Views
                 Cmd10.Connection = con.Con;
                 Cmd10.CommandText = "spBuscarDetalhesVenda";
                 Cmd10.CommandType = CommandType.StoredProcedure;
-                Cmd10.Parameters.AddWithValue("@Id_Venda", IdVenda);
+                Cmd10.Parameters.AddWithValue("@pId_Venda", IdVenda);
                 MySqlDataAdapter Da = new MySqlDataAdapter();
                 Da.SelectCommand = Cmd10;
                 DataTable Dt = new DataTable();
@@ -313,7 +311,7 @@ namespace SistemaHotel.Views
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao buscar detalhes da venda: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao buscar detalhes da venda: " + ex.Message);
             }
         }
 
@@ -328,17 +326,19 @@ namespace SistemaHotel.Views
                 Cmd11.Connection = con.Con;
                 Cmd11.CommandText = "spInserirVendas";
                 Cmd11.CommandType = CommandType.StoredProcedure;
-                Cmd11.Parameters.AddWithValue("@ValorTotal", Convert.ToDecimal(totalVenda));
-                Cmd11.Parameters.AddWithValue("@Funcionario", Globais.nomeUsuario);
-                Cmd11.Parameters.AddWithValue("@Status", "EFETUADA");
-                Cmd11.ExecuteNonQuery();
+                Cmd11.Parameters.AddWithValue("@pValorTotal", Convert.ToDecimal(totalVenda));
+                Cmd11.Parameters.AddWithValue("@pFuncionario", Globais.nomeUsuario);
+                Cmd11.Parameters.AddWithValue("@pStatus", "EFETUADA");
+                ultimoIdVenda = Convert.ToString(Cmd11.ExecuteScalar());
+
+                //Cmd11.ExecuteNonQuery();
                 con.FecharCon();
 
             }
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao salvar vendas: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao salvar vendas: " + ex.Message);
             }
         }
 
@@ -352,18 +352,18 @@ namespace SistemaHotel.Views
                 Cmd12.Connection = con.Con;
                 Cmd12.CommandText = "spInserirMovimentacoes";
                 Cmd12.CommandType = CommandType.StoredProcedure;
-                Cmd12.Parameters.AddWithValue("@Tipo", "Entrada");
-                Cmd12.Parameters.AddWithValue("@Movimento", "Venda");
-                Cmd12.Parameters.AddWithValue("@Valor", Convert.ToDecimal(totalVenda));
-                Cmd12.Parameters.AddWithValue("@Funcionario", Globais.nomeUsuario);
-                Cmd12.Parameters.AddWithValue("@Id_Movimento", ultimoIdVenda);
+                Cmd12.Parameters.AddWithValue("@pTipo", "Entrada");
+                Cmd12.Parameters.AddWithValue("@pMovimento", "Venda");
+                Cmd12.Parameters.AddWithValue("@pValor", Convert.ToDecimal(totalVenda));
+                Cmd12.Parameters.AddWithValue("@pFuncionario", Globais.nomeUsuario);
+                Cmd12.Parameters.AddWithValue("@pId_Movimento", ultimoIdVenda);
                 Cmd12.ExecuteNonQuery();
                 con.FecharCon();
             }
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao inserir movimentações: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao inserir movimentações: " + ex.Message);
             }
         }
 
@@ -379,15 +379,15 @@ namespace SistemaHotel.Views
                 Cmd13.Connection = con.Con;
                 Cmd13.CommandText = "spExcluirVendas";
                 Cmd13.CommandType = CommandType.StoredProcedure;
-                Cmd13.Parameters.AddWithValue("@Status", "CANCELADA");
-                Cmd13.Parameters.AddWithValue("@IdVenda", IdVenda);
+                Cmd13.Parameters.AddWithValue("@pStatus", "CANCELADA");
+                Cmd13.Parameters.AddWithValue("@pIdVenda", IdVenda);
                 Cmd13.ExecuteNonQuery();
                 con.FecharCon();
             }
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao excluir a venda: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao excluir a venda: " + ex.Message);
             }
         }
 
@@ -401,15 +401,15 @@ namespace SistemaHotel.Views
                 Cmd14.Connection = con.Con;
                 Cmd14.CommandText = "spExcluirMovimentacoes";
                 Cmd14.CommandType = CommandType.StoredProcedure;
-                Cmd14.Parameters.AddWithValue("@IdVenda", IdVenda);
-                Cmd14.Parameters.AddWithValue("@Movimento", "Venda");
+                Cmd14.Parameters.AddWithValue("@pIdVenda", IdVenda);
+                Cmd14.Parameters.AddWithValue("@pMovimento", "Venda");
                 Cmd14.ExecuteNonQuery();
                 con.FecharCon();
             }
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao excluir as movimentações: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao excluir as movimentações: " + ex.Message);
             }
         }
 
@@ -424,7 +424,7 @@ namespace SistemaHotel.Views
                 Cmd15.Connection = con.Con;
                 Cmd15.CommandText = "spBuscarVendaData";
                 Cmd15.CommandType = CommandType.StoredProcedure;
-                Cmd15.Parameters.AddWithValue("@Data", Convert.ToDateTime(dtBuscarVendas.Text));
+                Cmd15.Parameters.AddWithValue("@pDataCadastro", Convert.ToDateTime(dtBuscarVendas.Text));
                 MySqlDataAdapter Da = new MySqlDataAdapter();
                 Da.SelectCommand = Cmd15;
                 DataTable Dt = new DataTable();
@@ -438,7 +438,7 @@ namespace SistemaHotel.Views
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao buscar data por vendas" + ex.Message);
+                ErroMensageService.ShowError("Erro ao buscar data por vendas" + ex.Message);
             }
         }
 
@@ -451,7 +451,7 @@ namespace SistemaHotel.Views
             Cmd16.Connection = con.Con;
             Cmd16.CommandText = "spRecuperarEstoque";
             Cmd16.CommandType = CommandType.StoredProcedure;
-            Cmd16.Parameters.AddWithValue("@IdProduto", idProduto);
+            Cmd16.Parameters.AddWithValue("@pIdProduto", idProduto);
 
             MySqlDataReader reader;
             reader = Cmd16.ExecuteReader();
@@ -474,19 +474,26 @@ namespace SistemaHotel.Views
         //botão Novo
         private void BtNovo_Click(object sender, EventArgs e)
         {
-            HabilitarCampos(true);
-            btSalvar.Enabled = true;
-            btNovo.Enabled = false;
-            btExcluir.Enabled = false;
+            ControlHelper.ClearAndFocus(txtProduto, txtHospedes, txtQuant, txtEstoque, txtVrVenda);
+            EnableHelper.SetEnabled(false, btNovo, btExcluir);
+            EnableHelper.SetEnabled(true, btSalvar, txtQuant, btAddHospedes, btAddProdutos, btAddItens, btRemoverItens);
+            lblTotalVendas.Text = "0";
 
         }
 
         //botão Salvar Vendas
         private void BtSalvar_Click(object sender, EventArgs e)
         {
+            if (txtHospedes.Text.Trim() == string.Empty)
+            {
+                ErroMensageService.ShowError("Selecione um Hóspede!");
+                ControlHelper.ClearAndFocus(btAddHospedes);
+                return;
+            }
+
             if (lblTotalVendas.Text == "0")
             {
-                MsgErro("Insira um Produto para a venda!");
+                ErroMensageService.ShowError("Insira um Produto para a venda!");
                 return;
             }
 
@@ -502,12 +509,15 @@ namespace SistemaHotel.Views
             //método de relacionar itens da venda
             RelacionarItensVendas();
 
-            MsgOk("Venda salva com sucesso!");
+            SucessoMensageService.ShowSuccess("Venda salva com sucesso!");
 
-            btNovo.Enabled = true;
-            btSalvar.Enabled = false;
-            LimparCampos();
-            HabilitarCampos(false);
+            EnableHelper.SetEnabled(true, btSalvar, btNovo, txtQuant, btAddHospedes, btAddProdutos, btAddItens);
+            ControlHelper.ClearAndFocus(txtQuant);
+            EnableHelper.SetEnabled(false, txtQuant, btAddHospedes, btAddProdutos, btAddItens, btRemoverItens, btExcluir, btSalvar);
+            //btNovo.Enabled = true;
+            //btSalvar.Enabled = false;
+            //LimparCampos();
+            //HabilitarCampos(false);
             ListarVendas();
             totalVenda = "0";
             btFecharGrid.Visible = false;
@@ -544,14 +554,27 @@ namespace SistemaHotel.Views
             }
             else
             {
-                MsgErro("É necessário excluir os itens da venda para Cancelar!");
+                ErroMensageService.ShowError("É necessário excluir os itens da venda para Cancelar!");
             }
 
         }
 
-        //botão de adicionar os clientes
+        //botão de adicionar os hospedes
         private void BtAddHospedes_Click(object sender, EventArgs e)
         {
+            Globais.chamadaHospedes = "hospedes";
+
+            using (FrmHospedes frmHospedes = new FrmHospedes())
+            {
+                var resultado = frmHospedes.ShowDialog(); // Modal
+
+                if (resultado == DialogResult.OK && !string.IsNullOrEmpty(frmHospedes.NomeSelecionado))
+                {
+                    txtHospedes.Text = frmHospedes.NomeSelecionado;
+                }
+            }
+
+            Globais.chamadaHospedes = "";
 
         }
 
@@ -574,64 +597,84 @@ namespace SistemaHotel.Views
         //botão de add itens(produtos) a venda
         private void BtAddItens_Click(object sender, EventArgs e)
         {
-            if (txtQuant.Text.Trim() == string.Empty)
+            if (string.IsNullOrWhiteSpace(txtQuant.Text))
             {
-                MsgErro("Insira uma Quantidade! , Campo vazio!");
+                ErroMensageService.ShowError("Insira uma Quantidade! Campo vazio!");
                 txtQuant.Focus();
                 return;
             }
 
-            //comparando se a quant em estoque é menor que a quant a ser vendida
-            if (Convert.ToDecimal(txtEstoque.Text) < Convert.ToDecimal(txtQuant.Text))
+            // 🔢 Tentativas de conversão com segurança usando cultura BR
+            decimal quantidade;
+            decimal valorUnitario;
+            decimal estoqueAtual;
+            decimal totalVendaDecimal;
+
+            bool quantValida = decimal.TryParse(txtQuant.Text, NumberStyles.Any, CultureInfo.CurrentCulture, out quantidade);
+            bool valorValido = decimal.TryParse(txtVrVenda.Text, NumberStyles.Any, CultureInfo.CurrentCulture, out valorUnitario);
+            bool estoqueValido = decimal.TryParse(txtEstoque.Text, NumberStyles.Any, CultureInfo.CurrentCulture, out estoqueAtual);
+
+            if (!quantValida || !valorValido || !estoqueValido)
             {
-                MsgErro("Não há produtos suficientes no estoque!");
+                ErroMensageService.ShowError("Campos de valor ou quantidade inválidos!");
+                return;
+            }
+
+            // 🚫 VERIFICA ESTOQUE
+            if (estoqueAtual < quantidade)
+            {
+                ErroMensageService.ShowError("Não há produtos suficientes no estoque!");
                 txtQuant.Clear();
                 txtQuant.Focus();
                 return;
             }
 
-
-
+            // ✅ INSERIR DETALHES DA VENDA
             con.AbrirCon();
-            MySqlCommand Cmd1 = new MySqlCommand();
-            Cmd1.Connection = con.Con;
-            Cmd1.CommandText = "spInserirDetalhesVendas";
-            Cmd1.CommandType = CommandType.StoredProcedure;
-            Cmd1.Parameters.AddWithValue("@Produto", txtProduto.Text);
-            Cmd1.Parameters.AddWithValue("@Quant", Convert.ToDecimal(txtQuant.Text));
-            Cmd1.Parameters.AddWithValue("@ValorUnit", Convert.ToDecimal(txtVrVenda.Text));
-            Cmd1.Parameters.AddWithValue("@ValorTotal", Convert.ToDecimal(txtVrVenda.Text) * Convert.ToDecimal(txtQuant.Text));
-            Cmd1.Parameters.AddWithValue("@Id_Venda", "0");
-            Cmd1.Parameters.AddWithValue("@Funcionario", Globais.nomeUsuario);
-            Cmd1.Parameters.AddWithValue("@Id_Produto", Globais.idProduto);
-            Cmd1.ExecuteNonQuery();
+            using (MySqlCommand Cmd1 = new MySqlCommand("spInserirDetalhesVendas", con.Con))
+            {
+                Cmd1.CommandType = CommandType.StoredProcedure;
+                Cmd1.Parameters.AddWithValue("@pProduto", txtProduto.Text);
+                Cmd1.Parameters.AddWithValue("@pQuant", quantidade);
+                Cmd1.Parameters.AddWithValue("@pValorUnit", valorUnitario);
+                Cmd1.Parameters.AddWithValue("@pValorTotal", quantidade * valorUnitario);
+                Cmd1.Parameters.AddWithValue("@pId_Venda", "0"); // pode ser alterado futuramente com venda em aberto
+                Cmd1.Parameters.AddWithValue("@pFuncionario", Globais.nomeUsuario);
+                Cmd1.Parameters.AddWithValue("@pId_Produto", Globais.idProduto);
+
+                Cmd1.ExecuteNonQuery();
+            }
             con.FecharCon();
 
-            //método de atualizar estoque/abater a quant do estoque
-
+            // 🔄 ATUALIZA ESTOQUE (baixa no estoque atual)
             con.AbrirCon();
-            MySqlCommand Cmd2 = new MySqlCommand();
-            Cmd2.Connection = con.Con;
-            Cmd2.CommandText = "spAtualizarEstoque";
-            Cmd2.CommandType = CommandType.StoredProcedure;
-            Cmd2.Parameters.AddWithValue("@IdProduto", Globais.idProduto);
-            Cmd2.Parameters.AddWithValue("@Estoque", Convert.ToDecimal(txtEstoque.Text) - Convert.ToDecimal(txtQuant.Text));
-            Cmd2.ExecuteNonQuery();
+            using (MySqlCommand Cmd2 = new MySqlCommand("spAtualizarEstoque", con.Con))
+            {
+                Cmd2.CommandType = CommandType.StoredProcedure;
+                Cmd2.Parameters.AddWithValue("@pIdProduto", Globais.idProduto);
+                Cmd2.Parameters.AddWithValue("@pEstoque", estoqueAtual - quantidade);
+
+                Cmd2.ExecuteNonQuery();
+            }
             con.FecharCon();
 
+            // 💰 CALCULA TOTAL DE VENDA ATUAL
+            // Inicializa como zero se for nulo ou vazio
+            if (!decimal.TryParse(totalVenda, NumberStyles.Any, CultureInfo.CurrentCulture, out totalVendaDecimal))
+                totalVendaDecimal = 0;
 
-            //método de totalizar as vendas/Somar
-            decimal total;
-            total = Convert.ToDecimal(totalVenda) + Convert.ToDecimal(txtVrVenda.Text) *
-                Convert.ToDecimal(txtQuant.Text);
-            totalVenda = total.ToString();
-            lblTotalVendas.Text = string.Format("{0:c2}", total);
+            decimal total = totalVendaDecimal + (valorUnitario * quantidade);
+            totalVenda = total.ToString("F2", CultureInfo.InvariantCulture); // guarda como padrão interno
+            lblTotalVendas.Text = string.Format(CultureInfo.CurrentCulture, "{0:C2}", total); // exibe como moeda
 
+            // 🧹 LIMPA CAMPOS PARA PRÓXIMA INSERÇÃO
             txtQuant.Clear();
             txtProduto.Clear();
             txtEstoque.Text = "0";
             txtVrVenda.Clear();
             IdDetVenda = "";
+
+            // 🔁 ATUALIZA LISTA DE ITENS VENDIDOS
             ListarDetalhesVenda();
 
         }
@@ -655,7 +698,7 @@ namespace SistemaHotel.Views
         {
             if (IdDetVenda == "")
             {
-                MsgErro("Selecione um Produto para remover");
+                ErroMensageService.ShowError("Selecione um Produto para remover");
                 return;
             }
 
@@ -666,7 +709,7 @@ namespace SistemaHotel.Views
             Cmdr.Connection = con.Con;
             Cmdr.CommandText = "spRemoverItenVenda";
             Cmdr.CommandType = CommandType.StoredProcedure;
-            Cmdr.Parameters.AddWithValue("@IdDetalhe", IdDetVenda);
+            Cmdr.Parameters.AddWithValue("@pIdDetalhe", IdDetVenda);
 
             Cmdr.ExecuteNonQuery();
             con.FecharCon();
@@ -678,8 +721,8 @@ namespace SistemaHotel.Views
             Cmdd.Connection = con.Con;
             Cmdd.CommandText = "spDevolverQuantEstoque";
             Cmdd.CommandType = CommandType.StoredProcedure;
-            Cmdd.Parameters.AddWithValue("@IdProduto", idProduto);
-            Cmdd.Parameters.AddWithValue("@Estoque", Convert.ToDecimal(txtEstoque.Text) + Convert.ToDecimal(txtQuant.Text));
+            Cmdd.Parameters.AddWithValue("@pIdProduto", idProduto);
+            Cmdd.Parameters.AddWithValue("@pEstoque", Convert.ToDecimal(txtEstoque.Text) + Convert.ToDecimal(txtQuant.Text));
             Cmdd.ExecuteNonQuery();
             con.FecharCon();
 
@@ -712,7 +755,7 @@ namespace SistemaHotel.Views
         {
             if (totalVenda != "0")
             {
-                MsgErro("Finalize a venda antes de sair!");
+                ErroMensageService.ShowError("Finalize a venda antes de sair!");
                 e.Cancel = true;
             }
 
@@ -721,20 +764,24 @@ namespace SistemaHotel.Views
         //Grid de vendas
         private void GridVendas_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            IdVenda = gridVendas.CurrentRow.Cells[0].Value.ToString();
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = gridVendas.Rows[e.RowIndex];
 
-            //var usada p/ especificar 1 determinada venda p/ o relatório de vendas
-            Globais.IdVenda = gridVendas.CurrentRow.Cells[0].Value.ToString();
+                IdVenda = row.Cells[0].Value?.ToString();
+                Globais.IdVenda = IdVenda;
 
-            totalVenda = gridVendas.CurrentRow.Cells[2].Value.ToString();
-            lblTotalVendas.Text = string.Format("{0:c2}", totalVenda);
-            BuscarDetalhesVenda();
-            btFecharGrid.Visible = true;
-            btAddItens.Enabled = true;
-            btRemoverItens.Enabled = true;
-            btExcluir.Enabled = true;
-            exclusaoVenda = "1";
-            btRel.Enabled = true;
+                totalVenda = row.Cells[2].Value?.ToString();
+                lblTotalVendas.Text = string.Format("{0:c2}", totalVenda);
+
+                BuscarDetalhesVenda();
+                btFecharGrid.Visible = true;
+                btAddItens.Enabled = true;
+                btRemoverItens.Enabled = true;
+                btExcluir.Enabled = true;
+                exclusaoVenda = "1";
+                btRel.Enabled = true;
+            }
 
         }
 
@@ -760,8 +807,14 @@ namespace SistemaHotel.Views
 
         private void BtRel_Click(object sender, EventArgs e)
         {
-            FrmRelComprovante frmRelComprovante = new FrmRelComprovante();
-            frmRelComprovante.Show();
+            // FrmRelComprovante frmRelComprovante = new FrmRelComprovante();
+            // frmRelComprovante.Show();
+        }
+
+        //Evento de validação dos campos para somente números inteiros
+        private void txtQuant_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            InputValidator.OnlyIntegerInput(sender, e);
         }
     }
 

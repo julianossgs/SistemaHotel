@@ -42,8 +42,8 @@
             // 
             // txtUsuario
             // 
-            this.txtUsuario.Location = new System.Drawing.Point(237, 152);
-            this.txtUsuario.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.txtUsuario.Location = new System.Drawing.Point(204, 154);
+            this.txtUsuario.Margin = new System.Windows.Forms.Padding(5);
             this.txtUsuario.MaxLength = 15;
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(225, 29);
@@ -53,8 +53,8 @@
             // 
             // txtSenha
             // 
-            this.txtSenha.Location = new System.Drawing.Point(237, 229);
-            this.txtSenha.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.txtSenha.Location = new System.Drawing.Point(204, 231);
+            this.txtSenha.Margin = new System.Windows.Forms.Padding(5);
             this.txtSenha.MaxLength = 6;
             this.txtSenha.Name = "txtSenha";
             this.txtSenha.PasswordChar = '*';
@@ -66,10 +66,11 @@
             // btAcesso
             // 
             this.btAcesso.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.btAcesso.Location = new System.Drawing.Point(237, 296);
-            this.btAcesso.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.btAcesso.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btAcesso.Location = new System.Drawing.Point(204, 298);
+            this.btAcesso.Margin = new System.Windows.Forms.Padding(5);
             this.btAcesso.Name = "btAcesso";
-            this.btAcesso.Size = new System.Drawing.Size(227, 49);
+            this.btAcesso.Size = new System.Drawing.Size(225, 49);
             this.btAcesso.TabIndex = 4;
             this.btAcesso.Text = "ACESSO";
             this.btAcesso.UseVisualStyleBackColor = false;
@@ -78,19 +79,19 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(229, 40);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(212, 56);
             this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(233, 25);
+            this.label1.Size = new System.Drawing.Size(208, 24);
             this.label1.TabIndex = 5;
             this.label1.Text = "ACESSO AO SISTEMA";
             // 
             // pictureBox2
             // 
             this.pictureBox2.Image = global::SistemaHotel.Properties.Resources.cadeado_icone_55x55;
-            this.pictureBox2.Location = new System.Drawing.Point(175, 215);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.pictureBox2.Location = new System.Drawing.Point(142, 217);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(5);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(54, 48);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -100,8 +101,8 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::SistemaHotel.Properties.Resources.couple64;
-            this.pictureBox1.Location = new System.Drawing.Point(175, 137);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.pictureBox1.Location = new System.Drawing.Point(142, 139);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(5);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(54, 48);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -117,7 +118,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gainsboro;
-            this.ClientSize = new System.Drawing.Size(667, 464);
+            this.ClientSize = new System.Drawing.Size(618, 464);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btAcesso);
             this.Controls.Add(this.txtSenha);
@@ -127,7 +128,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmLogin";

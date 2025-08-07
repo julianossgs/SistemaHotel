@@ -1,6 +1,6 @@
 ﻿namespace SistemaHotel.Models
 {
-    internal class Cargo
+    public class Cargo
     {
         public int IdCargo { get; set; }
 

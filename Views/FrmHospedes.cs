@@ -1,8 +1,12 @@
 ﻿using MySql.Data.MySqlClient;
 using SistemaHotel.Dados;
+using SistemaHotel.Repositories.hospedeDAO;
 using SistemaHotel.Services;
 using System;
 using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace SistemaHotel.Views
@@ -10,6 +14,7 @@ namespace SistemaHotel.Views
     public partial class FrmHospedes : Form
     {
         Conexao con = new Conexao();
+        private hospedeDAO _dao = new hospedeDAO();
 
         public FrmHospedes()
         {
@@ -18,45 +23,62 @@ namespace SistemaHotel.Views
 
         private void FrmHospedes_Load(object sender, EventArgs e)
         {
+            tabControlHospedes.SelectedTab = tabPage2; // Seleciona a aba de listagem ao abrir o formulário
             ListarHospedes();
+            PreencherCBox();
             rBNome.Checked = true;
-        }
+            ListarHospedes();
+            EnableHelper.SetEnabled(false, txtCod, txtNome, maskCpf, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP,
+                maskTelefone, maskCelular, txtEmail, txtEmpresa, makPlacaVeiculo, cbBoxFuncionario);
 
-        //Métodos
-        private void MsgOk(string msg)
-        {
-            MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-        }
-
-        private void MsgErro(string msg)
-        {
-            MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-        }
-
-        private void HabilitarCampos(bool vr)
-        {
-            if (vr)
+            // Verifica de onde FrmHospedes foi chamado para configurar visibilidade dos botões
+            if (Globais.chamadaHospedes == "hospedes")
             {
-                txtNome.Enabled = true;
-                txtEndereco.Enabled = true;
-                maskCpf.Enabled = true;
-                maskTelefone.Enabled = true;
+                // Chamado por FrmVendas
+                btnSelecionar.Visible = true;
+                btSelecionarHospedeServico.Visible = false;
+                btnSelecionarHospedeEdicao.Visible = false;
+            }
+            else if (Globais.chamadaHospedes == "servicos")
+            {
+                // Chamado por FrmNovoServico
+                btnSelecionar.Visible = false;
+                btSelecionarHospedeServico.Visible = true;
+                btnSelecionarHospedeEdicao.Visible = false;
             }
             else
             {
-                txtNome.Enabled = false;
-                txtEndereco.Enabled = false;
-                maskCpf.Enabled = false;
-                maskTelefone.Enabled = false;
+                // Uso direto (modo edição)
+                btnSelecionar.Visible = false;
+                btSelecionarHospedeServico.Visible = false;
+                btnSelecionarHospedeEdicao.Visible = true;
             }
+
         }
 
-        private void LimparCampos()
+        //Métodos
+
+        //Método de carregar o combo box de cargos
+        private void PreencherCBox()
         {
-            txtNome.Clear();
-            txtEndereco.Clear();
-            maskTelefone.Clear();
-            maskCpf.Clear();
+
+            Conexao con = new Conexao();
+            con.AbrirCon();
+            MySqlCommand Cmd = new MySqlCommand
+            {
+                Connection = con.Con,
+                CommandText = "spListarFuncionarios",
+                CommandType = CommandType.StoredProcedure
+            };
+            MySqlDataAdapter da = new MySqlDataAdapter
+            {
+                SelectCommand = Cmd
+            };
+            DataTable Dt = new DataTable();
+            da.Fill(Dt);
+            cbBoxFuncionario.DataSource = Dt;
+            cbBoxFuncionario.ValueMember = "IdFunc";
+            cbBoxFuncionario.DisplayMember = "Nome";
         }
 
         //Método de listar hóspede
@@ -64,22 +86,11 @@ namespace SistemaHotel.Views
         {
             try
             {
-                con.AbrirCon();
-                MySqlCommand Cmd0 = new MySqlCommand();
-                Cmd0.Connection = con.Con;
-                Cmd0.CommandText = "spListarHospedes";
-                Cmd0.CommandType = CommandType.StoredProcedure;
-                MySqlDataAdapter Da = new MySqlDataAdapter();
-                Da.SelectCommand = Cmd0;
-                DataTable Dt = new DataTable();
-                Da.Fill(Dt);
-                gridHospedes.DataSource = Dt;
-                con.FecharCon();
+                gridHospedes.DataSource = _dao.ListarHospedes();
             }
             catch (Exception ex)
             {
-
-                MsgErro("Erro ao listar hóspedes: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao Listar Hóspedes: " + ex.Message);
             }
         }
 
@@ -88,48 +99,24 @@ namespace SistemaHotel.Views
         {
             try
             {
-                con.AbrirCon();
-                MySqlCommand Cmd1 = new MySqlCommand();
-                Cmd1.Connection = con.Con;
-                Cmd1.CommandText = "spBuscarNomeHospede";
-                Cmd1.CommandType = CommandType.StoredProcedure;
-                Cmd1.Parameters.AddWithValue("@Nome", txtBuscarNome.Text);
-                MySqlDataAdapter Da = new MySqlDataAdapter();
-                Da.SelectCommand = Cmd1;
-                DataTable Dt = new DataTable();
-                Da.Fill(Dt);
-                gridHospedes.DataSource = Dt;
-                con.FecharCon();
+                gridHospedes.DataSource = _dao.BuscarHospedePorNome(txtBuscarNome.Text);
             }
             catch (Exception ex)
             {
-
-                MsgErro("Erro ao buscar pelo nome: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao Buscar: " + ex.Message);
             }
         }
 
         //Método de buscar pelo CPF
-        private void BuscarCPF()
+        private void BuscarHospedeCPF()
         {
             try
             {
-                con.AbrirCon();
-                MySqlCommand Cmd2 = new MySqlCommand();
-                Cmd2.Connection = con.Con;
-                Cmd2.CommandText = "spBuscarCPF";
-                Cmd2.CommandType = CommandType.StoredProcedure;
-                Cmd2.Parameters.AddWithValue("@CPF", maskBuscarCPF.Text);
-                MySqlDataAdapter Da = new MySqlDataAdapter();
-                Da.SelectCommand = Cmd2;
-                DataTable Dt = new DataTable();
-                Da.Fill(Dt);
-                gridHospedes.DataSource = Dt;
-                con.FecharCon();
+                gridHospedes.DataSource = _dao.BuscarHospedePorCPF(maskBuscarCPF.Text);
             }
             catch (Exception ex)
             {
-
-                MsgErro("Erro ao buscar por CPF: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao Buscar: " + ex.Message);
             }
         }
 
@@ -155,7 +142,7 @@ namespace SistemaHotel.Views
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao salvar hospedes: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao salvar hospedes: " + ex.Message);
             }
         }
 
@@ -177,7 +164,7 @@ namespace SistemaHotel.Views
                 Da.Fill(Dt);
                 if (Dt.Rows.Count > 0)
                 {
-                    MsgErro("CPF já registrado ! Erro ao salvar!");
+                    ErroMensageService.ShowError("CPF já registrado ! Erro ao salvar!");
                     maskCpf.Clear();
                     maskCpf.Focus();
                     return;
@@ -189,7 +176,7 @@ namespace SistemaHotel.Views
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao verificar o CPF do hóspede: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao verificar o CPF do hóspede: " + ex.Message);
             }
         }
 
@@ -210,7 +197,7 @@ namespace SistemaHotel.Views
             catch (Exception ex)
             {
 
-                MsgErro("Erro ao excluir hospedes: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao excluir hospedes: " + ex.Message);
             }
         }
 
@@ -218,169 +205,184 @@ namespace SistemaHotel.Views
         //botões
 
         //botão NOVO
+        string op;
         private void BtNovo_Click(object sender, EventArgs e)
         {
-            HabilitarCampos(true);
-            btSalvar.Enabled = true;
-            btNovo.Enabled = false;
-            btEditar.Enabled = false;
-            btExcluir.Enabled = false;
+            op = "Novo";
+            ControlHelper.ClearAndFocus(txtCod, txtNome, maskCpf, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP,
+                maskTelefone, maskCelular, txtEmail, txtEmpresa, makPlacaVeiculo, cbBoxFuncionario);
+
+            // Habilita campos
+            EnableHelper.SetEnabled(true, txtNome, maskCpf, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP,
+                maskTelefone, maskCelular, txtEmail, txtEmpresa, makPlacaVeiculo, cbBoxFuncionario);
+
+            // Habilita "Salvar", desabilita "Editar", "Excluir" e "Novo"
+            EnableHelper.SetEnabled(true, btSalvar);
+            EnableHelper.SetEnabled(false, btEditar, btExcluir, btNovo);
+
+            maskCpf.Focus();
         }
 
         //botão SALVAR
         private void BtSalvar_Click(object sender, EventArgs e)
         {
-            if (txtNome.Text == string.Empty)
+            if (txtNome.Text.Trim() == string.Empty || maskCpf.Text.Trim() == string.Empty || cbBoxFuncionario.Text.Trim() == string.Empty)
             {
-                MsgErro("Preencha o campo Nome!");
-                txtNome.Focus();
-                return;
-            }
-            if (maskCpf.Text == "   .   .   -")
-            {
-                MsgErro("Preencha o campo CPF!");
-                maskCpf.Focus();
+                ErroMensageService.ShowError("Preencha os campos obrigatórios: Nome, CPF e Funcionário!");
+                ControlHelper.ClearAndFocus(txtNome, maskCpf, cbBoxFuncionario);
                 return;
             }
 
-            //Cód p/ salvar
-            con.AbrirCon();
-            MySqlCommand Cmd3 = new MySqlCommand();
-            Cmd3.Connection = con.Con;
-            Cmd3.CommandText = "spInserirHospedes";
-            Cmd3.CommandType = CommandType.StoredProcedure;
-            Cmd3.Parameters.AddWithValue("@Nome", txtNome.Text);
-            Cmd3.Parameters.AddWithValue("@CPF", maskCpf.Text);
-            Cmd3.Parameters.AddWithValue("@Endereco", txtEndereco.Text);
-            Cmd3.Parameters.AddWithValue("@Tel", maskTelefone.Text);
-            Cmd3.Parameters.AddWithValue("@Funcionario", Globais.nomeUsuario);
-
-            //Cód p/ verificar se o cpf já existe
-            con.AbrirCon();
-            MySqlCommand CmdVerificar = new MySqlCommand();
-            CmdVerificar.Connection = con.Con;
-            CmdVerificar.CommandText = "spVerificarCPF";
-            CmdVerificar.CommandType = CommandType.StoredProcedure;
-            CmdVerificar.Parameters.AddWithValue("@CPF", maskCpf.Text);
-            MySqlDataAdapter Da = new MySqlDataAdapter();
-            Da.SelectCommand = CmdVerificar;
-            DataTable Dt = new DataTable();
-            Da.Fill(Dt);
-            if (Dt.Rows.Count > 0)
+            // 2. CPF válido
+            if (!CpfHelper.IsValidCpf(maskCpf.Text))
             {
-                MsgErro("CPF já registrado ! Erro ao salvar!");
-                maskCpf.Clear();
-                maskCpf.Focus();
+                ErroMensageService.ShowError("CNPJ inválido! Verifique e tente novamente.");
+                ControlHelper.ClearAndFocus(maskCpf, maskCpf);
                 return;
             }
-            Cmd3.ExecuteNonQuery();
-            con.FecharCon();
 
-            LimparCampos();
-            HabilitarCampos(true);
-            ListarHospedes();
-            MsgOk("Registro salvo com sucesso!");
+            // 3. CNPJ único
+            if (_dao.ExisteHospedeCPF(Regex.Replace(maskCpf.Text, "[^0-9]", ""))) // remove máscara para comparar
+            {
+                ErroMensageService.ShowError("CNPJ já cadastrado! Não é possível salvar duplicado.");
+                ControlHelper.ClearAndFocus(maskCpf, maskCpf);
+                return;
+            }
+
+            //Validação do Email
+            if (!EmailHelper.IsValidEmail(txtEmail.Text))
+            {
+                ErroMensageService.ShowError("E-mail inválido! Insira um e-mail válido.");
+                ControlHelper.ClearAndFocus(txtEmail, txtEmail);
+                return;
+            }
+
+            // 4. Placa de veículo válida
+            if (!PlacaService.IsPlacaValida(makPlacaVeiculo.Text))
+            {
+                ErroMensageService.ShowError("Placa de veículo inválida! Informe uma placa válida (antiga ou Mercosul).");
+                ControlHelper.ClearAndFocus(makPlacaVeiculo, makPlacaVeiculo);
+                return;
+            }
+
+            try
+            {
+                _dao.InserirHospede(
+                    txtNome.Text, maskCpf.Text, txtEndereco.Text, txtBairro.Text, txtCidade.Text,
+                    cbUF.Text, maskCEP.Text, maskTelefone.Text, maskCelular.Text, txtEmail.Text,
+                    txtEmpresa.Text, makPlacaVeiculo.Text, cbBoxFuncionario.Text);
+
+                // Limpa os campos após salvar
+                ControlHelper.ClearAndFocus(txtCod, txtNome, maskCpf, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP,
+                    maskTelefone, maskCelular, txtEmail, txtEmpresa, makPlacaVeiculo, cbBoxFuncionario);
+
+                // Desabilita os campos após salvar
+                EnableHelper.SetEnabled(false, txtNome, maskCpf, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP,
+                    maskTelefone, maskCelular, txtEmail, txtEmpresa, makPlacaVeiculo, cbBoxFuncionario);
+
+                // Habilita botões "Novo" e "Editar", desabilita "Salvar" e "Excluir"
+                EnableHelper.SetEnabled(true, btNovo, btEditar);
+                EnableHelper.SetEnabled(false, btSalvar, btExcluir);
+
+                ListarHospedes();
+                SucessoMensageService.ShowSuccess("Hóspede salvo com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                ErroMensageService.ShowError("Erro ao cadastrar: " + ex.Message + ex.StackTrace);
+            }
         }
 
         //botão EDITAR
         private void BtEditar_Click(object sender, EventArgs e)
         {
-            if (txtNome.Text == string.Empty)
+            if (txtCod.Text.Trim() == string.Empty)
             {
-                MsgErro("Preencha o campo Nome!");
-                txtNome.Focus();
+                ErroMensageService.ShowError("Selecione um registro para alterar!");
+                ControlHelper.ClearAndFocus(txtCod);
                 return;
             }
 
-            if (maskCpf.Text == "   .   .   -")
+            //Validação do Email
+            if (!EmailHelper.IsValidEmail(txtEmail.Text))
             {
-                MsgErro("Preencha o campo CPF!");
-                maskCpf.Focus();
+                ErroMensageService.ShowError("E-mail inválido! Insira um e-mail válido.");
+                ControlHelper.ClearAndFocus(txtEmail, txtEmail);
                 return;
             }
 
-            //Cód p/ EDITAR
-            con.AbrirCon();
-            MySqlCommand Cmd4 = new MySqlCommand();
-            Cmd4.Connection = con.Con;
-            Cmd4.CommandText = "spAlterarHospedes";
-            Cmd4.CommandType = CommandType.StoredProcedure;
-            Cmd4.Parameters.AddWithValue("@Nome", txtNome.Text);
-            Cmd4.Parameters.AddWithValue("@CPF", maskCpf.Text);
-            Cmd4.Parameters.AddWithValue("@Endereco", txtEndereco.Text);
-            Cmd4.Parameters.AddWithValue("@Tel", maskTelefone.Text);
-            Cmd4.Parameters.AddWithValue("@Funcionario", Globais.nomeUsuario);
-            Cmd4.Parameters.AddWithValue("@IdHospede", Globais.idHospede);
-
-            //Cód p/ verificar se o CPF já existe no banco
-            if (maskCpf.Text != Globais.cpfAntigo)
+            // 4. Placa de veículo válida
+            if (!PlacaService.IsPlacaValida(makPlacaVeiculo.Text))
             {
-                con.AbrirCon();
-                MySqlCommand CmdVerificar = new MySqlCommand();
-                CmdVerificar.Connection = con.Con;
-                CmdVerificar.CommandText = "spVerificarCPF";
-                CmdVerificar.CommandType = CommandType.StoredProcedure;
-                CmdVerificar.Parameters.AddWithValue("@CPF", maskCpf.Text);
-                MySqlDataAdapter Da = new MySqlDataAdapter();
-                Da.SelectCommand = CmdVerificar;
-                DataTable Dt = new DataTable();
-                Da.Fill(Dt);
-                if (Dt.Rows.Count > 0)
-                {
-                    MsgErro("CPF já registrado !");
-                    maskCpf.Clear();
-                    maskCpf.Focus();
-                    return;
-                }
+                ErroMensageService.ShowError("Placa de veículo inválida! Informe uma placa válida (antiga ou Mercosul).");
+                ControlHelper.ClearAndFocus(makPlacaVeiculo, makPlacaVeiculo);
+                return;
             }
 
-            Cmd4.ExecuteNonQuery();
-            con.FecharCon();
+            try
+            {
+                _dao.EditarHospede(
+                    Convert.ToInt32(txtCod.Text), txtNome.Text, maskCpf.Text, txtEndereco.Text, txtBairro.Text, txtCidade.Text,
+                    cbUF.Text, maskCEP.Text, maskTelefone.Text, maskCelular.Text, txtEmail.Text,
+                    txtEmpresa.Text, makPlacaVeiculo.Text, cbBoxFuncionario.Text);
 
-            btNovo.Enabled = true;
-            btEditar.Enabled = false;
-            btExcluir.Enabled = false;
-            LimparCampos();
-            HabilitarCampos(false);
-            ListarHospedes();
-            MsgOk("Registro alterado com sucesso!");
+                // Limpa os campos após a edição
+                ControlHelper.ClearAndFocus(txtCod, txtNome, maskCpf, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP,
+                    maskTelefone, maskCelular, txtEmail, txtEmpresa, makPlacaVeiculo, cbBoxFuncionario);
+
+                // Desabilita campos após edição
+                EnableHelper.SetEnabled(false, txtNome, maskCpf, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP,
+                    maskTelefone, maskCelular, txtEmail, txtEmpresa, makPlacaVeiculo, cbBoxFuncionario);
+
+                // Habilita botões "Novo" e "Salvar", desabilita "Editar" e "Excluir"
+                EnableHelper.SetEnabled(true, btNovo, btSalvar);
+                EnableHelper.SetEnabled(false, btEditar, btExcluir);
+
+                ListarHospedes();
+                SucessoMensageService.ShowSuccess("Hóspede alterado com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                ErroMensageService.ShowError("Erro ao alterar: " + ex.Message + ex.StackTrace);
+            }
         }
 
         //botão EXCLUIR
         private void BtExcluir_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show("Deseja excluir o registro?", "Excluir Registro", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
+            if (txtCod.Text.Trim() == string.Empty)
             {
-                ExcluirHospedes();
+                ErroMensageService.ShowError("Selecione um registro para excluir!");
+                txtCod.Focus();
+                return;
+            }
+            if (MessageBox.Show("Deseja Excluir?", "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+            {
+                return;
+            }
 
-                btNovo.Enabled = true;
-                btEditar.Enabled = false;
-                btExcluir.Enabled = false;
-                LimparCampos();
-                HabilitarCampos(false);
-                MsgOk("Registro excluido com sucesso!");
+            try
+            {
+                _dao.ExcluirHospede(Convert.ToInt32(txtCod.Text));
+                ControlHelper.ClearAndFocus(txtCod, txtNome, maskCpf, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP,
+                    maskTelefone, maskCelular, txtEmail, txtEmpresa, makPlacaVeiculo, cbBoxFuncionario);
+                EnableHelper.SetEnabled(true, txtNome, maskCpf, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP,
+                    maskTelefone, maskCelular, txtEmail, txtEmpresa, makPlacaVeiculo, cbBoxFuncionario,
+                    btEditar, btExcluir, btSalvar);
+                //HabilitarCampos(true);
                 ListarHospedes();
+                SucessoMensageService.ShowSuccess("Hóspede excluído com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                ErroMensageService.ShowError("Erro ao excluir: " + ex.Message);
             }
         }
 
         //grid
         private void GridHospedes_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            btEditar.Enabled = true;
-            btExcluir.Enabled = true;
-            btSalvar.Enabled = false;
-            HabilitarCampos(true);
 
-            Globais.idHospede = gridHospedes.CurrentRow.Cells[0].Value.ToString();
-            txtNome.Text = gridHospedes.CurrentRow.Cells[1].Value.ToString();
-            maskCpf.Text = gridHospedes.CurrentRow.Cells[2].Value.ToString();
-            txtEndereco.Text = gridHospedes.CurrentRow.Cells[3].Value.ToString();
-            maskTelefone.Text = gridHospedes.CurrentRow.Cells[4].Value.ToString();
-
-            //linha p/ comparar se o cpf já é cadastrado
-            Globais.cpfAntigo = gridHospedes.CurrentRow.Cells[2].Value.ToString();
         }
 
         private void RBNome_CheckedChanged(object sender, EventArgs e)
@@ -417,17 +419,181 @@ namespace SistemaHotel.Views
 
             else
             {
-                BuscarCPF();
+                BuscarHospedeCPF();
             }
         }
 
         //evento que seleciona o hospede no FrmHospedes e passa p/ o FrmNovosServiços
         private void GridHospedes_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (Globais.chamadaHospedes == "hospedes")
+
+        }
+
+        //botão Pesquisar CEP
+        private void btnPesquisarCep_Click(object sender, EventArgs e)
+        {
+            // 1. Limpa e valida o CEP informado
+            string cep = maskCEP.Text.Trim().Replace("-", "").Replace(".", "");
+            if (string.IsNullOrWhiteSpace(cep) || cep.Length != 8 || !cep.All(char.IsDigit))
             {
-                Globais.nomeHospede = gridHospedes.CurrentRow.Cells[1].Value.ToString();
-                Close();
+                MessageBox.Show("Digite um CEP válido (8 dígitos numéricos).");
+                maskCEP.Focus();
+                return;
+            }
+
+            // 2. Monta a URL para consulta ViaCEP em formato XML
+            string url = $"https://viacep.com.br/ws/{cep}/xml/";
+
+            try
+            {
+                // 3. Cria requisição web síncrona para buscar o XML
+                var request = System.Net.WebRequest.Create(url);
+                using (var response = request.GetResponse())
+                using (var stream = response.GetResponseStream())
+                using (var reader = new System.IO.StreamReader(stream))
+                {
+                    string xmlString = reader.ReadToEnd();
+
+                    // 4. Carrega o XML em um DataSet para fácil acesso aos campos
+                    DataSet ds = new DataSet();
+                    using (StringReader sr = new StringReader(xmlString))
+                    {
+                        ds.ReadXml(sr);
+                    }
+
+                    // 5. Verifica se o DataSet está preenchido corretamente e se não há erro de CEP inexistente
+                    if (ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0 || ds.Tables[0].Columns.Contains("erro"))
+                    {
+                        throw new Exception("CEP não encontrado.");
+                    }
+
+                    // 6. Preenche os campos do formulário com as informações retornadas
+                    var row = ds.Tables[0].Rows[0];
+                    txtEndereco.Text = row["logradouro"].ToString();
+                    txtBairro.Text = row["bairro"].ToString();
+                    txtCidade.Text = row["localidade"].ToString();
+                    cbUF.Text = row["uf"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                // 7. Em caso de qualquer erro: limpa o campo, foca novamente e avisa o usuário
+                maskCEP.Clear();
+                maskCEP.Focus();
+                ErroMensageService.ShowError($"Endereço não encontrado. Por favor, digite o CEP manualmente.\n\nDetalhe técnico: {ex.Message}");
+            }
+        }
+
+        //Evento para converter a placa do veículo para maiúsculas
+        private void makPlacaVeiculo_TextChanged(object sender, EventArgs e)
+        {
+            // Salva a posição do cursor
+            int selectionStart = makPlacaVeiculo.SelectionStart;
+
+            // Converte o texto para maiúsculo
+            makPlacaVeiculo.Text = makPlacaVeiculo.Text.ToUpper();
+
+            // Restaura a posição do cursor
+            makPlacaVeiculo.SelectionStart = selectionStart;
+        }
+
+        public string NomeSelecionado { get; private set; } = null;
+
+
+        private void gridHospedes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+
+
+
+        //Botão de selecionar hóspede p/ outra tela (como FrmVendas)
+        private void btnSelecionar_Click(object sender, EventArgs e)
+        {
+            if (gridHospedes.CurrentRow == null)
+            {
+                MessageBox.Show("Por favor, selecione um hóspede.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+
+            if (gridHospedes.CurrentRow != null)
+            {
+                // Atribui o valor à propriedade pública
+                NomeSelecionado = gridHospedes.CurrentRow.Cells[1].Value.ToString();
+
+                // Define que o diálogo foi concluído com sucesso
+                this.DialogResult = DialogResult.OK;
+
+                // Fecha o formulário
+                this.Close();
+            }
+        }
+
+
+        //Botão de selecionar hóspede na tela de edição (FrmHospedes)
+        private void btnSelecionarHospedeEdicao_Click(object sender, EventArgs e)
+        {
+            if (gridHospedes.CurrentRow == null)
+            {
+                MessageBox.Show("Por favor, selecione um hóspede.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (gridHospedes.CurrentRow == null)
+                return;
+
+            tabControlHospedes.SelectedTab = tabPage1;
+
+            txtCod.Text = gridHospedes.CurrentRow.Cells[0].Value.ToString();
+            txtNome.Text = gridHospedes.CurrentRow.Cells[1].Value.ToString();
+            maskCpf.Text = gridHospedes.CurrentRow.Cells[2].Value.ToString();
+            txtEndereco.Text = gridHospedes.CurrentRow.Cells[3].Value.ToString();
+            txtBairro.Text = gridHospedes.CurrentRow.Cells[4].Value.ToString();
+            txtCidade.Text = gridHospedes.CurrentRow.Cells[5].Value.ToString();
+            cbUF.Text = gridHospedes.CurrentRow.Cells[6].Value.ToString();
+            maskCEP.Text = gridHospedes.CurrentRow.Cells[7].Value.ToString();
+            maskTelefone.Text = gridHospedes.CurrentRow.Cells[8].Value.ToString();
+            maskCelular.Text = gridHospedes.CurrentRow.Cells[9].Value.ToString();
+            txtEmail.Text = gridHospedes.CurrentRow.Cells[10].Value.ToString();
+            txtEmpresa.Text = gridHospedes.CurrentRow.Cells[11].Value.ToString();
+            makPlacaVeiculo.Text = gridHospedes.CurrentRow.Cells[12].Value.ToString();
+            cbBoxFuncionario.Text = gridHospedes.CurrentRow.Cells[13].Value.ToString();
+
+            // Desabilita campos fixos
+            maskCpf.Enabled = false;
+            EnableHelper.SetEnabled(true, txtNome, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP,
+                maskTelefone, maskCelular, txtEmail, txtEmpresa, makPlacaVeiculo, cbBoxFuncionario);
+            EnableHelper.SetEnabled(false, txtCod, maskCpf);
+
+            EnableHelper.SetEnabled(true, btEditar, btExcluir);
+            EnableHelper.SetEnabled(false, btNovo, btSalvar);
+
+            // linha para comparação futura
+            Globais.cpfAntigo = gridHospedes.CurrentRow.Cells[2].Value.ToString();
+        }
+
+        // Evento para o botão de selecionar hóspede no serviço
+        private void btSelecionarHospedeServico_Click(object sender, EventArgs e)
+        {
+            if (gridHospedes.CurrentRow == null)
+            {
+                MessageBox.Show("Por favor, selecione um hóspede.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+
+            if (gridHospedes.CurrentRow != null)
+            {
+                // Atribui o valor à propriedade pública
+                NomeSelecionado = gridHospedes.CurrentRow.Cells[1].Value.ToString();
+
+                // Define que o diálogo foi concluído com sucesso
+                this.DialogResult = DialogResult.OK;
+
+                // Fecha o formulário
+                this.Close();
             }
         }
     }

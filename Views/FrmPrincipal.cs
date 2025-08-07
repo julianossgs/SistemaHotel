@@ -91,8 +91,8 @@ namespace SistemaHotel.Views
 
         private void RelatórioDeVendasPorDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmRelVendas frmRelVendas = new FrmRelVendas();
-            frmRelVendas.Show();
+            // FrmRelVendas frmRelVendas = new FrmRelVendas();
+            //frmRelVendas.Show();
         }
 
         private void EntradasSaídasToolStripMenuItem_Click(object sender, EventArgs e)
@@ -127,20 +127,20 @@ namespace SistemaHotel.Views
 
         private void RelatórioDeServiçosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmRelServicos frmRelServicos = new FrmRelServicos();
-            frmRelServicos.Show();
+            //FrmRelServicos frmRelServicos = new FrmRelServicos();
+            //frmRelServicos.Show();
         }
 
         private void RelatórioDeMovimentaçõesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmRelMovimentacoes frmRelMovimentacoes = new FrmRelMovimentacoes();
-            frmRelMovimentacoes.Show();
+            // FrmRelMovimentacoes frmRelMovimentacoes = new FrmRelMovimentacoes();
+            //frmRelMovimentacoes.Show();
         }
 
         private void RelatórioDeMovimentaçõesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            FrmRelMovGerais frmRelMovGerais = new FrmRelMovGerais();
-            frmRelMovGerais.Show();
+            //// FrmRelMovGerais frmRelMovGerais = new FrmRelMovGerais();
+            //frmRelMovGerais.Show();
         }
 
         private void MenuRelatorios_Click(object sender, EventArgs e)

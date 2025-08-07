@@ -43,12 +43,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.label11 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtProduto
             // 
             this.txtProduto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtProduto.Location = new System.Drawing.Point(120, 84);
+            this.txtProduto.Location = new System.Drawing.Point(165, 97);
             this.txtProduto.Name = "txtProduto";
             this.txtProduto.Size = new System.Drawing.Size(286, 22);
             this.txtProduto.TabIndex = 1;
@@ -56,7 +57,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(60, 90);
+            this.label2.Location = new System.Drawing.Point(105, 103);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(50, 15);
             this.label2.TabIndex = 23;
@@ -66,16 +67,17 @@
             // 
             this.txtVrCompra.Enabled = false;
             this.txtVrCompra.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtVrCompra.Location = new System.Drawing.Point(120, 194);
+            this.txtVrCompra.Location = new System.Drawing.Point(165, 207);
             this.txtVrCompra.Name = "txtVrCompra";
             this.txtVrCompra.Size = new System.Drawing.Size(136, 24);
             this.txtVrCompra.TabIndex = 5;
             this.txtVrCompra.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtVrCompra.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVrCompra_KeyPress);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(15, 203);
+            this.label9.Location = new System.Drawing.Point(60, 216);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(101, 15);
             this.label9.TabIndex = 46;
@@ -86,7 +88,7 @@
             this.cBFornecedor.Enabled = false;
             this.cBFornecedor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cBFornecedor.FormattingEnabled = true;
-            this.cBFornecedor.Location = new System.Drawing.Point(120, 120);
+            this.cBFornecedor.Location = new System.Drawing.Point(165, 133);
             this.cBFornecedor.Name = "cBFornecedor";
             this.cBFornecedor.Size = new System.Drawing.Size(286, 24);
             this.cBFornecedor.TabIndex = 3;
@@ -94,7 +96,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(40, 128);
+            this.label4.Location = new System.Drawing.Point(85, 141);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(70, 15);
             this.label4.TabIndex = 48;
@@ -102,8 +104,9 @@
             // 
             // btAddProdutos
             // 
+            this.btAddProdutos.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btAddProdutos.Image = global::SistemaHotel.Properties.Resources._1481313373_sign_add;
-            this.btAddProdutos.Location = new System.Drawing.Point(413, 65);
+            this.btAddProdutos.Location = new System.Drawing.Point(458, 78);
             this.btAddProdutos.Name = "btAddProdutos";
             this.btAddProdutos.Size = new System.Drawing.Size(47, 40);
             this.btAddProdutos.TabIndex = 2;
@@ -115,16 +118,17 @@
             // 
             this.txtEstoque.Enabled = false;
             this.txtEstoque.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEstoque.Location = new System.Drawing.Point(120, 158);
+            this.txtEstoque.Location = new System.Drawing.Point(165, 171);
             this.txtEstoque.Name = "txtEstoque";
             this.txtEstoque.Size = new System.Drawing.Size(136, 22);
             this.txtEstoque.TabIndex = 4;
             this.txtEstoque.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEstoque.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEstoque_KeyPress);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(28, 164);
+            this.label5.Location = new System.Drawing.Point(73, 177);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(82, 15);
             this.label5.TabIndex = 51;
@@ -132,9 +136,10 @@
             // 
             // btSalvar
             // 
+            this.btSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btSalvar.Enabled = false;
             this.btSalvar.Image = global::SistemaHotel.Properties.Resources.botaoSalvar;
-            this.btSalvar.Location = new System.Drawing.Point(395, 189);
+            this.btSalvar.Location = new System.Drawing.Point(268, 332);
             this.btSalvar.Name = "btSalvar";
             this.btSalvar.Size = new System.Drawing.Size(65, 65);
             this.btSalvar.TabIndex = 7;
@@ -146,16 +151,17 @@
             // 
             this.txtQuant.Enabled = false;
             this.txtQuant.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQuant.Location = new System.Drawing.Point(120, 233);
+            this.txtQuant.Location = new System.Drawing.Point(165, 246);
             this.txtQuant.Name = "txtQuant";
             this.txtQuant.Size = new System.Drawing.Size(136, 22);
             this.txtQuant.TabIndex = 6;
             this.txtQuant.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtQuant.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtQuant_KeyPress);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(67, 239);
+            this.label1.Location = new System.Drawing.Point(112, 252);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(40, 15);
             this.label1.TabIndex = 54;
@@ -165,18 +171,34 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(84, 22);
+            this.label3.Location = new System.Drawing.Point(129, 35);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(322, 20);
             this.label3.TabIndex = 55;
             this.label3.Text = "PEDIDO DE PRODUTOS PARA ESTOQUE\r\n";
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.Blue;
+            this.label11.Location = new System.Drawing.Point(248, 400);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(110, 13);
+            this.label11.TabIndex = 56;
+            this.label11.Text = "INSERIR REGISTRO";
             // 
             // FrmEstoques
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(485, 289);
+            this.ClientSize = new System.Drawing.Size(602, 428);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtQuant);
             this.Controls.Add(this.label1);
@@ -220,5 +242,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label label11;
     }
 }

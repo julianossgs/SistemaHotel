@@ -29,9 +29,9 @@ namespace SistemaHotel.Views
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -156,7 +156,7 @@ namespace SistemaHotel.Views
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 40);
+            this.label1.Location = new System.Drawing.Point(35, 40);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 15);
             this.label1.TabIndex = 0;
@@ -165,7 +165,7 @@ namespace SistemaHotel.Views
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(180, 40);
+            this.label2.Location = new System.Drawing.Point(376, 37);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 15);
             this.label2.TabIndex = 1;
@@ -174,7 +174,7 @@ namespace SistemaHotel.Views
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(405, 40);
+            this.label3.Location = new System.Drawing.Point(608, 33);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(28, 15);
             this.label3.TabIndex = 2;
@@ -183,7 +183,7 @@ namespace SistemaHotel.Views
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(574, 40);
+            this.label4.Location = new System.Drawing.Point(766, 36);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(32, 15);
             this.label4.TabIndex = 3;
@@ -192,7 +192,7 @@ namespace SistemaHotel.Views
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(23, 90);
+            this.label5.Location = new System.Drawing.Point(22, 92);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(57, 15);
             this.label5.TabIndex = 4;
@@ -201,7 +201,7 @@ namespace SistemaHotel.Views
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(641, 90);
+            this.label6.Location = new System.Drawing.Point(744, 89);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(71, 15);
             this.label6.TabIndex = 5;
@@ -212,11 +212,10 @@ namespace SistemaHotel.Views
             this.cBQuarto.Enabled = false;
             this.cBQuarto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cBQuarto.FormattingEnabled = true;
-            this.cBQuarto.Location = new System.Drawing.Point(73, 32);
+            this.cBQuarto.Location = new System.Drawing.Point(85, 32);
             this.cBQuarto.Name = "cBQuarto";
-            this.cBQuarto.Size = new System.Drawing.Size(83, 24);
+            this.cBQuarto.Size = new System.Drawing.Size(270, 24);
             this.cBQuarto.TabIndex = 1;
-            this.cBQuarto.SelectedIndexChanged += new System.EventHandler(this.cBQuarto_SelectedIndexChanged);
             // 
             // cBMes
             // 
@@ -236,18 +235,16 @@ namespace SistemaHotel.Views
             "10",
             "11",
             "12"});
-            this.cBMes.Location = new System.Drawing.Point(217, 32);
+            this.cBMes.Location = new System.Drawing.Point(413, 29);
             this.cBMes.Name = "cBMes";
-            this.cBMes.Size = new System.Drawing.Size(144, 24);
+            this.cBMes.Size = new System.Drawing.Size(166, 24);
             this.cBMes.TabIndex = 2;
-            this.cBMes.SelectedIndexChanged += new System.EventHandler(this.cBMes_SelectedIndexChanged);
-            this.cBMes.SelectedValueChanged += new System.EventHandler(this.cBMes_SelectedValueChanged);
             // 
             // txtDia
             // 
             this.txtDia.Enabled = false;
             this.txtDia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDia.Location = new System.Drawing.Point(612, 32);
+            this.txtDia.Location = new System.Drawing.Point(804, 28);
             this.txtDia.Name = "txtDia";
             this.txtDia.Size = new System.Drawing.Size(100, 26);
             this.txtDia.TabIndex = 4;
@@ -258,15 +255,15 @@ namespace SistemaHotel.Views
             // 
             this.txtHospede.Enabled = false;
             this.txtHospede.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHospede.Location = new System.Drawing.Point(86, 84);
+            this.txtHospede.Location = new System.Drawing.Point(85, 86);
             this.txtHospede.Name = "txtHospede";
-            this.txtHospede.Size = new System.Drawing.Size(275, 24);
+            this.txtHospede.Size = new System.Drawing.Size(321, 24);
             this.txtHospede.TabIndex = 5;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(378, 90);
+            this.label7.Location = new System.Drawing.Point(442, 92);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(55, 15);
             this.label7.TabIndex = 11;
@@ -276,7 +273,7 @@ namespace SistemaHotel.Views
             // 
             this.maskTelefone.Enabled = false;
             this.maskTelefone.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.maskTelefone.Location = new System.Drawing.Point(439, 84);
+            this.maskTelefone.Location = new System.Drawing.Point(503, 86);
             this.maskTelefone.Mask = "(00) 0000-0000";
             this.maskTelefone.Name = "maskTelefone";
             this.maskTelefone.Size = new System.Drawing.Size(110, 22);
@@ -286,7 +283,7 @@ namespace SistemaHotel.Views
             // 
             this.txtValorDiario.Enabled = false;
             this.txtValorDiario.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtValorDiario.Location = new System.Drawing.Point(718, 84);
+            this.txtValorDiario.Location = new System.Drawing.Point(821, 83);
             this.txtValorDiario.Name = "txtValorDiario";
             this.txtValorDiario.Size = new System.Drawing.Size(83, 26);
             this.txtValorDiario.TabIndex = 7;
@@ -301,7 +298,6 @@ namespace SistemaHotel.Views
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(31, 29);
             this.panel1.TabIndex = 15;
-            this.panel1.Click += new System.EventHandler(this.panel1_Click);
             // 
             // label01
             // 
@@ -313,7 +309,6 @@ namespace SistemaHotel.Views
             this.label01.Size = new System.Drawing.Size(19, 13);
             this.label01.TabIndex = 0;
             this.label01.Text = "01";
-            this.label01.Click += new System.EventHandler(this.label01_Click);
             // 
             // panel2
             // 
@@ -324,7 +319,6 @@ namespace SistemaHotel.Views
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(30, 30);
             this.panel2.TabIndex = 0;
-            this.panel2.Click += new System.EventHandler(this.panel2_Click);
             // 
             // label02
             // 
@@ -336,7 +330,6 @@ namespace SistemaHotel.Views
             this.label02.Size = new System.Drawing.Size(19, 13);
             this.label02.TabIndex = 0;
             this.label02.Text = "02";
-            this.label02.Click += new System.EventHandler(this.label02_Click);
             // 
             // panel3
             // 
@@ -347,7 +340,6 @@ namespace SistemaHotel.Views
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(30, 30);
             this.panel3.TabIndex = 17;
-            this.panel3.Click += new System.EventHandler(this.panel3_Click);
             // 
             // label03
             // 
@@ -359,7 +351,6 @@ namespace SistemaHotel.Views
             this.label03.Size = new System.Drawing.Size(19, 13);
             this.label03.TabIndex = 0;
             this.label03.Text = "03";
-            this.label03.Click += new System.EventHandler(this.label03_Click);
             // 
             // panel4
             // 
@@ -370,7 +361,6 @@ namespace SistemaHotel.Views
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(30, 30);
             this.panel4.TabIndex = 18;
-            this.panel4.Click += new System.EventHandler(this.panel4_Click);
             // 
             // label04
             // 
@@ -382,7 +372,6 @@ namespace SistemaHotel.Views
             this.label04.Size = new System.Drawing.Size(19, 13);
             this.label04.TabIndex = 0;
             this.label04.Text = "04";
-            this.label04.Click += new System.EventHandler(this.label04_Click);
             // 
             // panel5
             // 
@@ -393,7 +382,6 @@ namespace SistemaHotel.Views
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(30, 30);
             this.panel5.TabIndex = 19;
-            this.panel5.Click += new System.EventHandler(this.panel5_Click);
             // 
             // label05
             // 
@@ -405,7 +393,6 @@ namespace SistemaHotel.Views
             this.label05.Size = new System.Drawing.Size(19, 13);
             this.label05.TabIndex = 0;
             this.label05.Text = "05";
-            this.label05.Click += new System.EventHandler(this.label05_Click);
             // 
             // panel6
             // 
@@ -416,7 +403,6 @@ namespace SistemaHotel.Views
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(30, 30);
             this.panel6.TabIndex = 20;
-            this.panel6.Click += new System.EventHandler(this.panel6_Click);
             // 
             // label06
             // 
@@ -428,7 +414,6 @@ namespace SistemaHotel.Views
             this.label06.Size = new System.Drawing.Size(19, 13);
             this.label06.TabIndex = 0;
             this.label06.Text = "06";
-            this.label06.Click += new System.EventHandler(this.label06_Click);
             // 
             // panel7
             // 
@@ -439,7 +424,6 @@ namespace SistemaHotel.Views
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(30, 30);
             this.panel7.TabIndex = 0;
-            this.panel7.Click += new System.EventHandler(this.panel7_Click);
             // 
             // label07
             // 
@@ -451,7 +435,6 @@ namespace SistemaHotel.Views
             this.label07.Size = new System.Drawing.Size(19, 13);
             this.label07.TabIndex = 0;
             this.label07.Text = "07";
-            this.label07.Click += new System.EventHandler(this.label07_Click);
             // 
             // panel15
             // 
@@ -462,7 +445,6 @@ namespace SistemaHotel.Views
             this.panel15.Name = "panel15";
             this.panel15.Size = new System.Drawing.Size(30, 30);
             this.panel15.TabIndex = 0;
-            this.panel15.Click += new System.EventHandler(this.panel15_Click);
             // 
             // label15
             // 
@@ -474,7 +456,6 @@ namespace SistemaHotel.Views
             this.label15.Size = new System.Drawing.Size(19, 13);
             this.label15.TabIndex = 38;
             this.label15.Text = "15";
-            this.label15.Click += new System.EventHandler(this.label15_Click);
             // 
             // panel16
             // 
@@ -485,7 +466,6 @@ namespace SistemaHotel.Views
             this.panel16.Name = "panel16";
             this.panel16.Size = new System.Drawing.Size(30, 30);
             this.panel16.TabIndex = 0;
-            this.panel16.Click += new System.EventHandler(this.panel16_Click);
             // 
             // label16
             // 
@@ -497,7 +477,6 @@ namespace SistemaHotel.Views
             this.label16.Size = new System.Drawing.Size(19, 13);
             this.label16.TabIndex = 0;
             this.label16.Text = "16";
-            this.label16.Click += new System.EventHandler(this.label16_Click);
             // 
             // panel17
             // 
@@ -508,7 +487,6 @@ namespace SistemaHotel.Views
             this.panel17.Name = "panel17";
             this.panel17.Size = new System.Drawing.Size(30, 30);
             this.panel17.TabIndex = 0;
-            this.panel17.Click += new System.EventHandler(this.panel17_Click);
             // 
             // label17
             // 
@@ -520,7 +498,6 @@ namespace SistemaHotel.Views
             this.label17.Size = new System.Drawing.Size(19, 13);
             this.label17.TabIndex = 0;
             this.label17.Text = "17";
-            this.label17.Click += new System.EventHandler(this.label17_Click);
             // 
             // panel18
             // 
@@ -531,7 +508,6 @@ namespace SistemaHotel.Views
             this.panel18.Name = "panel18";
             this.panel18.Size = new System.Drawing.Size(30, 30);
             this.panel18.TabIndex = 0;
-            this.panel18.Click += new System.EventHandler(this.panel18_Click);
             // 
             // label18
             // 
@@ -543,7 +519,6 @@ namespace SistemaHotel.Views
             this.label18.Size = new System.Drawing.Size(19, 13);
             this.label18.TabIndex = 0;
             this.label18.Text = "18";
-            this.label18.Click += new System.EventHandler(this.label18_Click);
             // 
             // panel19
             // 
@@ -554,7 +529,6 @@ namespace SistemaHotel.Views
             this.panel19.Name = "panel19";
             this.panel19.Size = new System.Drawing.Size(30, 30);
             this.panel19.TabIndex = 31;
-            this.panel19.Click += new System.EventHandler(this.panel19_Click);
             // 
             // label19
             // 
@@ -566,7 +540,6 @@ namespace SistemaHotel.Views
             this.label19.Size = new System.Drawing.Size(19, 13);
             this.label19.TabIndex = 0;
             this.label19.Text = "19";
-            this.label19.Click += new System.EventHandler(this.label19_Click);
             // 
             // panel20
             // 
@@ -577,7 +550,6 @@ namespace SistemaHotel.Views
             this.panel20.Name = "panel20";
             this.panel20.Size = new System.Drawing.Size(30, 30);
             this.panel20.TabIndex = 30;
-            this.panel20.Click += new System.EventHandler(this.panel20_Click);
             // 
             // label20
             // 
@@ -589,7 +561,6 @@ namespace SistemaHotel.Views
             this.label20.Size = new System.Drawing.Size(19, 13);
             this.label20.TabIndex = 0;
             this.label20.Text = "20";
-            this.label20.Click += new System.EventHandler(this.label20_Click);
             // 
             // panel21
             // 
@@ -600,7 +571,6 @@ namespace SistemaHotel.Views
             this.panel21.Name = "panel21";
             this.panel21.Size = new System.Drawing.Size(30, 30);
             this.panel21.TabIndex = 29;
-            this.panel21.Click += new System.EventHandler(this.panel21_Click);
             // 
             // label21
             // 
@@ -612,7 +582,6 @@ namespace SistemaHotel.Views
             this.label21.Size = new System.Drawing.Size(19, 13);
             this.label21.TabIndex = 0;
             this.label21.Text = "21";
-            this.label21.Click += new System.EventHandler(this.label21_Click);
             // 
             // panel22
             // 
@@ -623,7 +592,6 @@ namespace SistemaHotel.Views
             this.panel22.Name = "panel22";
             this.panel22.Size = new System.Drawing.Size(30, 30);
             this.panel22.TabIndex = 0;
-            this.panel22.Click += new System.EventHandler(this.panel22_Click);
             // 
             // label22
             // 
@@ -635,7 +603,6 @@ namespace SistemaHotel.Views
             this.label22.Size = new System.Drawing.Size(19, 13);
             this.label22.TabIndex = 0;
             this.label22.Text = "22";
-            this.label22.Click += new System.EventHandler(this.label22_Click);
             // 
             // panel23
             // 
@@ -646,7 +613,6 @@ namespace SistemaHotel.Views
             this.panel23.Name = "panel23";
             this.panel23.Size = new System.Drawing.Size(30, 30);
             this.panel23.TabIndex = 27;
-            this.panel23.Click += new System.EventHandler(this.panel23_Click);
             // 
             // label23
             // 
@@ -658,7 +624,6 @@ namespace SistemaHotel.Views
             this.label23.Size = new System.Drawing.Size(19, 13);
             this.label23.TabIndex = 0;
             this.label23.Text = "23";
-            this.label23.Click += new System.EventHandler(this.label23_Click);
             // 
             // panel24
             // 
@@ -669,7 +634,6 @@ namespace SistemaHotel.Views
             this.panel24.Name = "panel24";
             this.panel24.Size = new System.Drawing.Size(30, 30);
             this.panel24.TabIndex = 0;
-            this.panel24.Click += new System.EventHandler(this.panel24_Click);
             // 
             // label24
             // 
@@ -681,7 +645,6 @@ namespace SistemaHotel.Views
             this.label24.Size = new System.Drawing.Size(19, 13);
             this.label24.TabIndex = 0;
             this.label24.Text = "24";
-            this.label24.Click += new System.EventHandler(this.label24_Click);
             // 
             // panel25
             // 
@@ -692,7 +655,6 @@ namespace SistemaHotel.Views
             this.panel25.Name = "panel25";
             this.panel25.Size = new System.Drawing.Size(30, 30);
             this.panel25.TabIndex = 0;
-            this.panel25.Click += new System.EventHandler(this.panel25_Click);
             // 
             // label25
             // 
@@ -704,7 +666,6 @@ namespace SistemaHotel.Views
             this.label25.Size = new System.Drawing.Size(19, 13);
             this.label25.TabIndex = 0;
             this.label25.Text = "25";
-            this.label25.Click += new System.EventHandler(this.label25_Click);
             // 
             // panel26
             // 
@@ -715,7 +676,6 @@ namespace SistemaHotel.Views
             this.panel26.Name = "panel26";
             this.panel26.Size = new System.Drawing.Size(30, 30);
             this.panel26.TabIndex = 0;
-            this.panel26.Click += new System.EventHandler(this.panel26_Click);
             // 
             // label26
             // 
@@ -727,7 +687,6 @@ namespace SistemaHotel.Views
             this.label26.Size = new System.Drawing.Size(19, 13);
             this.label26.TabIndex = 0;
             this.label26.Text = "26";
-            this.label26.Click += new System.EventHandler(this.label26_Click);
             // 
             // panel27
             // 
@@ -738,7 +697,6 @@ namespace SistemaHotel.Views
             this.panel27.Name = "panel27";
             this.panel27.Size = new System.Drawing.Size(30, 30);
             this.panel27.TabIndex = 0;
-            this.panel27.Click += new System.EventHandler(this.panel27_Click);
             // 
             // label27
             // 
@@ -750,7 +708,6 @@ namespace SistemaHotel.Views
             this.label27.Size = new System.Drawing.Size(19, 13);
             this.label27.TabIndex = 0;
             this.label27.Text = "27";
-            this.label27.Click += new System.EventHandler(this.label27_Click);
             // 
             // panel28
             // 
@@ -761,7 +718,6 @@ namespace SistemaHotel.Views
             this.panel28.Name = "panel28";
             this.panel28.Size = new System.Drawing.Size(30, 30);
             this.panel28.TabIndex = 0;
-            this.panel28.Click += new System.EventHandler(this.panel28_Click);
             // 
             // label28
             // 
@@ -773,7 +729,6 @@ namespace SistemaHotel.Views
             this.label28.Size = new System.Drawing.Size(19, 13);
             this.label28.TabIndex = 0;
             this.label28.Text = "28";
-            this.label28.Click += new System.EventHandler(this.label28_Click);
             // 
             // panel29
             // 
@@ -784,7 +739,6 @@ namespace SistemaHotel.Views
             this.panel29.Name = "panel29";
             this.panel29.Size = new System.Drawing.Size(30, 30);
             this.panel29.TabIndex = 0;
-            this.panel29.Click += new System.EventHandler(this.panel29_Click);
             // 
             // label29
             // 
@@ -796,7 +750,6 @@ namespace SistemaHotel.Views
             this.label29.Size = new System.Drawing.Size(19, 13);
             this.label29.TabIndex = 0;
             this.label29.Text = "29";
-            this.label29.Click += new System.EventHandler(this.label29_Click);
             // 
             // panel30
             // 
@@ -807,7 +760,6 @@ namespace SistemaHotel.Views
             this.panel30.Name = "panel30";
             this.panel30.Size = new System.Drawing.Size(30, 30);
             this.panel30.TabIndex = 0;
-            this.panel30.Click += new System.EventHandler(this.panel30_Click);
             // 
             // label30
             // 
@@ -819,7 +771,6 @@ namespace SistemaHotel.Views
             this.label30.Size = new System.Drawing.Size(19, 13);
             this.label30.TabIndex = 0;
             this.label30.Text = "30";
-            this.label30.Click += new System.EventHandler(this.label30_Click);
             // 
             // panel31
             // 
@@ -830,7 +781,6 @@ namespace SistemaHotel.Views
             this.panel31.Name = "panel31";
             this.panel31.Size = new System.Drawing.Size(30, 30);
             this.panel31.TabIndex = 0;
-            this.panel31.Click += new System.EventHandler(this.panel31_Click);
             // 
             // label31
             // 
@@ -842,7 +792,6 @@ namespace SistemaHotel.Views
             this.label31.Size = new System.Drawing.Size(19, 13);
             this.label31.TabIndex = 0;
             this.label31.Text = "31";
-            this.label31.Click += new System.EventHandler(this.label31_Click);
             // 
             // panel8
             // 
@@ -853,7 +802,6 @@ namespace SistemaHotel.Views
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(30, 30);
             this.panel8.TabIndex = 27;
-            this.panel8.Click += new System.EventHandler(this.panel8_Click);
             // 
             // label8
             // 
@@ -865,7 +813,6 @@ namespace SistemaHotel.Views
             this.label8.Size = new System.Drawing.Size(19, 13);
             this.label8.TabIndex = 0;
             this.label8.Text = "08";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // panel9
             // 
@@ -876,7 +823,6 @@ namespace SistemaHotel.Views
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(30, 30);
             this.panel9.TabIndex = 26;
-            this.panel9.Click += new System.EventHandler(this.panel9_Click);
             // 
             // label9
             // 
@@ -888,7 +834,6 @@ namespace SistemaHotel.Views
             this.label9.Size = new System.Drawing.Size(19, 13);
             this.label9.TabIndex = 0;
             this.label9.Text = "09";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // panel10
             // 
@@ -899,7 +844,6 @@ namespace SistemaHotel.Views
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(30, 30);
             this.panel10.TabIndex = 0;
-            this.panel10.Click += new System.EventHandler(this.panel10_Click);
             // 
             // label10
             // 
@@ -911,7 +855,6 @@ namespace SistemaHotel.Views
             this.label10.Size = new System.Drawing.Size(19, 13);
             this.label10.TabIndex = 0;
             this.label10.Text = "10";
-            this.label10.Click += new System.EventHandler(this.label10_Click);
             // 
             // panel11
             // 
@@ -922,7 +865,6 @@ namespace SistemaHotel.Views
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(30, 30);
             this.panel11.TabIndex = 0;
-            this.panel11.Click += new System.EventHandler(this.panel11_Click);
             // 
             // label11
             // 
@@ -934,7 +876,6 @@ namespace SistemaHotel.Views
             this.label11.Size = new System.Drawing.Size(19, 13);
             this.label11.TabIndex = 36;
             this.label11.Text = "11";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // panel12
             // 
@@ -945,7 +886,6 @@ namespace SistemaHotel.Views
             this.panel12.Name = "panel12";
             this.panel12.Size = new System.Drawing.Size(30, 30);
             this.panel12.TabIndex = 0;
-            this.panel12.Click += new System.EventHandler(this.panel12_Click);
             // 
             // label12
             // 
@@ -957,7 +897,6 @@ namespace SistemaHotel.Views
             this.label12.Size = new System.Drawing.Size(19, 13);
             this.label12.TabIndex = 37;
             this.label12.Text = "12";
-            this.label12.Click += new System.EventHandler(this.label12_Click);
             // 
             // panel13
             // 
@@ -968,7 +907,6 @@ namespace SistemaHotel.Views
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(30, 30);
             this.panel13.TabIndex = 0;
-            this.panel13.Click += new System.EventHandler(this.panel13_Click);
             // 
             // label13
             // 
@@ -980,7 +918,6 @@ namespace SistemaHotel.Views
             this.label13.Size = new System.Drawing.Size(19, 13);
             this.label13.TabIndex = 38;
             this.label13.Text = "13";
-            this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
             // panel14
             // 
@@ -991,7 +928,6 @@ namespace SistemaHotel.Views
             this.panel14.Name = "panel14";
             this.panel14.Size = new System.Drawing.Size(30, 30);
             this.panel14.TabIndex = 0;
-            this.panel14.Click += new System.EventHandler(this.panel14_Click);
             // 
             // label14
             // 
@@ -1003,12 +939,11 @@ namespace SistemaHotel.Views
             this.label14.Size = new System.Drawing.Size(19, 13);
             this.label14.TabIndex = 39;
             this.label14.Text = "14";
-            this.label14.Click += new System.EventHandler(this.label14_Click);
             // 
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(436, 387);
+            this.label32.Location = new System.Drawing.Point(436, 417);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(44, 15);
             this.label32.TabIndex = 36;
@@ -1017,7 +952,7 @@ namespace SistemaHotel.Views
             // lblTotal
             // 
             this.lblTotal.AutoSize = true;
-            this.lblTotal.Location = new System.Drawing.Point(514, 385);
+            this.lblTotal.Location = new System.Drawing.Point(514, 415);
             this.lblTotal.Name = "lblTotal";
             this.lblTotal.Size = new System.Drawing.Size(14, 15);
             this.lblTotal.TabIndex = 37;
@@ -1027,7 +962,7 @@ namespace SistemaHotel.Views
             // 
             this.btSalvar.Enabled = false;
             this.btSalvar.Image = global::SistemaHotel.Properties.Resources.botaoSalvar;
-            this.btSalvar.Location = new System.Drawing.Point(534, 442);
+            this.btSalvar.Location = new System.Drawing.Point(492, 465);
             this.btSalvar.Name = "btSalvar";
             this.btSalvar.Size = new System.Drawing.Size(65, 65);
             this.btSalvar.TabIndex = 39;
@@ -1037,7 +972,7 @@ namespace SistemaHotel.Views
             // btNovo
             // 
             this.btNovo.Image = global::SistemaHotel.Properties.Resources.botaoNovo;
-            this.btNovo.Location = new System.Drawing.Point(439, 442);
+            this.btNovo.Location = new System.Drawing.Point(397, 465);
             this.btNovo.Name = "btNovo";
             this.btNovo.Size = new System.Drawing.Size(65, 65);
             this.btNovo.TabIndex = 38;
@@ -1048,12 +983,11 @@ namespace SistemaHotel.Views
             // 
             this.btRemover.Enabled = false;
             this.btRemover.Image = global::SistemaHotel.Properties.Resources._1481313424_minus;
-            this.btRemover.Location = new System.Drawing.Point(655, 360);
+            this.btRemover.Location = new System.Drawing.Point(857, 401);
             this.btRemover.Name = "btRemover";
             this.btRemover.Size = new System.Drawing.Size(47, 42);
             this.btRemover.TabIndex = 43;
             this.btRemover.UseVisualStyleBackColor = true;
-            this.btRemover.Click += new System.EventHandler(this.btRemover_Click);
             // 
             // cBAno
             // 
@@ -1071,11 +1005,10 @@ namespace SistemaHotel.Views
             "2028",
             "2029",
             "2030"});
-            this.cBAno.Location = new System.Drawing.Point(439, 30);
+            this.cBAno.Location = new System.Drawing.Point(642, 29);
             this.cBAno.Name = "cBAno";
             this.cBAno.Size = new System.Drawing.Size(89, 24);
             this.cBAno.TabIndex = 44;
-            this.cBAno.SelectedIndexChanged += new System.EventHandler(this.cBAno_SelectedIndexChanged_1);
             // 
             // gridOcupacoes
             // 
@@ -1097,15 +1030,14 @@ namespace SistemaHotel.Views
             this.gridOcupacoes.ReadOnly = true;
             this.gridOcupacoes.RowTemplate.Height = 26;
             this.gridOcupacoes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridOcupacoes.Size = new System.Drawing.Size(399, 189);
+            this.gridOcupacoes.Size = new System.Drawing.Size(523, 232);
             this.gridOcupacoes.TabIndex = 45;
-            this.gridOcupacoes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOcupacoes_CellClick_1);
             // 
             // Id
             // 
             this.Id.DataPropertyName = "IdOcupacao";
-            dataGridViewCellStyle1.Format = "#,##0";
-            this.Id.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Format = "#,##0";
+            this.Id.DefaultCellStyle = dataGridViewCellStyle7;
             this.Id.HeaderText = "Id";
             this.Id.Name = "Id";
             this.Id.ReadOnly = true;
@@ -1114,10 +1046,10 @@ namespace SistemaHotel.Views
             // Data
             // 
             this.Data.DataPropertyName = "Data";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.Format = "d";
-            dataGridViewCellStyle2.NullValue = null;
-            this.Data.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.Format = "d";
+            dataGridViewCellStyle8.NullValue = null;
+            this.Data.DefaultCellStyle = dataGridViewCellStyle8;
             this.Data.HeaderText = "Data";
             this.Data.Name = "Data";
             this.Data.ReadOnly = true;
@@ -1128,12 +1060,13 @@ namespace SistemaHotel.Views
             this.Quarto.HeaderText = "Quarto";
             this.Quarto.Name = "Quarto";
             this.Quarto.ReadOnly = true;
+            this.Quarto.Width = 180;
             // 
             // Id_Reserva
             // 
             this.Id_Reserva.DataPropertyName = "Id_Reserva";
-            dataGridViewCellStyle3.Format = "#,##0";
-            this.Id_Reserva.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Format = "#,##0";
+            this.Id_Reserva.DefaultCellStyle = dataGridViewCellStyle9;
             this.Id_Reserva.HeaderText = "Id_Reserva";
             this.Id_Reserva.Name = "Id_Reserva";
             this.Id_Reserva.ReadOnly = true;
@@ -1152,7 +1085,7 @@ namespace SistemaHotel.Views
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(933, 519);
+            this.ClientSize = new System.Drawing.Size(933, 542);
             this.Controls.Add(this.gridOcupacoes);
             this.Controls.Add(this.cBAno);
             this.Controls.Add(this.btRemover);
@@ -1210,7 +1143,6 @@ namespace SistemaHotel.Views
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Formulário de Reservas";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmReservas_FormClosing);
             this.Load += new System.EventHandler(this.FrmReservas_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

@@ -26,10 +26,10 @@ namespace SistemaHotel.Views
             EnableHelper.SetEnabled(false, txtCod, txtNome, txtUsuario, txtSenha, cBCargos);
         }
 
-        private void ErroMensageService(string msg)
-        {
-            MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-        }
+        //private void ErroMensageService(string msg)
+        //{
+        //    MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+        //}
 
         private void HabilitarCampos(bool vr)
         {
@@ -68,7 +68,7 @@ namespace SistemaHotel.Views
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao Listar Usuários: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao Listar Usuários: " + ex.Message);
             }
         }
 
@@ -81,7 +81,7 @@ namespace SistemaHotel.Views
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao Buscar: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao Buscar: " + ex.Message);
             }
         }
 
@@ -105,85 +105,90 @@ namespace SistemaHotel.Views
         {
             if (txtNome.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Insira o nome do Usuário!");
+                ErroMensageService.ShowError("Insira o nome do Usuário!");
                 ControlHelper.ClearAndFocus(txtNome, txtNome);
                 return;
             }
 
-            // Nova validação: máximo de 6 caracteres
-            if (txtSenha.Text.Length > 6)
-            {
-                ErroMensageService("A senha deve ter no máximo 6 dígitos!");
-                ControlHelper.ClearAndFocus(txtSenha, txtSenha);
-                return;
-            }
-            // Nova validação: apenas números
-            if (!txtSenha.Text.All(char.IsDigit))
-            {
-                ErroMensageService("A senha deve conter somente números!");
-                ControlHelper.ClearAndFocus(txtSenha, txtSenha);
-                return;
-            }
-
-
             if (txtUsuario.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Insira o login do Usuário!");
+                ErroMensageService.ShowError("Insira o login do Usuário!");
                 ControlHelper.ClearAndFocus(txtUsuario, txtUsuario);
                 return;
             }
+
             if (txtSenha.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Insira a senha do Usuário!");
+                ErroMensageService.ShowError("Insira a senha do Usuário!");
                 ControlHelper.ClearAndFocus(txtSenha, txtSenha);
                 return;
             }
-            if (_dao.ExisteUsuario(txtUsuario.Text))
+
+            if (txtSenha.Text.Length > 6)
             {
-                ErroMensageService("Usuário já registrado! Erro ao salvar!");
-                ControlHelper.ClearAndFocus(txtUsuario, txtUsuario);
+                ErroMensageService.ShowError("A senha deve ter no máximo 6 dígitos!");
+                ControlHelper.ClearAndFocus(txtSenha, txtSenha);
                 return;
             }
 
-            // NOVA VERIFICAÇÃO: usuário iguais já cadastrados
-            if (_dao.ExisteUsuario(txtUsuario.Text))
+            if (!txtSenha.Text.All(char.IsDigit))
             {
-                ErroMensageService("Usuário já registrado! Erro ao salvar!");
-                ControlHelper.ClearAndFocus(txtUsuario, txtUsuario);
-                return;
-            }
-
-            // NOVA VERIFICAÇÃO: senha já cadastrada para outro usuário
-            if (_dao.ExisteSenha(txtSenha.Text))
-            {
-                ErroMensageService("Esta senha já está sendo utilizada por outro usuário. Por favor, escolha uma senha diferente!");
+                ErroMensageService.ShowError("A senha deve conter somente números!");
                 ControlHelper.ClearAndFocus(txtSenha, txtSenha);
                 return;
             }
 
             try
             {
-                _dao.InserirUsuario(
-                    txtNome.Text,
-                    cBCargos.Text,
-                    txtUsuario.Text,
-                    txtSenha.Text,
-                    DateTime.Now
-                );
+                if (string.IsNullOrWhiteSpace(txtCod.Text)) // INSERÇÃO
+                {
+                    if (_dao.ExisteUsuario(txtUsuario.Text))
+                    {
+                        ErroMensageService.ShowError("Usuário já registrado! Erro ao salvar!");
+                        ControlHelper.ClearAndFocus(txtUsuario, txtUsuario);
+                        return;
+                    }
+
+                    if (_dao.ExisteSenha(txtSenha.Text))
+                    {
+                        ErroMensageService.ShowError("Esta senha já está sendo utilizada por outro usuário. Por favor, escolha uma senha diferente!");
+                        ControlHelper.ClearAndFocus(txtSenha, txtSenha);
+                        return;
+                    }
+
+                    _dao.InserirUsuario(
+                        txtNome.Text,
+                        cBCargos.Text,
+                        txtUsuario.Text,
+                        txtSenha.Text,
+                        DateTime.Now
+                    );
+
+                    SucessoMensageService.ShowSuccess("Usuário salvo com sucesso!");
+                }
+                else // EDIÇÃO
+                {
+                    _dao.EditarUsuario(
+                        Convert.ToInt32(txtCod.Text),
+                        txtNome.Text,
+                        cBCargos.Text,
+                        txtUsuario.Text,
+                        txtSenha.Text
+                    );
+
+                    SucessoMensageService.ShowSuccess("Usuário alterado com sucesso!");
+                }
 
                 ControlHelper.ClearAndFocus(txtCod, txtNome, txtUsuario, txtSenha);
-
                 EnableHelper.SetEnabled(false, txtNome, txtUsuario, txtSenha, cBCargos);
-
-                EnableHelper.SetEnabled(true, btNovo, btEditar);
-                EnableHelper.SetEnabled(false, btSalvar, btExcluir);
+                EnableHelper.SetEnabled(true, btNovo);
+                EnableHelper.SetEnabled(false, btSalvar, btEditar, btExcluir);
 
                 ListarUsuarios();
-                SucessoMensageService.ShowSuccess("Usuário salvo com sucesso!");
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao cadastrar: " + ex.Message + ex.StackTrace);
+                ErroMensageService.ShowError("Erro ao salvar: " + ex.Message + ex.StackTrace);
             }
         }
 
@@ -192,13 +197,13 @@ namespace SistemaHotel.Views
         {
             if (txtNome.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Selecione um registro para alterar!");
+                ErroMensageService.ShowError("Selecione um registro para alterar!");
                 ControlHelper.ClearAndFocus(txtNome);
                 return;
             }
             if (txtUsuario.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Selecione um registro para alterar!");
+                ErroMensageService.ShowError("Selecione um registro para alterar!");
                 ControlHelper.ClearAndFocus(txtUsuario);
                 return;
             }
@@ -225,7 +230,7 @@ namespace SistemaHotel.Views
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao alterar: " + ex.Message + ex.StackTrace);
+                ErroMensageService.ShowError("Erro ao alterar: " + ex.Message + ex.StackTrace);
             }
         }
 
@@ -233,7 +238,7 @@ namespace SistemaHotel.Views
         {
             if (txtNome.Text.Trim() == string.Empty)
             {
-                ErroMensageService("Selecione um registro para excluir!");
+                ErroMensageService.ShowError("Selecione um registro para excluir!");
                 txtNome.Focus();
                 return;
             }
@@ -252,7 +257,7 @@ namespace SistemaHotel.Views
             }
             catch (Exception ex)
             {
-                ErroMensageService("Erro ao excluir: " + ex.Message);
+                ErroMensageService.ShowError("Erro ao excluir: " + ex.Message);
             }
         }
 
@@ -263,17 +268,7 @@ namespace SistemaHotel.Views
 
         private void GridUsuarios_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            EnableHelper.SetEnabled(true, txtNome, txtUsuario, txtSenha, cBCargos);
-            EnableHelper.SetEnabled(false, txtCod); // Id desabilitado
 
-            EnableHelper.SetEnabled(true, btEditar, btExcluir);
-            EnableHelper.SetEnabled(false, btNovo, btSalvar);
-
-            txtCod.Text = gridUsuarios.CurrentRow.Cells[0].Value.ToString();
-            txtNome.Text = gridUsuarios.CurrentRow.Cells[1].Value.ToString();
-            cBCargos.Text = gridUsuarios.CurrentRow.Cells[2].Value.ToString();
-            txtUsuario.Text = gridUsuarios.CurrentRow.Cells[3].Value.ToString();
-            txtSenha.Text = gridUsuarios.CurrentRow.Cells[4].Value.ToString();
         }
 
         //Evento do teclado
@@ -288,6 +283,56 @@ namespace SistemaHotel.Views
             if (txtSenha.Text.Length >= 6 && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;
+            }
+        }
+
+        // // Botão Selecionar Usuário (Edição)
+        private void btnSelecionarUsuarioEdicao_Click(object sender, EventArgs e)
+        {
+            if (gridUsuarios.CurrentRow == null)
+            {
+                MessageBox.Show("Selecione um usuário na grade para alterar ou excluir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult resposta = MessageBox.Show("Deseja ALTERAR este usuário? (Sim) ou EXCLUIR? (Não)", "Confirmação", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+            if (resposta == DialogResult.Cancel) return;
+
+            // Preenche os campos com os dados da linha selecionada
+            txtCod.Text = gridUsuarios.CurrentRow.Cells[0].Value.ToString();
+            txtNome.Text = gridUsuarios.CurrentRow.Cells[1].Value.ToString();
+            cBCargos.Text = gridUsuarios.CurrentRow.Cells[2].Value.ToString();
+            txtUsuario.Text = gridUsuarios.CurrentRow.Cells[3].Value.ToString();
+            txtSenha.Text = gridUsuarios.CurrentRow.Cells[4].Value.ToString();
+
+            if (resposta == DialogResult.Yes) // ALTERAR
+            {
+                EnableHelper.SetEnabled(true, txtNome, txtUsuario, txtSenha, cBCargos, btSalvar);
+                ControlHelper.ClearAndFocus(txtNome);
+                EnableHelper.SetEnabled(false, txtCod, btNovo);
+
+                MessageBox.Show("Edite os campos desejados e clique em 'INSERIR REGISTRO' para confirmar a alteração.", "Modo de edição", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (resposta == DialogResult.No) // EXCLUIR
+            {
+                DialogResult confirma = MessageBox.Show("Tem certeza que deseja EXCLUIR este usuário?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirma == DialogResult.Yes)
+                {
+                    try
+                    {
+                        _dao.ExcluirUsuario(Convert.ToInt32(txtCod.Text));
+                        ControlHelper.ClearAndFocus(txtCod, txtNome, txtUsuario, txtSenha);
+                        EnableHelper.SetEnabled(true, btNovo);
+                        EnableHelper.SetEnabled(false, btSalvar);
+                        ListarUsuarios();
+                        SucessoMensageService.ShowSuccess("Usuário excluído com sucesso!");
+                    }
+                    catch (Exception ex)
+                    {
+                        ErroMensageService.ShowError("Erro ao excluir: " + ex.Message);
+                    }
+                }
             }
         }
     }

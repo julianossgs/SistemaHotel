@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -50,6 +51,12 @@
             this.btNovo = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.lblTotal = new System.Windows.Forms.Label();
+            this.btnSelecionarGastoEdicao = new System.Windows.Forms.Button();
+            this.toolTipGastos = new System.Windows.Forms.ToolTip(this.components);
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridGastos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,6 +103,7 @@
             this.txtValor.Size = new System.Drawing.Size(100, 24);
             this.txtValor.TabIndex = 4;
             this.txtValor.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtValor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtValor_KeyPress);
             // 
             // dtBuscar
             // 
@@ -184,31 +192,36 @@
             // 
             // btExcluir
             // 
+            this.btExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btExcluir.Enabled = false;
             this.btExcluir.Image = global::SistemaHotel.Properties.Resources.botaoDeletar;
-            this.btExcluir.Location = new System.Drawing.Point(488, 460);
+            this.btExcluir.Location = new System.Drawing.Point(779, 174);
             this.btExcluir.Name = "btExcluir";
             this.btExcluir.Size = new System.Drawing.Size(65, 65);
             this.btExcluir.TabIndex = 23;
             this.btExcluir.UseVisualStyleBackColor = true;
+            this.btExcluir.Visible = false;
             this.btExcluir.Click += new System.EventHandler(this.BtExcluir_Click);
             // 
             // btEditar
             // 
+            this.btEditar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btEditar.Enabled = false;
             this.btEditar.Image = global::SistemaHotel.Properties.Resources.botaoEditar;
-            this.btEditar.Location = new System.Drawing.Point(393, 460);
+            this.btEditar.Location = new System.Drawing.Point(779, 271);
             this.btEditar.Name = "btEditar";
             this.btEditar.Size = new System.Drawing.Size(65, 65);
             this.btEditar.TabIndex = 22;
             this.btEditar.UseVisualStyleBackColor = true;
+            this.btEditar.Visible = false;
             this.btEditar.Click += new System.EventHandler(this.BtEditar_Click);
             // 
             // btSalvar
             // 
+            this.btSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btSalvar.Enabled = false;
             this.btSalvar.Image = global::SistemaHotel.Properties.Resources.botaoSalvar;
-            this.btSalvar.Location = new System.Drawing.Point(298, 460);
+            this.btSalvar.Location = new System.Drawing.Point(496, 464);
             this.btSalvar.Name = "btSalvar";
             this.btSalvar.Size = new System.Drawing.Size(65, 65);
             this.btSalvar.TabIndex = 21;
@@ -217,8 +230,9 @@
             // 
             // btNovo
             // 
+            this.btNovo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btNovo.Image = global::SistemaHotel.Properties.Resources.botaoNovo;
-            this.btNovo.Location = new System.Drawing.Point(203, 460);
+            this.btNovo.Location = new System.Drawing.Point(358, 464);
             this.btNovo.Name = "btNovo";
             this.btNovo.Size = new System.Drawing.Size(65, 65);
             this.btNovo.TabIndex = 20;
@@ -244,12 +258,84 @@
             this.lblTotal.TabIndex = 81;
             this.lblTotal.Text = "0";
             // 
+            // btnSelecionarGastoEdicao
+            // 
+            this.btnSelecionarGastoEdicao.AllowDrop = true;
+            this.btnSelecionarGastoEdicao.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnSelecionarGastoEdicao.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSelecionarGastoEdicao.FlatAppearance.BorderSize = 2;
+            this.btnSelecionarGastoEdicao.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelecionarGastoEdicao.ForeColor = System.Drawing.Color.Red;
+            this.btnSelecionarGastoEdicao.Location = new System.Drawing.Point(722, 130);
+            this.btnSelecionarGastoEdicao.Name = "btnSelecionarGastoEdicao";
+            this.btnSelecionarGastoEdicao.Size = new System.Drawing.Size(183, 38);
+            this.btnSelecionarGastoEdicao.TabIndex = 82;
+            this.btnSelecionarGastoEdicao.Text = "Selecionar Registro";
+            this.toolTipGastos.SetToolTip(this.btnSelecionarGastoEdicao, "Selecione para alteração/exclusão");
+            this.btnSelecionarGastoEdicao.UseVisualStyleBackColor = true;
+            this.btnSelecionarGastoEdicao.Click += new System.EventHandler(this.btnSelecionarGastoEdicao_Click);
+            // 
+            // toolTipGastos
+            // 
+            this.toolTipGastos.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.Blue;
+            this.label4.Location = new System.Drawing.Point(344, 532);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(97, 13);
+            this.label4.TabIndex = 83;
+            this.label4.Text = "NOVO REGISTRO";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Blue;
+            this.label5.Location = new System.Drawing.Point(475, 532);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(110, 13);
+            this.label5.TabIndex = 84;
+            this.label5.Text = "INSERIR REGISTRO";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.Blue;
+            this.label6.Location = new System.Drawing.Point(762, 339);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(116, 13);
+            this.label6.TabIndex = 85;
+            this.label6.Text = "ALTERAR REGISTRO";
+            this.label6.Visible = false;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.Red;
+            this.label8.Location = new System.Drawing.Point(765, 242);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(112, 13);
+            this.label8.TabIndex = 86;
+            this.label8.Text = "EXCLUIR REGISTRO";
+            this.label8.Visible = false;
+            // 
             // FrmGastos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(760, 537);
+            this.ClientSize = new System.Drawing.Size(916, 573);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.btnSelecionarGastoEdicao);
             this.Controls.Add(this.lblTotal);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.btExcluir);
@@ -295,5 +381,11 @@
         private System.Windows.Forms.Button btNovo;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblTotal;
+        private System.Windows.Forms.Button btnSelecionarGastoEdicao;
+        private System.Windows.Forms.ToolTip toolTipGastos;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label8;
     }
 }

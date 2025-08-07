@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtEndereco = new System.Windows.Forms.TextBox();
             this.txtNome = new System.Windows.Forms.TextBox();
             this.txtCod = new System.Windows.Forms.TextBox();
@@ -81,6 +81,11 @@
             this.txtObs = new System.Windows.Forms.TextBox();
             this.cbUF = new System.Windows.Forms.ComboBox();
             this.toolTipFornec = new System.Windows.Forms.ToolTip(this.components);
+            this.btnSelecionarFornecEdicao = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridFornecedores)).BeginInit();
             this.SuspendLayout();
@@ -135,31 +140,33 @@
             // 
             this.btExcluir.Enabled = false;
             this.btExcluir.Image = global::SistemaHotel.Properties.Resources.botaoDeletar;
-            this.btExcluir.Location = new System.Drawing.Point(637, 496);
+            this.btExcluir.Location = new System.Drawing.Point(1122, 414);
             this.btExcluir.Name = "btExcluir";
             this.btExcluir.Size = new System.Drawing.Size(65, 65);
             this.btExcluir.TabIndex = 25;
             this.toolTipFornec.SetToolTip(this.btExcluir, "EXCLUIR REGISTRO");
             this.btExcluir.UseVisualStyleBackColor = true;
+            this.btExcluir.Visible = false;
             this.btExcluir.Click += new System.EventHandler(this.BtExcluir_Click);
             // 
             // btEditar
             // 
             this.btEditar.Enabled = false;
             this.btEditar.Image = global::SistemaHotel.Properties.Resources.botaoEditar;
-            this.btEditar.Location = new System.Drawing.Point(542, 496);
+            this.btEditar.Location = new System.Drawing.Point(1122, 320);
             this.btEditar.Name = "btEditar";
             this.btEditar.Size = new System.Drawing.Size(65, 65);
             this.btEditar.TabIndex = 24;
             this.toolTipFornec.SetToolTip(this.btEditar, "ALTERAR REGISTRO");
             this.btEditar.UseVisualStyleBackColor = true;
+            this.btEditar.Visible = false;
             this.btEditar.Click += new System.EventHandler(this.BtEditar_Click);
             // 
             // btSalvar
             // 
             this.btSalvar.Enabled = false;
             this.btSalvar.Image = global::SistemaHotel.Properties.Resources.botaoSalvar;
-            this.btSalvar.Location = new System.Drawing.Point(447, 496);
+            this.btSalvar.Location = new System.Drawing.Point(675, 507);
             this.btSalvar.Name = "btSalvar";
             this.btSalvar.Size = new System.Drawing.Size(65, 65);
             this.btSalvar.TabIndex = 23;
@@ -170,7 +177,7 @@
             // btNovo
             // 
             this.btNovo.Image = global::SistemaHotel.Properties.Resources.botaoNovo;
-            this.btNovo.Location = new System.Drawing.Point(352, 496);
+            this.btNovo.Location = new System.Drawing.Point(548, 507);
             this.btNovo.Name = "btNovo";
             this.btNovo.Size = new System.Drawing.Size(65, 65);
             this.btNovo.TabIndex = 22;
@@ -252,6 +259,7 @@
             this.txtBuscarNome.Name = "txtBuscarNome";
             this.txtBuscarNome.Size = new System.Drawing.Size(203, 22);
             this.txtBuscarNome.TabIndex = 9;
+            this.txtBuscarNome.TextChanged += new System.EventHandler(this.txtBuscarNome_TextChanged);
             // 
             // label7
             // 
@@ -288,15 +296,14 @@
             this.gridFornecedores.Location = new System.Drawing.Point(19, 276);
             this.gridFornecedores.Name = "gridFornecedores";
             this.gridFornecedores.ReadOnly = true;
-            this.gridFornecedores.Size = new System.Drawing.Size(1094, 214);
+            this.gridFornecedores.Size = new System.Drawing.Size(1037, 214);
             this.gridFornecedores.TabIndex = 33;
-            this.gridFornecedores.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridFornecedores_CellClick);
             // 
             // IdFornec
             // 
             this.IdFornec.DataPropertyName = "IdFornec";
-            dataGridViewCellStyle5.Format = "#,##0";
-            this.IdFornec.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle3.Format = "#,##0";
+            this.IdFornec.DefaultCellStyle = dataGridViewCellStyle3;
             this.IdFornec.HeaderText = "Cod ";
             this.IdFornec.Name = "IdFornec";
             this.IdFornec.ReadOnly = true;
@@ -308,6 +315,7 @@
             this.Cnpj.HeaderText = "CNPJ";
             this.Cnpj.Name = "Cnpj";
             this.Cnpj.ReadOnly = true;
+            this.Cnpj.Width = 150;
             // 
             // Nome
             // 
@@ -315,7 +323,7 @@
             this.Nome.HeaderText = "Nome";
             this.Nome.Name = "Nome";
             this.Nome.ReadOnly = true;
-            this.Nome.Width = 200;
+            this.Nome.Width = 220;
             // 
             // Endereco
             // 
@@ -340,6 +348,7 @@
             this.Cidade.HeaderText = "Cidade";
             this.Cidade.Name = "Cidade";
             this.Cidade.ReadOnly = true;
+            this.Cidade.Visible = false;
             // 
             // Estado
             // 
@@ -365,7 +374,7 @@
             this.Telefone.HeaderText = "Telefone";
             this.Telefone.Name = "Telefone";
             this.Telefone.ReadOnly = true;
-            this.Telefone.Width = 80;
+            this.Telefone.Width = 110;
             // 
             // Celular
             // 
@@ -373,7 +382,7 @@
             this.Celular.HeaderText = "Celular";
             this.Celular.Name = "Celular";
             this.Celular.ReadOnly = true;
-            this.Celular.Width = 80;
+            this.Celular.Width = 110;
             // 
             // Email
             // 
@@ -382,7 +391,7 @@
             this.Email.Name = "Email";
             this.Email.ReadOnly = true;
             this.Email.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Email.Width = 150;
+            this.Email.Width = 200;
             // 
             // Contato
             // 
@@ -390,19 +399,20 @@
             this.Contato.HeaderText = "Contato";
             this.Contato.Name = "Contato";
             this.Contato.ReadOnly = true;
-            this.Contato.Width = 150;
+            this.Contato.Width = 200;
             // 
             // Data
             // 
             this.Data.DataPropertyName = "DataCadastro";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.Format = "d";
-            dataGridViewCellStyle6.NullValue = null;
-            this.Data.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Format = "d";
+            dataGridViewCellStyle4.NullValue = null;
+            this.Data.DefaultCellStyle = dataGridViewCellStyle4;
             this.Data.HeaderText = "Data/Cadastro";
             this.Data.Name = "Data";
             this.Data.ReadOnly = true;
             this.Data.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Data.Visible = false;
             // 
             // Observacoes
             // 
@@ -410,6 +420,7 @@
             this.Observacoes.HeaderText = "Obs";
             this.Observacoes.Name = "Observacoes";
             this.Observacoes.ReadOnly = true;
+            this.Observacoes.Visible = false;
             this.Observacoes.Width = 150;
             // 
             // label8
@@ -527,7 +538,6 @@
             this.label13.Size = new System.Drawing.Size(46, 15);
             this.label13.TabIndex = 45;
             this.label13.Text = "Celular";
-            this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
             // maskCelular
             // 
@@ -539,7 +549,6 @@
             this.maskCelular.Size = new System.Drawing.Size(132, 22);
             this.maskCelular.TabIndex = 9;
             this.maskCelular.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.maskCelular.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.maskCelular_MaskInputRejected);
             // 
             // label14
             // 
@@ -600,12 +609,79 @@
             // 
             this.toolTipFornec.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
+            // btnSelecionarFornecEdicao
+            // 
+            this.btnSelecionarFornecEdicao.AllowDrop = true;
+            this.btnSelecionarFornecEdicao.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnSelecionarFornecEdicao.FlatAppearance.BorderSize = 2;
+            this.btnSelecionarFornecEdicao.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelecionarFornecEdicao.ForeColor = System.Drawing.Color.Red;
+            this.btnSelecionarFornecEdicao.Location = new System.Drawing.Point(1062, 276);
+            this.btnSelecionarFornecEdicao.Name = "btnSelecionarFornecEdicao";
+            this.btnSelecionarFornecEdicao.Size = new System.Drawing.Size(183, 38);
+            this.btnSelecionarFornecEdicao.TabIndex = 48;
+            this.btnSelecionarFornecEdicao.Text = "Selecionar Forneçedor";
+            this.toolTipFornec.SetToolTip(this.btnSelecionarFornecEdicao, "Selecione para alteração/exclusão");
+            this.btnSelecionarFornecEdicao.UseVisualStyleBackColor = true;
+            this.btnSelecionarFornecEdicao.Click += new System.EventHandler(this.btnSelecionarFornecEdicao_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.Location = new System.Drawing.Point(1101, 482);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(112, 13);
+            this.label1.TabIndex = 59;
+            this.label1.Text = "EXCLUIR REGISTRO";
+            this.label1.Visible = false;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.Color.Blue;
+            this.label15.Location = new System.Drawing.Point(1102, 388);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(116, 13);
+            this.label15.TabIndex = 60;
+            this.label15.Text = "ALTERAR REGISTRO";
+            this.label15.Visible = false;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.ForeColor = System.Drawing.Color.Blue;
+            this.label16.Location = new System.Drawing.Point(653, 575);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(110, 13);
+            this.label16.TabIndex = 61;
+            this.label16.Text = "INSERIR REGISTRO";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.Blue;
+            this.label17.Location = new System.Drawing.Point(528, 575);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(97, 13);
+            this.label17.TabIndex = 62;
+            this.label17.Text = "NOVO REGISTRO";
+            // 
             // FrmFornecedores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(1125, 561);
+            this.ClientSize = new System.Drawing.Size(1249, 598);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnSelecionarFornecEdicao);
             this.Controls.Add(this.cbUF);
             this.Controls.Add(this.txtObs);
             this.Controls.Add(this.label14);
@@ -691,6 +767,8 @@
         private System.Windows.Forms.MaskedTextBox maskCelular;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtObs;
+        private System.Windows.Forms.ComboBox cbUF;
+        private System.Windows.Forms.ToolTip toolTipFornec;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdFornec;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cnpj;
         private System.Windows.Forms.DataGridViewTextBoxColumn Nome;
@@ -705,7 +783,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Contato;
         private System.Windows.Forms.DataGridViewTextBoxColumn Data;
         private System.Windows.Forms.DataGridViewTextBoxColumn Observacoes;
-        private System.Windows.Forms.ComboBox cbUF;
-        private System.Windows.Forms.ToolTip toolTipFornec;
+        private System.Windows.Forms.Button btnSelecionarFornecEdicao;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
     }
 }
