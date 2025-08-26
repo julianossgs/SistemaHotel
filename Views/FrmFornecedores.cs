@@ -25,10 +25,7 @@ namespace SistemaHotel.Views
             ListarFornecedores();
         }
 
-        //private void ErroMensageService(string msg)
-        //{
-        //    MessageBox.Show(msg, "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-        //}
+
 
         private void HabilitarCampos(bool vr)
         {
@@ -364,7 +361,7 @@ namespace SistemaHotel.Views
 
             if (resposta == DialogResult.Yes) // Edição
             {
-                EnableHelper.SetEnabled(true, maskCNPJ, txtNome, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP, maskTel, maskCelular, txtEmail, txtContato, txtObs);
+                EnableHelper.SetEnabled(true, txtNome, txtEndereco, txtBairro, txtCidade, cbUF, maskCEP, maskTel, maskCelular, txtEmail, txtContato, txtObs);
                 EnableHelper.SetEnabled(false, txtCod, btNovo);
                 EnableHelper.SetEnabled(true, btSalvar);
 

@@ -66,21 +66,21 @@ namespace SistemaHotel.Views
         private void BtSalvar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtProduto.Text) ||
-                 string.IsNullOrWhiteSpace(txtEstoque.Text) ||
-                string.IsNullOrWhiteSpace(txtQuant.Text))
+                string.IsNullOrWhiteSpace(txtEstoque.Text) ||
+                string.IsNullOrWhiteSpace(txtQuant.Text) ||
+                string.IsNullOrWhiteSpace(txtVrCompra.Text))
             {
                 MessageBox.Show("Todos os campos são obrigatórios.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // ✅ Validação de formato numérico com tentativa de conversão segura
-            if (!decimal.TryParse(txtEstoque.Text, out decimal preco))
+            if (!decimal.TryParse(txtVrCompra.Text, out decimal precoUnitario))
             {
-                MessageBox.Show("Digite um valor válido para o preço.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Digite um valor válido para o preço de compra.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (!int.TryParse(txtQuant.Text, out int quantidade))
+            if (!int.TryParse(txtQuant.Text, out int quantidadeCompra))
             {
                 MessageBox.Show("Digite uma quantidade válida (somente números inteiros).", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -88,49 +88,77 @@ namespace SistemaHotel.Views
 
             try
             {
-                // Atualiza o estoque e valor de compra do produto fornecedor
                 int idProduto = int.Parse(Globais.idProduto);
-                decimal estoqueAtual = Convert.ToDecimal(txtEstoque.Text);
-                decimal quant = Convert.ToDecimal(txtQuant.Text);
-                decimal valorCompra = Convert.ToDecimal(txtVrCompra.Text);
                 int idFornecedor = Convert.ToInt32(cBFornecedor.SelectedValue);
 
-                _dao.AlterarProdutoFornecedor(idProduto, estoqueAtual, quantidade, valorCompra, idFornecedor);
+                // 1️⃣ Busca estoque atual do banco
+                decimal estoqueAtual = _dao.ObterEstoque(idProduto);
 
-                // Insere o gasto da compra de produtos
+                // 2️⃣ Novo estoque
+                decimal novoEstoque = estoqueAtual + quantidadeCompra;
+
+                // 3️⃣ Atualiza produto e fornecedor no banco
+                _dao.AlterarProdutoFornecedor(idProduto, novoEstoque, quantidadeCompra, precoUnitario, idFornecedor);
+
+                // 4️⃣ Busca valor total anterior de compras desse produto
+                //decimal totalAnterior = _dao.ObterValorTotalCompras(idProduto); // Novo método na DAO
+
+                // 5️⃣ Calcula o valor total desta compra
+                //decimal valorAtualCompra = quantidadeCompra * precoUnitario;
+                //decimal totalFinal = totalAnterior + valorAtualCompra;
+
+                //txtVrCompra.Text = totalFinal.ToString("C2");
+                decimal valorAtualCompra = quantidadeCompra * precoUnitario;
+
+                // 6️⃣ Registra gasto da compra
                 string descricao = "Compra de Produtos";
                 string funcionario = Globais.nomeUsuario;
-                decimal valorGasto = valorCompra * quantidade;
-                _dao.InserirGasto(descricao, funcionario, valorGasto);
+                _dao.InserirGasto(descricao, funcionario, valorAtualCompra);
 
-                // Recupera o último Id do gasto
+                // 7️⃣ Pega último ID do gasto e insere movimentação
                 string ultimoIdGasto = _dao.RecuperarUltimoIdGasto();
                 Globais.ultimoIdGasto = ultimoIdGasto;
+                _dao.InserirMovimentacaoGasto("Saída", "Gastos", valorAtualCompra, funcionario, ultimoIdGasto);
 
-                // Insere movimentação de gasto
-                _dao.InserirMovimentacaoGasto("Saída", "Gastos", valorGasto, funcionario, ultimoIdGasto);
+                SucessoMensageService.ShowSuccess("Lançamento feito com sucesso! O Formulário será fechado após a confirmação do lançamento!!!");
+                FrmEstoques.ActiveForm.Close();
+                LogService.LogSucesso("Lançamento de estoque realizado com sucesso.");
 
-                SucessoMensageService.ShowSuccess("Lançamento feito com sucesso!");
-                ControlHelper.ClearAndFocus(btAddProdutos, txtEstoque, txtQuant, txtVrCompra, txtProduto);
-                EnableHelper.SetEnabled(false, txtProduto, txtEstoque, txtQuant, txtVrCompra, cBFornecedor, btSalvar);
-
+                //ControlHelper.ClearAndFocus(btAddProdutos, txtEstoque, txtQuant, txtVrCompra, txtProduto);
+                //EnableHelper.SetEnabled(false, txtProduto, txtEstoque, txtQuant, txtVrCompra, cBFornecedor, btSalvar);
             }
             catch (Exception ex)
             {
                 ErroMensageService.ShowError("Erro ao salvar: " + ex.Message);
             }
+
         }
 
 
         //evento que ativa o formulário p/ buscar de informações
         private void FrmEstoques_Activated(object sender, EventArgs e)
         {
-            //variáveis globais
-            //está passando também o IdProduto,que não é necessário mostrar em tela
 
+
+            // Preenche os campos com valores vindos do FrmProdutos
             txtEstoque.Text = Globais.estoqueProduto;
             txtProduto.Text = Globais.nomeProduto;
             txtVrCompra.Text = Globais.VrCompra;
+
+            // Controle de campos e botões baseado na origem da chamada
+            if (Globais.chamadaProdutos == "produtos") // Veio do FrmProdutos
+            {
+                EnableHelper.SetEnabled(false, txtEstoque);
+                ControlHelper.ClearTextBoxes(txtVrCompra);
+                EnableHelper.SetEnabled(true, txtQuant, cBFornecedor, txtVrCompra, btSalvar);
+                btAddProdutos.Visible = false;
+            }
+            else // Veio do próprio FrmEstoques
+            {
+                EnableHelper.SetEnabled(true, btAddProdutos);
+                EnableHelper.SetEnabled(false, cBFornecedor, txtEstoque, txtQuant, btSalvar);
+                btAddProdutos.Visible = true;
+            }
         }
 
 
@@ -150,5 +178,7 @@ namespace SistemaHotel.Views
         {
             InputValidator.OnlyIntegerInput(sender, e);
         }
+
+
     }
 }

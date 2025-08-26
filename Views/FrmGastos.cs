@@ -260,5 +260,10 @@ namespace SistemaHotel.Views
                 }
             }
         }
+
+        private void btAtualizar_Click(object sender, EventArgs e)
+        {
+            ListarGastos();
+        }
     }
 }

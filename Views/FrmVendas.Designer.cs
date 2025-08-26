@@ -29,15 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtQuant = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtEstoque = new System.Windows.Forms.TextBox();
@@ -50,21 +41,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.dtBuscarVendas = new System.Windows.Forms.DateTimePicker();
-            this.gridVendas = new System.Windows.Forms.DataGridView();
-            this.IdVenda1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ValorTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Funcionario = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gridDetalhesVendas = new System.Windows.Forms.DataGridView();
-            this.IdDetalhe = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Produto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ValorUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ValorTotal1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Id_Venda = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Funcionario1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Id_Produto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label6 = new System.Windows.Forms.Label();
             this.txtIdVenda = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -79,15 +55,17 @@
             this.btAddProdutos = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.lblTotalVendas = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.gridVendas)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridDetalhesVendas)).BeginInit();
+            this.GridViewVendas = new System.Windows.Forms.DataGridView();
+            this.label8 = new System.Windows.Forms.Label();
+            this.dtVendas = new System.Windows.Forms.DateTimePicker();
+            ((System.ComponentModel.ISupportInitialize)(this.GridViewVendas)).BeginInit();
             this.SuspendLayout();
             // 
             // txtQuant
             // 
             this.txtQuant.Enabled = false;
             this.txtQuant.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQuant.Location = new System.Drawing.Point(337, 142);
+            this.txtQuant.Location = new System.Drawing.Point(318, 340);
             this.txtQuant.Name = "txtQuant";
             this.txtQuant.Size = new System.Drawing.Size(101, 22);
             this.txtQuant.TabIndex = 59;
@@ -97,7 +75,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(294, 148);
+            this.label1.Location = new System.Drawing.Point(275, 346);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(40, 15);
             this.label1.TabIndex = 63;
@@ -107,7 +85,7 @@
             // 
             this.txtEstoque.Enabled = false;
             this.txtEstoque.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEstoque.Location = new System.Drawing.Point(145, 142);
+            this.txtEstoque.Location = new System.Drawing.Point(145, 340);
             this.txtEstoque.Name = "txtEstoque";
             this.txtEstoque.Size = new System.Drawing.Size(100, 22);
             this.txtEstoque.TabIndex = 57;
@@ -116,7 +94,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(60, 148);
+            this.label5.Location = new System.Drawing.Point(60, 346);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(82, 15);
             this.label5.TabIndex = 62;
@@ -126,7 +104,7 @@
             // 
             this.txtVrVenda.Enabled = false;
             this.txtVrVenda.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtVrVenda.Location = new System.Drawing.Point(560, 139);
+            this.txtVrVenda.Location = new System.Drawing.Point(145, 381);
             this.txtVrVenda.Name = "txtVrVenda";
             this.txtVrVenda.Size = new System.Drawing.Size(102, 24);
             this.txtVrVenda.TabIndex = 58;
@@ -135,17 +113,18 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(499, 148);
+            this.label9.Location = new System.Drawing.Point(84, 390);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(54, 15);
             this.label9.TabIndex = 61;
             this.label9.Text = "Valor R$";
+            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // txtProduto
             // 
             this.txtProduto.Enabled = false;
             this.txtProduto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtProduto.Location = new System.Drawing.Point(145, 103);
+            this.txtProduto.Location = new System.Drawing.Point(145, 301);
             this.txtProduto.Name = "txtProduto";
             this.txtProduto.Size = new System.Drawing.Size(330, 22);
             this.txtProduto.TabIndex = 55;
@@ -153,7 +132,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(92, 109);
+            this.label2.Location = new System.Drawing.Point(92, 307);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(50, 15);
             this.label2.TabIndex = 60;
@@ -163,7 +142,7 @@
             // 
             this.txtHospedes.Enabled = false;
             this.txtHospedes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHospedes.Location = new System.Drawing.Point(145, 53);
+            this.txtHospedes.Location = new System.Drawing.Point(145, 251);
             this.txtHospedes.Name = "txtHospedes";
             this.txtHospedes.Size = new System.Drawing.Size(332, 22);
             this.txtHospedes.TabIndex = 64;
@@ -171,7 +150,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(29, 59);
+            this.label3.Location = new System.Drawing.Point(29, 257);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(110, 15);
             this.label3.TabIndex = 66;
@@ -180,7 +159,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(591, 40);
+            this.label4.Location = new System.Drawing.Point(407, 76);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(89, 15);
             this.label4.TabIndex = 67;
@@ -190,208 +169,16 @@
             // 
             this.dtBuscarVendas.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtBuscarVendas.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtBuscarVendas.Location = new System.Drawing.Point(686, 35);
+            this.dtBuscarVendas.Location = new System.Drawing.Point(502, 71);
             this.dtBuscarVendas.Name = "dtBuscarVendas";
             this.dtBuscarVendas.Size = new System.Drawing.Size(137, 21);
             this.dtBuscarVendas.TabIndex = 68;
             this.dtBuscarVendas.ValueChanged += new System.EventHandler(this.DtBuscarVendas_ValueChanged);
             // 
-            // gridVendas
-            // 
-            this.gridVendas.AllowUserToAddRows = false;
-            this.gridVendas.AllowUserToDeleteRows = false;
-            this.gridVendas.AllowUserToOrderColumns = true;
-            this.gridVendas.BackgroundColor = System.Drawing.Color.Gainsboro;
-            this.gridVendas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridVendas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.IdVenda1,
-            this.Data,
-            this.ValorTotal,
-            this.Status,
-            this.Funcionario});
-            this.gridVendas.Location = new System.Drawing.Point(23, 183);
-            this.gridVendas.MultiSelect = false;
-            this.gridVendas.Name = "gridVendas";
-            this.gridVendas.ReadOnly = true;
-            this.gridVendas.RowTemplate.Height = 26;
-            this.gridVendas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridVendas.Size = new System.Drawing.Size(689, 249);
-            this.gridVendas.TabIndex = 69;
-            this.gridVendas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridVendas_CellClick);
-            // 
-            // IdVenda1
-            // 
-            this.IdVenda1.DataPropertyName = "IdVenda";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.Format = "#,##0";
-            this.IdVenda1.DefaultCellStyle = dataGridViewCellStyle10;
-            this.IdVenda1.HeaderText = "Nº/Venda";
-            this.IdVenda1.Name = "IdVenda1";
-            this.IdVenda1.ReadOnly = true;
-            this.IdVenda1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.IdVenda1.Width = 110;
-            // 
-            // Data
-            // 
-            this.Data.DataPropertyName = "Data";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.Format = "d";
-            dataGridViewCellStyle11.NullValue = null;
-            this.Data.DefaultCellStyle = dataGridViewCellStyle11;
-            this.Data.HeaderText = "Data";
-            this.Data.Name = "Data";
-            this.Data.ReadOnly = true;
-            this.Data.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Data.Width = 120;
-            // 
-            // ValorTotal
-            // 
-            this.ValorTotal.DataPropertyName = "ValorTotal";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle12.Format = "C2";
-            dataGridViewCellStyle12.NullValue = null;
-            this.ValorTotal.DefaultCellStyle = dataGridViewCellStyle12;
-            this.ValorTotal.HeaderText = "Valor Total";
-            this.ValorTotal.Name = "ValorTotal";
-            this.ValorTotal.ReadOnly = true;
-            this.ValorTotal.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ValorTotal.Width = 120;
-            // 
-            // Status
-            // 
-            this.Status.DataPropertyName = "Status";
-            this.Status.HeaderText = "Status";
-            this.Status.Name = "Status";
-            this.Status.ReadOnly = true;
-            this.Status.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Status.Width = 145;
-            // 
-            // Funcionario
-            // 
-            this.Funcionario.DataPropertyName = "Funcionario";
-            this.Funcionario.HeaderText = "Funcionário";
-            this.Funcionario.Name = "Funcionario";
-            this.Funcionario.ReadOnly = true;
-            this.Funcionario.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Funcionario.Width = 145;
-            // 
-            // gridDetalhesVendas
-            // 
-            this.gridDetalhesVendas.AllowUserToAddRows = false;
-            this.gridDetalhesVendas.AllowUserToDeleteRows = false;
-            this.gridDetalhesVendas.AllowUserToOrderColumns = true;
-            this.gridDetalhesVendas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridDetalhesVendas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.IdDetalhe,
-            this.Produto,
-            this.Quant,
-            this.ValorUnit,
-            this.ValorTotal1,
-            this.Id_Venda,
-            this.Funcionario1,
-            this.Id_Produto});
-            this.gridDetalhesVendas.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.gridDetalhesVendas.Location = new System.Drawing.Point(35, 197);
-            this.gridDetalhesVendas.MultiSelect = false;
-            this.gridDetalhesVendas.Name = "gridDetalhesVendas";
-            this.gridDetalhesVendas.ReadOnly = true;
-            this.gridDetalhesVendas.RowTemplate.Height = 26;
-            this.gridDetalhesVendas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridDetalhesVendas.Size = new System.Drawing.Size(627, 249);
-            this.gridDetalhesVendas.TabIndex = 76;
-            this.gridDetalhesVendas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridDetalhesVendas_CellClick);
-            this.gridDetalhesVendas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridDetalhesVendas_CellContentClick);
-            // 
-            // IdDetalhe
-            // 
-            this.IdDetalhe.DataPropertyName = "IdDetalhe";
-            dataGridViewCellStyle13.Format = "#,##0";
-            dataGridViewCellStyle13.NullValue = null;
-            this.IdDetalhe.DefaultCellStyle = dataGridViewCellStyle13;
-            this.IdDetalhe.HeaderText = "IdDetalhe";
-            this.IdDetalhe.Name = "IdDetalhe";
-            this.IdDetalhe.ReadOnly = true;
-            this.IdDetalhe.Visible = false;
-            // 
-            // Produto
-            // 
-            this.Produto.DataPropertyName = "Produto";
-            this.Produto.HeaderText = "Produto";
-            this.Produto.Name = "Produto";
-            this.Produto.ReadOnly = true;
-            this.Produto.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Produto.Width = 230;
-            // 
-            // Quant
-            // 
-            this.Quant.DataPropertyName = "Quant";
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle14.Format = "N2";
-            dataGridViewCellStyle14.NullValue = null;
-            this.Quant.DefaultCellStyle = dataGridViewCellStyle14;
-            this.Quant.HeaderText = "Quant";
-            this.Quant.Name = "Quant";
-            this.Quant.ReadOnly = true;
-            this.Quant.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // ValorUnit
-            // 
-            this.ValorUnit.DataPropertyName = "ValorUnit";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle15.Format = "C2";
-            dataGridViewCellStyle15.NullValue = null;
-            this.ValorUnit.DefaultCellStyle = dataGridViewCellStyle15;
-            this.ValorUnit.HeaderText = "Unit";
-            this.ValorUnit.Name = "ValorUnit";
-            this.ValorUnit.ReadOnly = true;
-            this.ValorUnit.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ValorUnit.Width = 120;
-            // 
-            // ValorTotal1
-            // 
-            this.ValorTotal1.DataPropertyName = "ValorTotal";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle16.Format = "C2";
-            dataGridViewCellStyle16.NullValue = null;
-            this.ValorTotal1.DefaultCellStyle = dataGridViewCellStyle16;
-            this.ValorTotal1.HeaderText = "Total";
-            this.ValorTotal1.Name = "ValorTotal1";
-            this.ValorTotal1.ReadOnly = true;
-            this.ValorTotal1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ValorTotal1.Width = 130;
-            // 
-            // Id_Venda
-            // 
-            this.Id_Venda.DataPropertyName = "Id_Venda";
-            dataGridViewCellStyle17.Format = "#,##0";
-            this.Id_Venda.DefaultCellStyle = dataGridViewCellStyle17;
-            this.Id_Venda.HeaderText = "Id_Venda";
-            this.Id_Venda.Name = "Id_Venda";
-            this.Id_Venda.ReadOnly = true;
-            this.Id_Venda.Visible = false;
-            // 
-            // Funcionario1
-            // 
-            this.Funcionario1.DataPropertyName = "Funcionario";
-            this.Funcionario1.HeaderText = "Funcionario";
-            this.Funcionario1.Name = "Funcionario1";
-            this.Funcionario1.ReadOnly = true;
-            this.Funcionario1.Visible = false;
-            // 
-            // Id_Produto
-            // 
-            this.Id_Produto.DataPropertyName = "Id_Produto";
-            dataGridViewCellStyle18.Format = "#,##0";
-            this.Id_Produto.DefaultCellStyle = dataGridViewCellStyle18;
-            this.Id_Produto.HeaderText = "Id_Produto";
-            this.Id_Produto.Name = "Id_Produto";
-            this.Id_Produto.ReadOnly = true;
-            this.Id_Produto.Visible = false;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(81, 18);
+            this.label6.Location = new System.Drawing.Point(81, 216);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(58, 15);
             this.label6.TabIndex = 77;
@@ -400,7 +187,7 @@
             // txtIdVenda
             // 
             this.txtIdVenda.Enabled = false;
-            this.txtIdVenda.Location = new System.Drawing.Point(145, 12);
+            this.txtIdVenda.Location = new System.Drawing.Point(145, 210);
             this.txtIdVenda.Name = "txtIdVenda";
             this.txtIdVenda.Size = new System.Drawing.Size(100, 21);
             this.txtIdVenda.TabIndex = 78;
@@ -408,45 +195,62 @@
             // 
             // btExcluir
             // 
+            this.btExcluir.BackColor = System.Drawing.Color.Red;
+            this.btExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btExcluir.Enabled = false;
-            this.btExcluir.Location = new System.Drawing.Point(483, 513);
+            this.btExcluir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btExcluir.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btExcluir.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btExcluir.Location = new System.Drawing.Point(803, 513);
             this.btExcluir.Name = "btExcluir";
-            this.btExcluir.Size = new System.Drawing.Size(102, 52);
+            this.btExcluir.Size = new System.Drawing.Size(143, 40);
             this.btExcluir.TabIndex = 72;
             this.btExcluir.Text = "Cancelar a Venda";
-            this.toolTip1.SetToolTip(this.btExcluir, "Cancelar a Venda");
-            this.btExcluir.UseVisualStyleBackColor = true;
+            this.toolTip1.SetToolTip(this.btExcluir, "Cancelar Venda");
+            this.btExcluir.UseVisualStyleBackColor = false;
             this.btExcluir.Click += new System.EventHandler(this.BtExcluir_Click);
             // 
             // btSalvar
             // 
+            this.btSalvar.BackColor = System.Drawing.Color.Blue;
+            this.btSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btSalvar.Enabled = false;
-            this.btSalvar.Location = new System.Drawing.Point(360, 513);
+            this.btSalvar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btSalvar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btSalvar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btSalvar.Location = new System.Drawing.Point(654, 513);
             this.btSalvar.Name = "btSalvar";
-            this.btSalvar.Size = new System.Drawing.Size(98, 52);
+            this.btSalvar.Size = new System.Drawing.Size(127, 40);
             this.btSalvar.TabIndex = 75;
-            this.btSalvar.Text = "Finalizar a Venda";
+            this.btSalvar.Text = "Pagamento";
             this.toolTip1.SetToolTip(this.btSalvar, "Finalizar a Venda");
-            this.btSalvar.UseVisualStyleBackColor = true;
+            this.btSalvar.UseVisualStyleBackColor = false;
             this.btSalvar.Click += new System.EventHandler(this.BtSalvar_Click);
             // 
             // btNovo
             // 
-            this.btNovo.Location = new System.Drawing.Point(225, 513);
+            this.btNovo.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btNovo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btNovo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btNovo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btNovo.Location = new System.Drawing.Point(141, 57);
             this.btNovo.Name = "btNovo";
-            this.btNovo.Size = new System.Drawing.Size(109, 52);
+            this.btNovo.Size = new System.Drawing.Size(158, 47);
             this.btNovo.TabIndex = 74;
             this.btNovo.Text = "Nova Venda";
             this.toolTip1.SetToolTip(this.btNovo, "Nova Venda");
-            this.btNovo.UseVisualStyleBackColor = true;
+            this.btNovo.UseVisualStyleBackColor = false;
             this.btNovo.Click += new System.EventHandler(this.BtNovo_Click);
             // 
             // btRel
             // 
+            this.btRel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btRel.Enabled = false;
-            this.btRel.Location = new System.Drawing.Point(610, 513);
+            this.btRel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btRel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btRel.Location = new System.Drawing.Point(968, 513);
             this.btRel.Name = "btRel";
-            this.btRel.Size = new System.Drawing.Size(102, 52);
+            this.btRel.Size = new System.Drawing.Size(137, 40);
             this.btRel.TabIndex = 82;
             this.btRel.Text = "Relatório da Venda";
             this.toolTip1.SetToolTip(this.btRel, "Cancelar a Venda");
@@ -458,38 +262,47 @@
             this.btFecharGrid.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btFecharGrid.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btFecharGrid.Image = global::SistemaHotel.Properties.Resources.sair_20x20;
-            this.btFecharGrid.Location = new System.Drawing.Point(735, 183);
+            this.btFecharGrid.Location = new System.Drawing.Point(566, 525);
             this.btFecharGrid.Name = "btFecharGrid";
             this.btFecharGrid.Size = new System.Drawing.Size(47, 28);
             this.btFecharGrid.TabIndex = 81;
             this.toolTip1.SetToolTip(this.btFecharGrid, "Fechar o Formulário");
             this.btFecharGrid.UseVisualStyleBackColor = false;
+            this.btFecharGrid.Visible = false;
             this.btFecharGrid.Click += new System.EventHandler(this.BtFecharGrid_Click);
             // 
             // btRemoverItens
             // 
+            this.btRemoverItens.BackColor = System.Drawing.Color.Red;
             this.btRemoverItens.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btRemoverItens.Enabled = false;
-            this.btRemoverItens.Image = global::SistemaHotel.Properties.Resources._1481313424_minus;
-            this.btRemoverItens.Location = new System.Drawing.Point(682, 438);
+            this.btRemoverItens.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btRemoverItens.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btRemoverItens.ForeColor = System.Drawing.Color.White;
+            this.btRemoverItens.Location = new System.Drawing.Point(314, 469);
             this.btRemoverItens.Name = "btRemoverItens";
-            this.btRemoverItens.Size = new System.Drawing.Size(47, 40);
+            this.btRemoverItens.Size = new System.Drawing.Size(105, 39);
             this.btRemoverItens.TabIndex = 71;
+            this.btRemoverItens.Text = "Remover Item";
             this.toolTip1.SetToolTip(this.btRemoverItens, "Remova itens da Venda");
-            this.btRemoverItens.UseVisualStyleBackColor = true;
+            this.btRemoverItens.UseVisualStyleBackColor = false;
             this.btRemoverItens.Click += new System.EventHandler(this.BtRemoverItens_Click);
             // 
             // btAddItens
             // 
+            this.btAddItens.BackColor = System.Drawing.Color.Green;
             this.btAddItens.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btAddItens.Enabled = false;
-            this.btAddItens.Image = global::SistemaHotel.Properties.Resources._1481313373_sign_add;
-            this.btAddItens.Location = new System.Drawing.Point(629, 437);
+            this.btAddItens.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btAddItens.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btAddItens.ForeColor = System.Drawing.Color.Transparent;
+            this.btAddItens.Location = new System.Drawing.Point(169, 469);
             this.btAddItens.Name = "btAddItens";
-            this.btAddItens.Size = new System.Drawing.Size(47, 40);
+            this.btAddItens.Size = new System.Drawing.Size(116, 39);
             this.btAddItens.TabIndex = 70;
+            this.btAddItens.Text = "Adicionar item";
             this.toolTip1.SetToolTip(this.btAddItens, "Adicione itens a Venda");
-            this.btAddItens.UseVisualStyleBackColor = true;
+            this.btAddItens.UseVisualStyleBackColor = false;
             this.btAddItens.Click += new System.EventHandler(this.BtAddItens_Click);
             // 
             // btAddHospedes
@@ -497,11 +310,11 @@
             this.btAddHospedes.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btAddHospedes.Enabled = false;
             this.btAddHospedes.Image = global::SistemaHotel.Properties.Resources._1481313373_sign_add;
-            this.btAddHospedes.Location = new System.Drawing.Point(483, 34);
+            this.btAddHospedes.Location = new System.Drawing.Point(483, 232);
             this.btAddHospedes.Name = "btAddHospedes";
             this.btAddHospedes.Size = new System.Drawing.Size(47, 40);
             this.btAddHospedes.TabIndex = 65;
-            this.toolTip1.SetToolTip(this.btAddHospedes, "Selecione um Cliente");
+            this.toolTip1.SetToolTip(this.btAddHospedes, "Selecione um Hóspede");
             this.btAddHospedes.UseVisualStyleBackColor = true;
             this.btAddHospedes.Click += new System.EventHandler(this.BtAddHospedes_Click);
             // 
@@ -510,7 +323,7 @@
             this.btAddProdutos.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btAddProdutos.Enabled = false;
             this.btAddProdutos.Image = global::SistemaHotel.Properties.Resources._1481313373_sign_add;
-            this.btAddProdutos.Location = new System.Drawing.Point(483, 84);
+            this.btAddProdutos.Location = new System.Drawing.Point(483, 282);
             this.btAddProdutos.Name = "btAddProdutos";
             this.btAddProdutos.Size = new System.Drawing.Size(47, 40);
             this.btAddProdutos.TabIndex = 56;
@@ -521,9 +334,10 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(20, 452);
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(880, 438);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(104, 15);
+            this.label7.Size = new System.Drawing.Size(126, 18);
             this.label7.TabIndex = 79;
             this.label7.Text = "Total das Vendas ";
             // 
@@ -536,25 +350,53 @@
             this.lblTotalVendas.Size = new System.Drawing.Size(0, 18);
             this.lblTotalVendas.TabIndex = 80;
             // 
+            // GridViewVendas
+            // 
+            this.GridViewVendas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.GridViewVendas.Location = new System.Drawing.Point(566, 180);
+            this.GridViewVendas.Name = "GridViewVendas";
+            this.GridViewVendas.Size = new System.Drawing.Size(637, 236);
+            this.GridViewVendas.TabIndex = 83;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(40, 177);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(98, 16);
+            this.label8.TabIndex = 84;
+            this.label8.Text = "Data da Venda";
+            // 
+            // dtVendas
+            // 
+            this.dtVendas.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtVendas.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtVendas.Location = new System.Drawing.Point(145, 171);
+            this.dtVendas.Name = "dtVendas";
+            this.dtVendas.Size = new System.Drawing.Size(100, 22);
+            this.dtVendas.TabIndex = 86;
+            // 
             // FrmVendas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(1149, 577);
+            this.ClientSize = new System.Drawing.Size(1215, 567);
+            this.Controls.Add(this.dtVendas);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.GridViewVendas);
             this.Controls.Add(this.btRel);
             this.Controls.Add(this.btFecharGrid);
             this.Controls.Add(this.lblTotalVendas);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtIdVenda);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.gridDetalhesVendas);
             this.Controls.Add(this.btExcluir);
             this.Controls.Add(this.btSalvar);
             this.Controls.Add(this.btNovo);
             this.Controls.Add(this.btRemoverItens);
             this.Controls.Add(this.btAddItens);
-            this.Controls.Add(this.gridVendas);
             this.Controls.Add(this.dtBuscarVendas);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btAddHospedes);
@@ -576,11 +418,9 @@
             this.Name = "FrmVendas";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TELA DE VENDAS";
-            this.Activated += new System.EventHandler(this.FrmVendas_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmVendas_FormClosing);
             this.Load += new System.EventHandler(this.FrmVendas_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.gridVendas)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridDetalhesVendas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GridViewVendas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -590,7 +430,6 @@
 
         private System.Windows.Forms.TextBox txtQuant;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtEstoque;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btAddProdutos;
         private System.Windows.Forms.TextBox txtVrVenda;
@@ -602,13 +441,11 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DateTimePicker dtBuscarVendas;
-        private System.Windows.Forms.DataGridView gridVendas;
         private System.Windows.Forms.Button btAddItens;
         private System.Windows.Forms.Button btRemoverItens;
         private System.Windows.Forms.Button btExcluir;
         private System.Windows.Forms.Button btSalvar;
         private System.Windows.Forms.Button btNovo;
-        private System.Windows.Forms.DataGridView gridDetalhesVendas;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtIdVenda;
         private System.Windows.Forms.ToolTip toolTip1;
@@ -616,18 +453,9 @@
         private System.Windows.Forms.Label lblTotalVendas;
         private System.Windows.Forms.Button btFecharGrid;
         private System.Windows.Forms.Button btRel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IdVenda1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Data;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ValorTotal;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Funcionario;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IdDetalhe;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Produto;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Quant;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ValorUnit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ValorTotal1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id_Venda;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Funcionario1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id_Produto;
+        private System.Windows.Forms.DataGridView GridViewVendas;
+        public System.Windows.Forms.TextBox txtEstoque;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.DateTimePicker dtVendas;
     }
 }

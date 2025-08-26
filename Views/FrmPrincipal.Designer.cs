@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuCadastro = new System.Windows.Forms.ToolStripMenuItem();
             this.funcionáriosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,7 +40,6 @@
             this.servicosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuProdutos = new System.Windows.Forms.ToolStripMenuItem();
             this.novoProdutoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.estoqueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuCheckIn = new System.Windows.Forms.ToolStripMenuItem();
             this.checkInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,6 +69,7 @@
             this.btVendas = new System.Windows.Forms.Button();
             this.btProdutos = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.lblQuartos = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.lblReservas = new System.Windows.Forms.Label();
@@ -84,9 +85,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblHora = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.timerPrincipal = new System.Windows.Forms.Timer(this.components);
+            this.toolTipPrinciapl = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -174,8 +178,7 @@
             // menuProdutos
             // 
             this.menuProdutos.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.novoProdutoToolStripMenuItem,
-            this.estoqueToolStripMenuItem});
+            this.novoProdutoToolStripMenuItem});
             this.menuProdutos.Image = global::SistemaHotel.Properties.Resources.menu_produtos;
             this.menuProdutos.Name = "menuProdutos";
             this.menuProdutos.Size = new System.Drawing.Size(94, 20);
@@ -187,13 +190,6 @@
             this.novoProdutoToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.novoProdutoToolStripMenuItem.Text = "Novo Produto";
             this.novoProdutoToolStripMenuItem.Click += new System.EventHandler(this.NovoProdutoToolStripMenuItem_Click);
-            // 
-            // estoqueToolStripMenuItem
-            // 
-            this.estoqueToolStripMenuItem.Name = "estoqueToolStripMenuItem";
-            this.estoqueToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.estoqueToolStripMenuItem.Text = "Estoque";
-            this.estoqueToolStripMenuItem.Click += new System.EventHandler(this.EstoqueToolStripMenuItem_Click);
             // 
             // menuCheckIn
             // 
@@ -271,20 +267,20 @@
             // novaReservaToolStripMenuItem
             // 
             this.novaReservaToolStripMenuItem.Name = "novaReservaToolStripMenuItem";
-            this.novaReservaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.novaReservaToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.novaReservaToolStripMenuItem.Text = "Nova Reserva";
             this.novaReservaToolStripMenuItem.Click += new System.EventHandler(this.novaReservaToolStripMenuItem_Click);
             // 
             // quadroDeReservasToolStripMenuItem
             // 
             this.quadroDeReservasToolStripMenuItem.Name = "quadroDeReservasToolStripMenuItem";
-            this.quadroDeReservasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.quadroDeReservasToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.quadroDeReservasToolStripMenuItem.Text = "Quadro de Reservas";
             // 
             // consultarServiçosToolStripMenuItem
             // 
             this.consultarServiçosToolStripMenuItem.Name = "consultarServiçosToolStripMenuItem";
-            this.consultarServiçosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.consultarServiçosToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.consultarServiçosToolStripMenuItem.Text = "Consultar Serviços";
             // 
             // menuRelatorios
@@ -371,33 +367,52 @@
             // 
             // btRelatorios
             // 
+            this.btRelatorios.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btRelatorios.FlatAppearance.BorderSize = 0;
+            this.btRelatorios.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btRelatorios.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btRelatorios.Image = global::SistemaHotel.Properties.Resources.relatorio_64_x_64;
             this.btRelatorios.Location = new System.Drawing.Point(558, 14);
             this.btRelatorios.Name = "btRelatorios";
             this.btRelatorios.Size = new System.Drawing.Size(65, 65);
             this.btRelatorios.TabIndex = 6;
+            this.toolTipPrinciapl.SetToolTip(this.btRelatorios, "Relatórios");
             this.btRelatorios.UseVisualStyleBackColor = true;
             // 
             // btCheckOut
             // 
+            this.btCheckOut.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btCheckOut.FlatAppearance.BorderSize = 0;
+            this.btCheckOut.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btCheckOut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btCheckOut.Image = global::SistemaHotel.Properties.Resources.menu_checkout;
             this.btCheckOut.Location = new System.Drawing.Point(467, 14);
             this.btCheckOut.Name = "btCheckOut";
             this.btCheckOut.Size = new System.Drawing.Size(65, 65);
             this.btCheckOut.TabIndex = 5;
+            this.toolTipPrinciapl.SetToolTip(this.btCheckOut, "Check Out");
             this.btCheckOut.UseVisualStyleBackColor = true;
             // 
             // btCheckIn
             // 
+            this.btCheckIn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btCheckIn.FlatAppearance.BorderSize = 0;
+            this.btCheckIn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btCheckIn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btCheckIn.Image = global::SistemaHotel.Properties.Resources.menu_checkin1;
             this.btCheckIn.Location = new System.Drawing.Point(376, 14);
             this.btCheckIn.Name = "btCheckIn";
             this.btCheckIn.Size = new System.Drawing.Size(65, 65);
             this.btCheckIn.TabIndex = 4;
+            this.toolTipPrinciapl.SetToolTip(this.btCheckIn, "Check In");
             this.btCheckIn.UseVisualStyleBackColor = true;
             // 
             // btQuadroReservas
             // 
+            this.btQuadroReservas.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btQuadroReservas.FlatAppearance.BorderSize = 0;
+            this.btQuadroReservas.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btQuadroReservas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btQuadroReservas.Image = global::SistemaHotel.Properties.Resources.quadro_reservas_64_x_64;
             this.btQuadroReservas.Location = new System.Drawing.Point(285, 14);
             this.btQuadroReservas.Name = "btQuadroReservas";
@@ -407,6 +422,10 @@
             // 
             // btReservas
             // 
+            this.btReservas.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btReservas.FlatAppearance.BorderSize = 0;
+            this.btReservas.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btReservas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btReservas.Image = global::SistemaHotel.Properties.Resources.reservas_64x64;
             this.btReservas.Location = new System.Drawing.Point(194, 14);
             this.btReservas.Name = "btReservas";
@@ -416,20 +435,31 @@
             // 
             // btVendas
             // 
+            this.btVendas.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btVendas.FlatAppearance.BorderSize = 0;
+            this.btVendas.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btVendas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btVendas.Image = global::SistemaHotel.Properties.Resources.movimentacoes_64x64;
             this.btVendas.Location = new System.Drawing.Point(103, 14);
             this.btVendas.Name = "btVendas";
             this.btVendas.Size = new System.Drawing.Size(65, 65);
             this.btVendas.TabIndex = 1;
+            this.toolTipPrinciapl.SetToolTip(this.btVendas, "Vendas");
             this.btVendas.UseVisualStyleBackColor = true;
+            this.btVendas.Click += new System.EventHandler(this.btVendas_Click);
             // 
             // btProdutos
             // 
+            this.btProdutos.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btProdutos.FlatAppearance.BorderSize = 0;
+            this.btProdutos.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btProdutos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btProdutos.Image = global::SistemaHotel.Properties.Resources.produto_64x64;
-            this.btProdutos.Location = new System.Drawing.Point(12, 14);
+            this.btProdutos.Location = new System.Drawing.Point(17, 14);
             this.btProdutos.Name = "btProdutos";
             this.btProdutos.Size = new System.Drawing.Size(65, 65);
             this.btProdutos.TabIndex = 0;
+            this.toolTipPrinciapl.SetToolTip(this.btProdutos, "Cadastro de Produtos");
             this.btProdutos.UseVisualStyleBackColor = true;
             this.btProdutos.Click += new System.EventHandler(this.BtProdutos_Click);
             // 
@@ -438,6 +468,7 @@
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel2.Controls.Add(this.pictureBox3);
             this.panel2.Controls.Add(this.lblQuartos);
             this.panel2.Controls.Add(this.label5);
             this.panel2.Controls.Add(this.lblReservas);
@@ -455,14 +486,24 @@
             this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Location = new System.Drawing.Point(652, 40);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(269, 519);
+            this.panel2.Size = new System.Drawing.Size(269, 580);
             this.panel2.TabIndex = 2;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::SistemaHotel.Properties.Resources.menu_reservas;
+            this.pictureBox3.Location = new System.Drawing.Point(33, 430);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(50, 50);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 13;
+            this.pictureBox3.TabStop = false;
             // 
             // lblQuartos
             // 
             this.lblQuartos.AutoSize = true;
             this.lblQuartos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblQuartos.Location = new System.Drawing.Point(199, 463);
+            this.lblQuartos.Location = new System.Drawing.Point(199, 538);
             this.lblQuartos.Name = "lblQuartos";
             this.lblQuartos.Size = new System.Drawing.Size(24, 18);
             this.lblQuartos.TabIndex = 12;
@@ -472,7 +513,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(22, 463);
+            this.label5.Location = new System.Drawing.Point(22, 538);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(139, 18);
             this.label5.TabIndex = 11;
@@ -482,7 +523,7 @@
             // 
             this.lblReservas.AutoSize = true;
             this.lblReservas.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblReservas.Location = new System.Drawing.Point(199, 412);
+            this.lblReservas.Location = new System.Drawing.Point(199, 497);
             this.lblReservas.Name = "lblReservas";
             this.lblReservas.Size = new System.Drawing.Size(16, 18);
             this.lblReservas.TabIndex = 10;
@@ -492,7 +533,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(22, 412);
+            this.label7.Location = new System.Drawing.Point(22, 497);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(71, 18);
             this.label7.TabIndex = 9;
@@ -501,9 +542,9 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = global::SistemaHotel.Properties.Resources.couple641;
-            this.pictureBox2.Location = new System.Drawing.Point(17, 195);
+            this.pictureBox2.Location = new System.Drawing.Point(33, 232);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(76, 74);
+            this.pictureBox2.Size = new System.Drawing.Size(50, 50);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 8;
             this.pictureBox2.TabStop = false;
@@ -511,7 +552,7 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.Black;
-            this.panel4.Location = new System.Drawing.Point(5, 354);
+            this.panel4.Location = new System.Drawing.Point(8, 380);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(261, 16);
             this.panel4.TabIndex = 4;
@@ -528,7 +569,7 @@
             // 
             this.lblCargo.AutoSize = true;
             this.lblCargo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCargo.Location = new System.Drawing.Point(141, 318);
+            this.lblCargo.Location = new System.Drawing.Point(141, 332);
             this.lblCargo.Name = "lblCargo";
             this.lblCargo.Size = new System.Drawing.Size(38, 18);
             this.lblCargo.TabIndex = 7;
@@ -538,7 +579,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(37, 318);
+            this.label3.Location = new System.Drawing.Point(37, 332);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(49, 18);
             this.label3.TabIndex = 6;
@@ -548,7 +589,7 @@
             // 
             this.lblUsuario.AutoSize = true;
             this.lblUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsuario.Location = new System.Drawing.Point(142, 285);
+            this.lblUsuario.Location = new System.Drawing.Point(142, 299);
             this.lblUsuario.Name = "lblUsuario";
             this.lblUsuario.Size = new System.Drawing.Size(55, 18);
             this.lblUsuario.TabIndex = 5;
@@ -558,7 +599,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(33, 285);
+            this.label2.Location = new System.Drawing.Point(33, 299);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 18);
             this.label2.TabIndex = 4;
@@ -568,7 +609,7 @@
             // 
             this.lblData.AutoSize = true;
             this.lblData.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblData.Location = new System.Drawing.Point(125, 120);
+            this.lblData.Location = new System.Drawing.Point(117, 120);
             this.lblData.Name = "lblData";
             this.lblData.Size = new System.Drawing.Size(100, 24);
             this.lblData.TabIndex = 3;
@@ -578,17 +619,17 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(21, 120);
+            this.label1.Location = new System.Drawing.Point(36, 120);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 24);
+            this.label1.Size = new System.Drawing.Size(47, 24);
             this.label1.TabIndex = 2;
-            this.label1.Text = "DATA";
+            this.label1.Text = "Data";
             // 
             // lblHora
             // 
             this.lblHora.AutoSize = true;
             this.lblHora.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHora.Location = new System.Drawing.Point(125, 65);
+            this.lblHora.Location = new System.Drawing.Point(117, 42);
             this.lblHora.Name = "lblHora";
             this.lblHora.Size = new System.Drawing.Size(80, 24);
             this.lblHora.TabIndex = 1;
@@ -597,28 +638,39 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::SistemaHotel.Properties.Resources.relogio_2;
-            this.pictureBox1.Location = new System.Drawing.Point(16, 14);
+            this.pictureBox1.Location = new System.Drawing.Point(33, 29);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(77, 75);
+            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            // 
+            // timerPrincipal
+            // 
+            this.timerPrincipal.Enabled = true;
+            this.timerPrincipal.Interval = 1000;
+            this.timerPrincipal.Tick += new System.EventHandler(this.timerPrincipal_Tick);
+            // 
+            // toolTipPrinciapl
+            // 
+            this.toolTipPrinciapl.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
             // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(933, 571);
+            this.ClientSize = new System.Drawing.Size(933, 632);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FrmPrincipal";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmPrincipal_FormClosing);
             this.Load += new System.EventHandler(this.FrmPrincipal_Load);
             this.Resize += new System.EventHandler(this.FrmPrincipal_Resize);
             this.menuStrip1.ResumeLayout(false);
@@ -626,6 +678,7 @@
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -645,7 +698,6 @@
         private System.Windows.Forms.ToolStripMenuItem cargosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuProdutos;
         private System.Windows.Forms.ToolStripMenuItem novoProdutoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem estoqueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuCheckIn;
         private System.Windows.Forms.ToolStripMenuItem checkInToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkOutToolStripMenuItem;
@@ -691,5 +743,8 @@
         private System.Windows.Forms.ToolStripMenuItem relatórioDeServiçosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem relatórioDeMovimentaçõesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem relatórioDeMovimentaçõesToolStripMenuItem1;
+        private System.Windows.Forms.Timer timerPrincipal;
+        private System.Windows.Forms.ToolTip toolTipPrinciapl;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }

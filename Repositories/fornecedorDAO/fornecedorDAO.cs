@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using SistemaHotel.Dados;
+using SistemaHotel.Services;
 using System;
 using System.Data;
 
@@ -9,49 +10,82 @@ namespace SistemaHotel.Repositories.fornecedorDAO
     {
         public DataTable ListarFornecedores()
         {
-            DataTable dt = new DataTable();
-            Conexao con = new Conexao();
-            con.AbrirCon();
+            try
+            {
+                DataTable dt = new DataTable();
+                Conexao con = new Conexao();
+                con.AbrirCon();
 
-            MySqlCommand cmd = new MySqlCommand("spListarFornecedores", con.Con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-            da.Fill(dt);
+                MySqlCommand cmd = new MySqlCommand("spListarFornecedores", con.Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
 
-            con.Con.Close();
-            return dt;
+                con.Con.Close();
+                LogService.LogSucesso($"Listar Fornecedores.");
+                return dt;
+            }
+            catch (Exception ex)
+            {
+
+                LogService.LogError(ex, $"Listar Fornecedores.");
+                return new DataTable();
+            }
+
         }
 
         public DataTable BuscarFornecedorPorNome(string nome)
         {
-            DataTable dt = new DataTable();
-            Conexao con = new Conexao();
-            con.AbrirCon();
+            try
+            {
+                DataTable dt = new DataTable();
+                Conexao con = new Conexao();
+                con.AbrirCon();
 
-            MySqlCommand cmd = new MySqlCommand("spBuscarFornecNome", con.Con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("pNome", nome);
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-            da.Fill(dt);
+                MySqlCommand cmd = new MySqlCommand("spBuscarFornecNome", con.Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("pNome", nome);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
 
-            con.Con.Close();
-            return dt;
+                con.Con.Close();
+                LogService.LogSucesso($"Buscar Fornecedor Por Nome.");
+                return dt;
+            }
+            catch (Exception ex)
+            {
+
+                LogService.LogError(ex, $"Buscar Fornecedor Por Nome.");
+                return new DataTable();
+            }
+
         }
 
         public bool ExisteFornecedor(string nome)
         {
-            DataTable dt = new DataTable();
-            Conexao con = new Conexao();
-            con.AbrirCon();
+            try
+            {
+                DataTable dt = new DataTable();
+                Conexao con = new Conexao();
+                con.AbrirCon();
 
-            MySqlCommand cmd = new MySqlCommand("spVerificarFornec", con.Con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("pNome", nome);
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-            da.Fill(dt);
+                MySqlCommand cmd = new MySqlCommand("spVerificarFornec", con.Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("pNome", nome);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
 
-            con.Con.Close();
-            return dt.Rows.Count > 0;
+                con.Con.Close();
+                LogService.LogSucesso($"Existe Fornecedor.");
+                return dt.Rows.Count > 0;
+            }
+            catch (Exception ex)
+            {
+
+                LogService.LogError(ex, $"Existe Fornecedor.");
+                return false;
+            }
+
         }
 
         public bool ExisteCNPJ(string cnpj)
