@@ -4,7 +4,6 @@ using SistemaHotel.Models;
 using SistemaHotel.Services;
 using System;
 using System.Data;
-using System.Windows.Forms;
 
 namespace SistemaHotel.Repositories.novoServicoDAO
 {
@@ -33,11 +32,12 @@ namespace SistemaHotel.Repositories.novoServicoDAO
                 da.Fill(tabela);
 
                 con.Con.Close();
+                LogService.LogSucesso($"Listar Serviços.");
                 return tabela;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao listar serviços: " + ex.Message);
+                LogService.LogError(ex, $"Listar Serviços.");
             }
             return tabela;
         }
@@ -71,10 +71,11 @@ namespace SistemaHotel.Repositories.novoServicoDAO
                 }
                 reader.Close();
                 con.Con.Close();
+                LogService.LogSucesso($"Inserir Serviços.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao inserir serviço: " + ex.Message);
+                LogService.LogError(ex, $"Inserir Serviços.");
             }
             return idGerado;
         }
@@ -97,10 +98,11 @@ namespace SistemaHotel.Repositories.novoServicoDAO
                 }
                 reader.Close();
                 con.Con.Close();
+                LogService.LogSucesso($"Recuperar último ID inserido.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao recuperar último ID: " + ex.Message);
+                LogService.LogError(ex, $"Recuperar último ID inserido.");
             }
             return id;
         }
@@ -118,10 +120,11 @@ namespace SistemaHotel.Repositories.novoServicoDAO
                 cmd.Parameters.AddWithValue("@pIdNovoServico", idServico);
                 cmd.ExecuteNonQuery();
                 con.Con.Close();
+                LogService.LogSucesso($"Excluir serviço por ID.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao excluir serviço: " + ex.Message);
+                LogService.LogError(ex, $"Excluir serviço por ID.");
             }
         }
 
@@ -149,10 +152,11 @@ namespace SistemaHotel.Repositories.novoServicoDAO
                 }
                 reader.Close();
                 con.Con.Close();
+                LogService.LogSucesso($"Inserir Movimentacao.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao inserir movimentação: " + ex.Message);
+                LogService.LogError(ex, $"Inserir Movimentacao.");
             }
             return idGerado;
         }
@@ -170,10 +174,11 @@ namespace SistemaHotel.Repositories.novoServicoDAO
                 cmd.Parameters.AddWithValue("@pMovimento", movimento);
                 cmd.ExecuteNonQuery();
                 con.Con.Close();
+                LogService.LogSucesso($"Excluir movimentação de serviço.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao excluir movimentação: " + ex.Message);
+                LogService.LogError(ex, $"Excluir movimentação de serviço.");
             }
         }
 
@@ -203,10 +208,11 @@ namespace SistemaHotel.Repositories.novoServicoDAO
 
                 cmd.ExecuteNonQuery();
                 con.Con.Close();
+                LogService.LogSucesso($"Alterar serviço existente.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao alterar serviço: " + ex.Message);
+                LogService.LogError(ex, $"Alterar serviço existente.");
             }
         }
 

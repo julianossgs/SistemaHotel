@@ -2,11 +2,13 @@
 using SistemaHotel.Dados;
 using SistemaHotel.Models;
 using SistemaHotel.Properties;
+using SistemaHotel.Repositories.estoqueDAO;
 using SistemaHotel.Repositories.produtoDAO;
 using SistemaHotel.Services;
 using System;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
@@ -15,38 +17,28 @@ namespace SistemaHotel.Views
     public partial class FrmProdutos : Form
     {
         private produtoDAO _dao = new produtoDAO();
+        // Declaração do estoqueDAO como campo privado
+
+        // no corpo da classe FrmProdutos
+        private readonly estoqueDAO _estoqueDao = new estoqueDAO();
+
         private string op = "";
         public string foto = "";
         private byte[] imagemOriginal;
+
+        public int IdProdutoSelecionado { get; private set; } = 0;
+        public string NomeProdutoSelecionado { get; private set; } = null;
+        public string EstoqueSelecionado { get; private set; }
+        public decimal ValorCompraSelecionado { get; private set; }
 
         public FrmProdutos()
         {
             InitializeComponent();
             gridProdutos.AutoGenerateColumns = false;
             EnableHelper.SetEnabled(false, txtCod, txtProduto, txtDescricao, cBFornecedor, txtVrCompra, txtVrVenda);
+
         }
 
-
-
-        private void LimparCampos()
-        {
-            // Utiliza helper para limpar todos os campos de texto
-            ControlHelper.ClearAndFocus(txtCod, txtProduto, txtDescricao, txtVrVenda, txtVrCompra, txtEstoque);
-            txtEstoque.Text = "0";
-
-            // Limpa imagem
-            pBoxProdutos.Image = Resources.sem_foto;
-            foto = "";
-        }
-
-        private void HabilitarCampos(bool vr)
-        {
-            // Usa helper para habilitar/desabilitar todos os campos relevantes
-            EnableHelper.SetEnabled(vr, txtProduto, txtDescricao, txtVrVenda, txtVrCompra, cBFornecedor, btEditar, btExcluir, btSalvar, btAddImagem, btRemoverImagem, pBoxProdutos);
-
-            // O campo de estoque permanece sempre desabilitado (alteração só via movimentação)
-            EnableHelper.SetEnabled(false, txtEstoque);
-        }
 
         // Carrega fornecedores no combobox
         private void PreencherCBox()
@@ -107,7 +99,13 @@ namespace SistemaHotel.Views
                 else
                 {
                     // Caso não haja resultados, limpa todos os campos do formulário (inclusive imagem)
-                    LimparCampos();
+                    ControlHelper.ClearAndFocus(txtCod, txtProduto, txtDescricao, txtVrVenda, txtVrCompra, txtEstoque);
+                    txtEstoque.Text = "0";
+
+                    // Limpa imagem
+                    pBoxProdutos.Image = Resources.sem_foto;
+                    foto = "";
+                    //LimparCampos();
                 }
             }
             catch (Exception ex)
@@ -124,7 +122,7 @@ namespace SistemaHotel.Views
             {
                 case "Novo":
                     txtProduto.Focus();
-                    HabilitarCampos(true);
+                    EnableHelper.SetEnabled(true, txtProduto, txtDescricao, txtVrVenda, txtVrCompra, cBFornecedor, btEditar, btExcluir, btSalvar, btAddImagem, btRemoverImagem, pBoxProdutos);
                     break;
 
                 case "Salvar":
@@ -145,9 +143,50 @@ namespace SistemaHotel.Views
                         if (id > 0)
                         {
                             SucessoMensageService.ShowSuccess("Registro salvo com sucesso!");
+
+                            // Lançar gasto do cadastro inicial (se houver estoque inicial e valor de compra)
+                            decimal estoqueInicial = 0;
+                            decimal valorCompra = 0;
+
+                            // Tenta converter respeitando vírgula/ponto da máquina do usuário
+                            decimal.TryParse(txtEstoque.Text, NumberStyles.Any, CultureInfo.CurrentCulture, out estoqueInicial);
+                            decimal.TryParse(txtVrCompra.Text, NumberStyles.Any, CultureInfo.CurrentCulture, out valorCompra);
+
+                            // Só lança gasto se ambos forem positivos
+                            // Sempre lança gasto no cadastro inicial de produto
+                            if (valorCompra >= 0)
+                            {
+                                decimal valorGasto = valorCompra; // Aqui considera apenas o valor unitário informado
+                                string funcionario = Globais.nomeUsuario;
+
+                                // 1) Lança em Gastos
+                                _estoqueDao.InserirGasto("Compra de Produtos (cadastro inicial)", funcionario, valorGasto);
+
+                                // 2) Recupera Id do gasto e insere a Movimentação
+                                string ultimoIdGasto = _estoqueDao.RecuperarUltimoIdGasto();
+                                Globais.ultimoIdGasto = ultimoIdGasto;
+
+                                _estoqueDao.InserirMovimentacaoGasto(
+                                    "Saída",
+                                    "Gastos",
+                                    valorGasto,
+                                    funcionario,
+                                    ultimoIdGasto
+                                );
+                            }
+
+
+
+                            //
                             ListarProdutos();
-                            LimparCampos();
-                            HabilitarCampos(false);
+                            ControlHelper.ClearAndFocus(txtCod, txtProduto, txtDescricao, txtVrVenda, txtVrCompra, txtEstoque);
+                            txtEstoque.Text = "0";
+
+                            // Limpa imagem
+                            pBoxProdutos.Image = Resources.sem_foto;
+                            foto = "";
+                            //LimparCampos();
+                            EnableHelper.SetEnabled(false, txtProduto, txtDescricao, txtVrVenda, txtVrCompra, cBFornecedor, btEditar, btExcluir, btSalvar, btAddImagem, btRemoverImagem, pBoxProdutos);
                         }
                         else
                         {
@@ -185,8 +224,15 @@ namespace SistemaHotel.Views
                         {
                             SucessoMensageService.ShowSuccess("Registro alterado com sucesso!");
                             ListarProdutos();
-                            LimparCampos();
-                            HabilitarCampos(false);
+                            ControlHelper.ClearAndFocus(txtCod, txtProduto, txtDescricao, txtVrVenda, txtVrCompra, txtEstoque);
+                            txtEstoque.Text = "0";
+
+                            // Limpa imagem
+                            pBoxProdutos.Image = Resources.sem_foto;
+                            foto = "";
+
+                            EnableHelper.SetEnabled(false, txtProduto, txtDescricao, txtVrVenda, txtVrCompra, cBFornecedor, btEditar, btExcluir, btSalvar, btAddImagem, btRemoverImagem, pBoxProdutos);
+
                         }
                         else
                         {
@@ -208,8 +254,15 @@ namespace SistemaHotel.Views
                         {
                             SucessoMensageService.ShowSuccess("Registro excluído com sucesso!");
                             ListarProdutos();
-                            LimparCampos();
-                            HabilitarCampos(false);
+                            ControlHelper.ClearAndFocus(txtCod, txtProduto, txtDescricao, txtVrVenda, txtVrCompra, txtEstoque);
+                            txtEstoque.Text = "0";
+
+                            // Limpa imagem
+                            pBoxProdutos.Image = Resources.sem_foto;
+                            foto = "";
+
+                            EnableHelper.SetEnabled(false, txtProduto, txtDescricao, txtVrVenda, txtVrCompra, cBFornecedor, btEditar, btExcluir, btSalvar, btAddImagem, btRemoverImagem, pBoxProdutos);
+
                         }
                         else
                         {
@@ -227,11 +280,18 @@ namespace SistemaHotel.Views
         // Botão Novo
         private void BtNovo_Click(object sender, EventArgs e)
         {
-            LimparCampos();
+            ControlHelper.ClearAndFocus(txtProduto, txtProduto, txtCod, txtDescricao, txtVrVenda, txtVrCompra, txtEstoque);
+            txtEstoque.Text = "0";
+
+            // Limpa imagem
+            pBoxProdutos.Image = Resources.sem_foto;
+            foto = "";
+
             op = "Novo";
             IniciarOp();
-            txtProduto.Focus();
-            EnableHelper.SetEnabled(false, btEditar, btExcluir);
+            ControlHelper.ClearAndFocus(txtProduto);
+            EnableHelper.SetEnabled(false, btNovo);
+
         }
 
         // Botão Salvar
@@ -240,19 +300,35 @@ namespace SistemaHotel.Views
             if (string.IsNullOrWhiteSpace(txtProduto.Text))
             {
                 ErroMensageService.ShowError("Insira um Produto!");
-                txtProduto.Focus();
+                ControlHelper.ClearAndFocus(txtProduto);
                 return;
             }
+
+            if (string.IsNullOrWhiteSpace(txtDescricao.Text))
+            {
+                ErroMensageService.ShowError("Insira uma descrição para o Produto!");
+                ControlHelper.ClearAndFocus(txtDescricao);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtVrCompra.Text))
+            {
+                ErroMensageService.ShowError("Insira um valor de compra para o Produto!");
+                ControlHelper.ClearAndFocus(txtVrCompra);
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(txtVrVenda.Text))
             {
-                ErroMensageService.ShowError("Insira um valor para o Produto!");
-                txtVrVenda.Focus();
+                ErroMensageService.ShowError("Insira um valor unitário para o Produto!");
+                ControlHelper.ClearAndFocus(txtVrVenda);
                 return;
             }
+
             if (cBFornecedor.SelectedValue == null)
             {
                 ErroMensageService.ShowError("Selecione um Fornecedor!");
-                cBFornecedor.Focus();
+                ControlHelper.ClearAndFocus(cBFornecedor);
                 return;
             }
 
@@ -261,6 +337,7 @@ namespace SistemaHotel.Views
             // Se txtCod.Text está vazio, é novo registro
             // Se txtCod.Text tem valor, é edição
             op = string.IsNullOrWhiteSpace(txtCod.Text) ? "Salvar" : "Editar";
+            EnableHelper.SetEnabled(true, btNovo);
             IniciarOp();
         }
 
@@ -270,12 +347,12 @@ namespace SistemaHotel.Views
             if (string.IsNullOrWhiteSpace(txtProduto.Text) || string.IsNullOrWhiteSpace(txtCod.Text))
             {
                 ErroMensageService.ShowError("Selecione um Registro para Alterar!");
-                txtProduto.Focus();
+                ControlHelper.ClearAndFocus(txtProduto);
                 return;
             }
             op = "Editar";
-            HabilitarCampos(true); // Só habilita campos para edição
-            txtProduto.Focus();
+            EnableHelper.SetEnabled(true, txtProduto, txtDescricao, txtVrVenda, txtVrCompra, cBFornecedor, btEditar, btExcluir, btSalvar, btAddImagem, btRemoverImagem, pBoxProdutos);
+            ControlHelper.ClearAndFocus(txtProduto);
             IniciarOp();
         }
 
@@ -285,7 +362,7 @@ namespace SistemaHotel.Views
             if (string.IsNullOrWhiteSpace(txtProduto.Text) || string.IsNullOrWhiteSpace(txtCod.Text))
             {
                 ErroMensageService.ShowError("Selecione um Registro para excluir!");
-                txtProduto.Focus();
+                ControlHelper.ClearAndFocus(txtProduto);
                 return;
             }
             if (MessageBox.Show("Deseja Excluir?", "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
@@ -318,7 +395,7 @@ namespace SistemaHotel.Views
         private void LimparFoto()
         {
             pBoxProdutos.SizeMode = PictureBoxSizeMode.StretchImage;
-            //pBoxProdutos.Image = Resources.sem_foto;
+            pBoxProdutos.Image = Resources.sem_foto;
             foto = "";
         }
 
@@ -328,8 +405,28 @@ namespace SistemaHotel.Views
             LimparFoto();
             ListarProdutos();
             PreencherCBox();
-            LimparCampos();
-            HabilitarCampos(false);
+            ControlHelper.ClearAndFocus(txtCod, txtProduto, txtDescricao, txtVrVenda, txtVrCompra, txtEstoque);
+            txtEstoque.Text = "0";
+
+            // Limpa imagem
+            pBoxProdutos.Image = Resources.sem_foto;
+            foto = "";
+
+            EnableHelper.SetEnabled(false, txtProduto, txtDescricao, txtVrVenda, txtVrCompra, cBFornecedor, btEditar, btExcluir, btSalvar, btAddImagem, btRemoverImagem, pBoxProdutos);
+
+
+            // Verifica o contexto de chamada do formulário
+            if (Globais.chamadaProdutos == "vendas")
+            {
+                btnSelecionarProdutoVendas.Visible = true;
+                btnSelecionarProdutoEdicao.Visible = false;
+            }
+            else
+            {
+                // Uso direto (edição)
+                btnSelecionarProdutoVendas.Visible = false;
+                btnSelecionarProdutoEdicao.Visible = true;
+            }
         }
 
         // Converte imagem para byte[]
@@ -363,21 +460,51 @@ namespace SistemaHotel.Views
         // Evento de clique na grid para preencher os campos
         private void gridProdutos_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
+            txtCod.Text = gridProdutos.CurrentRow.Cells["IdProduto"].Value?.ToString() ?? "";
+            txtProduto.Text = gridProdutos.CurrentRow.Cells["Nome"].Value?.ToString() ?? "";
+            txtDescricao.Text = gridProdutos.CurrentRow.Cells["Descricao"].Value?.ToString() ?? "";
+            txtEstoque.Text = gridProdutos.CurrentRow.Cells["Estoque"].Value?.ToString() ?? "";
+            txtVrCompra.Text = gridProdutos.CurrentRow.Cells["ValorCompra"].Value?.ToString() ?? "";
+            txtVrVenda.Text = gridProdutos.CurrentRow.Cells["ValorUnit"].Value?.ToString() ?? "";
+            cBFornecedor.Text = gridProdutos.CurrentRow.Cells["Fornecedor"].Value?.ToString() ?? "";
 
+            // Imagem
+            var imgCell = gridProdutos.CurrentRow.Cells["Imagem"];
+            if (imgCell != null && imgCell.Value != null && imgCell.Value != DBNull.Value)
+            {
+                try
+                {
+                    byte[] imagemBuffer = (byte[])imgCell.Value;
+                    imagemOriginal = imagemBuffer;
+
+                    if (imagemBuffer.Length > 0)
+                    {
+                        using (MemoryStream ms = new MemoryStream(imagemBuffer))
+                        {
+                            pBoxProdutos.Image = Image.FromStream(ms);
+                            pBoxProdutos.SizeMode = PictureBoxSizeMode.StretchImage;
+                        }
+                    }
+                    else
+                    {
+                        pBoxProdutos.Image = Resources.sem_foto;
+                    }
+                }
+                catch
+                {
+                    pBoxProdutos.Image = Resources.sem_foto;
+                }
+            }
+            else
+            {
+                pBoxProdutos.Image = Resources.sem_foto;
+            }
         }
 
         // Evento de duplo clique na grid para seleção de produto para estoque
         private void gridProdutos_CellDoubleClick_1(object sender, DataGridViewCellEventArgs e)
         {
-            if (Globais.chamadaProdutos == "estoque")
-            {
-                Globais.idProduto = gridProdutos.CurrentRow.Cells[0].Value.ToString();
-                Globais.nomeProduto = gridProdutos.CurrentRow.Cells[1].Value.ToString();
-                Globais.estoqueProduto = gridProdutos.CurrentRow.Cells[3].Value.ToString();
-                Globais.VrCompra = gridProdutos.CurrentRow.Cells[4].Value.ToString();
-                Globais.VrVenda = gridProdutos.CurrentRow.Cells[5].Value.ToString();
-                Close();
-            }
+            //Evento nã usado
         }
 
         /// <summary>
@@ -448,74 +575,169 @@ namespace SistemaHotel.Views
         // Evento de clique no botão de seleção de produto para edição
         private void btnSelecionarProdutoEdicao_Click(object sender, EventArgs e)
         {
-            // Habilita campos
-            EnableHelper.SetEnabled(true, txtProduto, txtDescricao, cBFornecedor, txtVrCompra, txtVrVenda);
-
-
-
-            // Habilita "Editar" e "Excluir", desabilita "Novo" e "Salvar"
-            EnableHelper.SetEnabled(true, btEditar, btExcluir);
-            EnableHelper.SetEnabled(false, btNovo, btSalvar);
-
             // Protege contra seleção inválida
-            if (gridProdutos.CurrentRow == null) return;
+            if (gridProdutos.CurrentRow == null || gridProdutos.CurrentRow.Cells["IdProduto"].Value == null)
+                return;
 
-            // Garante que há pelo menos 9 colunas (ajuste conforme sua grid)
-            if (gridProdutos.CurrentRow.Cells.Count < 9) return;
+            // Pergunta ao usuário o que deseja fazer
+            var opcao = MessageBox.Show(
+                "O que deseja fazer com este produto?\n\n" +
+                "Sim = Editar\nNão = Excluir\nCancelar = Sair",
+                "Selecionar Produto",
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question
+            );
 
-            // Garante que a célula do código do produto não é nula
-            if (gridProdutos.CurrentRow.Cells[0].Value == null) return;
-
-            // Preenche os campos de texto com os valores das células
-            txtCod.Text = gridProdutos.CurrentRow.Cells["IdProduto"].Value?.ToString() ?? "";
-            txtProduto.Text = gridProdutos.CurrentRow.Cells["Nome"].Value?.ToString() ?? "";
-            txtDescricao.Text = gridProdutos.CurrentRow.Cells["Descricao"].Value?.ToString() ?? "";
-            txtEstoque.Text = gridProdutos.CurrentRow.Cells["Estoque"].Value?.ToString() ?? "";
-            txtVrCompra.Text = gridProdutos.CurrentRow.Cells["ValorCompra"].Value?.ToString() ?? "";
-            txtVrVenda.Text = gridProdutos.CurrentRow.Cells["ValorUnit"].Value?.ToString() ?? "";
-
-            // Preenche o ComboBox de fornecedor
-            // OBS: Use sempre o nome da coluna, nunca o índice, para evitar erros caso a ordem do grid mude!
-            if (gridProdutos.CurrentRow.Cells["Fornecedor"].Value != null)
-                cBFornecedor.Text = gridProdutos.CurrentRow.Cells["Fornecedor"].Value.ToString();
-            else
-                cBFornecedor.SelectedIndex = -1; // Limpa seleção caso não tenha fornecedor
-
-            // Preenche a imagem do produto
-            // Mesmo com coluna "Imagem" invisível, acesse pelo nome!
-            var imgCell = gridProdutos.CurrentRow.Cells["Imagem"];
-            if (imgCell != null && imgCell.Value != null && imgCell.Value != DBNull.Value)
+            // === EDIÇÃO ===
+            if (opcao == DialogResult.Yes)
             {
-                try
-                {
-                    byte[] imagemBuffer = (byte[])imgCell.Value;
-                    imagemOriginal = imagemBuffer; // <--- Guarda a imagem original 
+                // Habilita campos para edição
+                EnableHelper.SetEnabled(true, btSalvar, btAddImagem, btRemoverImagem, txtProduto, txtDescricao, cBFornecedor, txtVrCompra, txtVrVenda);
+                EnableHelper.SetEnabled(false, btNovo, gridProdutos);
 
-                    if (imagemBuffer.Length > 0)
+
+                // Preenche campos com dados do grid
+                txtCod.Text = gridProdutos.CurrentRow.Cells["IdProduto"].Value?.ToString() ?? "";
+                txtProduto.Text = gridProdutos.CurrentRow.Cells["Nome"].Value?.ToString() ?? "";
+                txtDescricao.Text = gridProdutos.CurrentRow.Cells["Descricao"].Value?.ToString() ?? "";
+                txtEstoque.Text = gridProdutos.CurrentRow.Cells["Estoque"].Value?.ToString() ?? "";
+                txtVrCompra.Text = gridProdutos.CurrentRow.Cells["ValorCompra"].Value?.ToString() ?? "";
+                txtVrVenda.Text = gridProdutos.CurrentRow.Cells["ValorUnit"].Value?.ToString() ?? "";
+
+                // Fornecedor
+                if (gridProdutos.CurrentRow.Cells["Fornecedor"].Value != null)
+                    cBFornecedor.Text = gridProdutos.CurrentRow.Cells["Fornecedor"].Value.ToString();
+                else
+                    cBFornecedor.SelectedIndex = -1;
+
+                // Imagem
+                var imgCell = gridProdutos.CurrentRow.Cells["Imagem"];
+                if (imgCell != null && imgCell.Value != null && imgCell.Value != DBNull.Value)
+                {
+                    try
                     {
-                        using (MemoryStream ms = new MemoryStream(imagemBuffer))
+                        byte[] imagemBuffer = (byte[])imgCell.Value;
+                        imagemOriginal = imagemBuffer;
+
+                        if (imagemBuffer.Length > 0)
                         {
-                            pBoxProdutos.Image = Image.FromStream(ms);
-                            pBoxProdutos.SizeMode = PictureBoxSizeMode.StretchImage;
+                            using (MemoryStream ms = new MemoryStream(imagemBuffer))
+                            {
+                                pBoxProdutos.Image = Image.FromStream(ms);
+                                pBoxProdutos.SizeMode = PictureBoxSizeMode.StretchImage;
+                            }
+                        }
+                        else
+                        {
+                            pBoxProdutos.Image = Resources.sem_foto;
                         }
                     }
-                    else
+                    catch
                     {
-                        // Imagem vazia: mostra imagem padrão
                         pBoxProdutos.Image = Resources.sem_foto;
                     }
                 }
-                catch
+                else
                 {
-                    // Se der erro ao converter imagem, mostra imagem padrão
                     pBoxProdutos.Image = Resources.sem_foto;
                 }
             }
+            // === EXCLUSÃO ===
+            else if (opcao == DialogResult.No)
+            {
+                var confirm = MessageBox.Show(
+                    "Tem certeza que deseja excluir este produto?",
+                    "Confirmação de Exclusão",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+                EnableHelper.SetEnabled(false, btNovo, btSalvar, btAddImagem, btRemoverImagem, txtProduto, txtDescricao, cBFornecedor, txtVrCompra, txtVrVenda);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    try
+                    {
+                        var idProduto = Convert.ToInt32(gridProdutos.CurrentRow.Cells["IdProduto"].Value);
+                        var dao = new produtoDAO();
+                        dao.ExcluirProduto(idProduto);
+
+                        MessageBox.Show("Produto excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ListarProdutos(); // Atualiza grid
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erro ao excluir produto: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            // === CANCELAR ===
             else
             {
-                // Se não houver imagem, mostra imagem padrão
-                pBoxProdutos.Image = Resources.sem_foto;
+                return;
             }
+
+            EnableHelper.SetEnabled(true, btNovo, gridProdutos);
+
+        }
+
+        // Evento de clique no botão de seleção de produto para vendas
+        private void btnSelecionarProdutoVendas_Click(object sender, EventArgs e)
+        {
+            if (gridProdutos.CurrentRow == null)
+            {
+                MessageBox.Show("Por favor, selecione um hóspede.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+
+            if (gridProdutos.CurrentRow != null)
+            {
+                // Atribui o valor à propriedade pública
+                IdProdutoSelecionado = Convert.ToInt32(gridProdutos.CurrentRow.Cells["IdProduto"].Value);
+                NomeProdutoSelecionado = gridProdutos.CurrentRow.Cells[1].Value.ToString();
+                EstoqueSelecionado = gridProdutos.CurrentRow.Cells["Estoque"].Value.ToString();
+                ValorCompraSelecionado = decimal.TryParse(gridProdutos.CurrentRow.Cells["ValorCompra"].Value.ToString(), out decimal valorCompra) ? valorCompra : 0;
+
+                // Define que o diálogo foi concluído com sucesso
+                this.DialogResult = DialogResult.OK;
+
+                // Fecha o formulário
+                this.Close();
+            }
+        }
+
+        private void btnSelecionarProdutoEstoque_Click(object sender, EventArgs e)
+        {
+            if (gridProdutos.CurrentRow == null)
+            {
+                MessageBox.Show("Por favor, selecione um produto.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Armazena os dados do produto nos globais
+            Globais.idProduto = gridProdutos.CurrentRow.Cells["IdProduto"].Value.ToString();
+            Globais.nomeProduto = gridProdutos.CurrentRow.Cells["Nome"].Value.ToString();
+            Globais.estoqueProduto = gridProdutos.CurrentRow.Cells["Estoque"].Value.ToString();
+            Globais.VrCompra = gridProdutos.CurrentRow.Cells["ValorCompra"].Value.ToString();
+            Globais.VrVenda = gridProdutos.CurrentRow.Cells["ValorUnit"].Value.ToString();
+            Globais.chamadaProdutos = "produtos";
+
+            // Verifica se o FrmEstoques já está aberto
+            foreach (Form frmAberto in Application.OpenForms)
+            {
+                if (frmAberto is FrmEstoques)
+                {
+                    frmAberto.Activate(); // Traz para frente
+                    this.Close();         // Fecha o FrmProdutos
+                    return;
+                }
+            }
+
+            // Se não existir aberto, cria um novo
+            FrmEstoques frmEstoque = new FrmEstoques();
+            frmEstoque.Show();
+            this.Close(); // Fecha o FrmProdutos
+
 
         }
     }

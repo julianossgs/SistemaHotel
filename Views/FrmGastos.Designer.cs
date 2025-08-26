@@ -33,6 +33,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmGastos));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -53,11 +54,14 @@
             this.lblTotal = new System.Windows.Forms.Label();
             this.btnSelecionarGastoEdicao = new System.Windows.Forms.Button();
             this.toolTipGastos = new System.Windows.Forms.ToolTip(this.components);
+            this.btAtualizar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.gridGastos)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -81,11 +85,13 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(532, 39);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Red;
+            this.label3.Location = new System.Drawing.Point(15, 11);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(45, 15);
+            this.label3.Size = new System.Drawing.Size(206, 16);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Buscar";
+            this.label3.Text = "Selecione um data para consulta.";
             // 
             // txtDescricao
             // 
@@ -109,9 +115,9 @@
             // 
             this.dtBuscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtBuscar.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtBuscar.Location = new System.Drawing.Point(583, 33);
+            this.dtBuscar.Location = new System.Drawing.Point(18, 30);
             this.dtBuscar.Name = "dtBuscar";
-            this.dtBuscar.Size = new System.Drawing.Size(133, 22);
+            this.dtBuscar.Size = new System.Drawing.Size(203, 22);
             this.dtBuscar.TabIndex = 5;
             this.dtBuscar.ValueChanged += new System.EventHandler(this.DtBuscar_ValueChanged);
             // 
@@ -128,13 +134,13 @@
             this.Descricao,
             this.Valor,
             this.Funcionario});
-            this.gridGastos.Location = new System.Drawing.Point(27, 130);
+            this.gridGastos.Location = new System.Drawing.Point(37, 154);
             this.gridGastos.MultiSelect = false;
             this.gridGastos.Name = "gridGastos";
             this.gridGastos.ReadOnly = true;
             this.gridGastos.RowTemplate.Height = 26;
             this.gridGastos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridGastos.Size = new System.Drawing.Size(689, 238);
+            this.gridGastos.Size = new System.Drawing.Size(729, 238);
             this.gridGastos.TabIndex = 6;
             this.gridGastos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridGastos_CellClick);
             // 
@@ -166,7 +172,7 @@
             this.Descricao.HeaderText = "Descricao";
             this.Descricao.Name = "Descricao";
             this.Descricao.ReadOnly = true;
-            this.Descricao.Width = 280;
+            this.Descricao.Width = 290;
             // 
             // Valor
             // 
@@ -178,7 +184,6 @@
             this.Valor.HeaderText = "Valor";
             this.Valor.Name = "Valor";
             this.Valor.ReadOnly = true;
-            this.Valor.Width = 120;
             // 
             // Funcionario
             // 
@@ -188,14 +193,14 @@
             this.Funcionario.HeaderText = "Funcionário";
             this.Funcionario.Name = "Funcionario";
             this.Funcionario.ReadOnly = true;
-            this.Funcionario.Width = 130;
+            this.Funcionario.Width = 160;
             // 
             // btExcluir
             // 
             this.btExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btExcluir.Enabled = false;
             this.btExcluir.Image = global::SistemaHotel.Properties.Resources.botaoDeletar;
-            this.btExcluir.Location = new System.Drawing.Point(779, 174);
+            this.btExcluir.Location = new System.Drawing.Point(861, 222);
             this.btExcluir.Name = "btExcluir";
             this.btExcluir.Size = new System.Drawing.Size(65, 65);
             this.btExcluir.TabIndex = 23;
@@ -208,7 +213,7 @@
             this.btEditar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btEditar.Enabled = false;
             this.btEditar.Image = global::SistemaHotel.Properties.Resources.botaoEditar;
-            this.btEditar.Location = new System.Drawing.Point(779, 271);
+            this.btEditar.Location = new System.Drawing.Point(861, 319);
             this.btEditar.Name = "btEditar";
             this.btEditar.Size = new System.Drawing.Size(65, 65);
             this.btEditar.TabIndex = 22;
@@ -221,7 +226,7 @@
             this.btSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btSalvar.Enabled = false;
             this.btSalvar.Image = global::SistemaHotel.Properties.Resources.botaoSalvar;
-            this.btSalvar.Location = new System.Drawing.Point(496, 464);
+            this.btSalvar.Location = new System.Drawing.Point(507, 482);
             this.btSalvar.Name = "btSalvar";
             this.btSalvar.Size = new System.Drawing.Size(65, 65);
             this.btSalvar.TabIndex = 21;
@@ -232,7 +237,7 @@
             // 
             this.btNovo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btNovo.Image = global::SistemaHotel.Properties.Resources.botaoNovo;
-            this.btNovo.Location = new System.Drawing.Point(358, 464);
+            this.btNovo.Location = new System.Drawing.Point(369, 482);
             this.btNovo.Name = "btNovo";
             this.btNovo.Size = new System.Drawing.Size(65, 65);
             this.btNovo.TabIndex = 20;
@@ -242,7 +247,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(557, 386);
+            this.label7.Location = new System.Drawing.Point(567, 410);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(37, 15);
             this.label7.TabIndex = 80;
@@ -252,7 +257,7 @@
             // 
             this.lblTotal.AutoSize = true;
             this.lblTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotal.Location = new System.Drawing.Point(623, 381);
+            this.lblTotal.Location = new System.Drawing.Point(633, 405);
             this.lblTotal.Name = "lblTotal";
             this.lblTotal.Size = new System.Drawing.Size(18, 20);
             this.lblTotal.TabIndex = 81;
@@ -266,7 +271,7 @@
             this.btnSelecionarGastoEdicao.FlatAppearance.BorderSize = 2;
             this.btnSelecionarGastoEdicao.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSelecionarGastoEdicao.ForeColor = System.Drawing.Color.Red;
-            this.btnSelecionarGastoEdicao.Location = new System.Drawing.Point(722, 130);
+            this.btnSelecionarGastoEdicao.Location = new System.Drawing.Point(778, 154);
             this.btnSelecionarGastoEdicao.Name = "btnSelecionarGastoEdicao";
             this.btnSelecionarGastoEdicao.Size = new System.Drawing.Size(183, 38);
             this.btnSelecionarGastoEdicao.TabIndex = 82;
@@ -279,12 +284,26 @@
             // 
             this.toolTipGastos.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
+            // btAtualizar
+            // 
+            this.btAtualizar.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.btAtualizar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btAtualizar.BackgroundImage")));
+            this.btAtualizar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btAtualizar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btAtualizar.Location = new System.Drawing.Point(87, 66);
+            this.btAtualizar.Name = "btAtualizar";
+            this.btAtualizar.Size = new System.Drawing.Size(68, 35);
+            this.btAtualizar.TabIndex = 6;
+            this.toolTipGastos.SetToolTip(this.btAtualizar, "Atualizar");
+            this.btAtualizar.UseVisualStyleBackColor = false;
+            this.btAtualizar.Click += new System.EventHandler(this.btAtualizar_Click);
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Blue;
-            this.label4.Location = new System.Drawing.Point(344, 532);
+            this.label4.Location = new System.Drawing.Point(355, 550);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(97, 13);
             this.label4.TabIndex = 83;
@@ -295,7 +314,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Blue;
-            this.label5.Location = new System.Drawing.Point(475, 532);
+            this.label5.Location = new System.Drawing.Point(486, 550);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(110, 13);
             this.label5.TabIndex = 84;
@@ -306,7 +325,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Blue;
-            this.label6.Location = new System.Drawing.Point(762, 339);
+            this.label6.Location = new System.Drawing.Point(844, 387);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(116, 13);
             this.label6.TabIndex = 85;
@@ -318,19 +337,32 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.Red;
-            this.label8.Location = new System.Drawing.Point(765, 242);
+            this.label8.Location = new System.Drawing.Point(847, 290);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(112, 13);
             this.label8.TabIndex = 86;
             this.label8.Text = "EXCLUIR REGISTRO";
             this.label8.Visible = false;
             // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.btAtualizar);
+            this.panel1.Controls.Add(this.dtBuscar);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.panel1.Location = new System.Drawing.Point(712, 12);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(249, 112);
+            this.panel1.TabIndex = 0;
+            // 
             // FrmGastos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(916, 573);
+            this.ClientSize = new System.Drawing.Size(986, 573);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -343,10 +375,8 @@
             this.Controls.Add(this.btSalvar);
             this.Controls.Add(this.btNovo);
             this.Controls.Add(this.gridGastos);
-            this.Controls.Add(this.dtBuscar);
             this.Controls.Add(this.txtValor);
             this.Controls.Add(this.txtDescricao);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -356,6 +386,8 @@
             this.Text = "GASTOS";
             this.Load += new System.EventHandler(this.FrmGastos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridGastos)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -370,11 +402,6 @@
         private System.Windows.Forms.TextBox txtValor;
         private System.Windows.Forms.DateTimePicker dtBuscar;
         private System.Windows.Forms.DataGridView gridGastos;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IdGasto;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Data;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Descricao;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Valor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Funcionario;
         private System.Windows.Forms.Button btExcluir;
         private System.Windows.Forms.Button btEditar;
         private System.Windows.Forms.Button btSalvar;
@@ -387,5 +414,12 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btAtualizar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IdGasto;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Data;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Descricao;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Valor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Funcionario;
     }
 }

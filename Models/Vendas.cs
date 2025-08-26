@@ -12,7 +12,7 @@ namespace SistemaHotel.Models
 
         public string Funcionario { get; set; }
 
-        public string Stauts { get; set; }
+        public string Status { get; set; }
 
         public DateTime DataCadastro { get; set; }
     }

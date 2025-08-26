@@ -1,5 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using SistemaHotel.Dados;
+using SistemaHotel.Services;
+using System;
 using System.Data;
 
 namespace SistemaHotel.Repositories.hospedeDAO
@@ -8,65 +10,109 @@ namespace SistemaHotel.Repositories.hospedeDAO
     {
         public DataTable ListarHospedes()
         {
-            DataTable dt = new DataTable();
-            Conexao con = new Conexao();
-            con.AbrirCon();
+            try
+            {
+                DataTable dt = new DataTable();
+                Conexao con = new Conexao();
+                con.AbrirCon();
 
-            MySqlCommand cmd = new MySqlCommand("spListarHospedes", con.Con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-            da.Fill(dt);
+                MySqlCommand cmd = new MySqlCommand("spListarHospedes", con.Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
 
-            con.Con.Close();
-            return dt;
+                con.Con.Close();
+                LogService.LogSucesso($"Listar Hospedes.");
+                return dt;
+            }
+            catch (Exception ex)
+            {
+
+                LogService.LogError(ex, $"Listar Hospedes");
+                return new DataTable();
+            }
+
         }
 
         public DataTable BuscarHospedePorNome(string nome)
         {
-            DataTable dt = new DataTable();
-            Conexao con = new Conexao();
-            con.AbrirCon();
+            try
+            {
+                DataTable dt = new DataTable();
+                Conexao con = new Conexao();
+                con.AbrirCon();
 
-            MySqlCommand cmd = new MySqlCommand("spBuscarNomeHospede", con.Con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("pNome", nome);
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-            da.Fill(dt);
+                MySqlCommand cmd = new MySqlCommand("spBuscarNomeHospede", con.Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("pNome", nome);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
 
-            con.Con.Close();
-            return dt;
+                con.Con.Close();
+                LogService.LogSucesso($"Buscar Hospede Por Nome.");
+                return dt;
+            }
+            catch (Exception ex)
+            {
+
+                LogService.LogError(ex, $"Buscar Hospede Por Nome");
+                return new DataTable();
+            }
+
         }
 
         public DataTable BuscarHospedePorCPF(string cpf)
         {
-            DataTable dt = new DataTable();
-            Conexao con = new Conexao();
-            con.AbrirCon();
+            try
+            {
+                DataTable dt = new DataTable();
+                Conexao con = new Conexao();
+                con.AbrirCon();
 
-            MySqlCommand cmd = new MySqlCommand("spBuscarCPF", con.Con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("pCPF", cpf);
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-            da.Fill(dt);
+                MySqlCommand cmd = new MySqlCommand("spBuscarCPF", con.Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("pCPF", cpf);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
 
-            con.Con.Close();
-            return dt;
+                con.Con.Close();
+                LogService.LogSucesso($"Buscar Hospede Por CPF.");
+                return dt;
+            }
+            catch (Exception ex)
+            {
+
+                LogService.LogError(ex, $"Buscar Hospede Por CPF");
+                return new DataTable();
+            }
+
         }
 
         public bool ExisteHospedeCPF(string cpf)
         {
-            DataTable dt = new DataTable();
-            Conexao con = new Conexao();
-            con.AbrirCon();
+            try
+            {
+                DataTable dt = new DataTable();
+                Conexao con = new Conexao();
+                con.AbrirCon();
 
-            MySqlCommand cmd = new MySqlCommand("spVerificarCPF", con.Con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("pCPF", cpf);
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-            da.Fill(dt);
+                MySqlCommand cmd = new MySqlCommand("spVerificarCPF", con.Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("pCPF", cpf);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
 
-            con.Con.Close();
-            return dt.Rows.Count > 0;
+                con.Con.Close();
+                LogService.LogSucesso($"Existe Hospede CPF.");
+                return dt.Rows.Count > 0;
+            }
+            catch (Exception ex)
+            {
+
+                LogService.LogError(ex, $"Buscar Hospede Por CPF");
+                return false;
+            }
+
         }
 
         public void InserirHospede(
@@ -128,15 +174,25 @@ namespace SistemaHotel.Repositories.hospedeDAO
 
         public void ExcluirHospede(int idHospede)
         {
-            Conexao con = new Conexao();
-            con.AbrirCon();
+            try
+            {
+                Conexao con = new Conexao();
+                con.AbrirCon();
 
-            MySqlCommand cmd = new MySqlCommand("spExcluirHospedes", con.Con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("pIdHospede", idHospede);
-            cmd.ExecuteNonQuery();
+                MySqlCommand cmd = new MySqlCommand("spExcluirHospedes", con.Con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("pIdHospede", idHospede);
+                cmd.ExecuteNonQuery();
 
-            con.Con.Close();
+                con.Con.Close();
+                LogService.LogSucesso($"Excluir Hospede.");
+            }
+            catch (Exception ex)
+            {
+
+                LogService.LogError(ex, $"Excluir Hospede");
+            }
+
         }
     }
 }

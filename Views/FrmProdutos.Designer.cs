@@ -42,15 +42,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
             this.gridProdutos = new System.Windows.Forms.DataGridView();
-            this.IdProduto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Nome = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Descricao = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Estoque = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ValorCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ValorUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Imagem = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Fornecedor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtCod = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -71,10 +62,21 @@
             this.btNovo = new System.Windows.Forms.Button();
             this.toolTipProdutos = new System.Windows.Forms.ToolTip(this.components);
             this.btnSelecionarProdutoEdicao = new System.Windows.Forms.Button();
+            this.btnSelecionarProdutoVendas = new System.Windows.Forms.Button();
+            this.btnSelecionarProdutoEstoque = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.IdProduto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nome = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Descricao = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Estoque = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ValorCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ValorUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Imagem = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Fornecedor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridProdutos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxProdutos)).BeginInit();
@@ -170,106 +172,10 @@
             this.gridProdutos.ReadOnly = true;
             this.gridProdutos.RowTemplate.Height = 26;
             this.gridProdutos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridProdutos.Size = new System.Drawing.Size(951, 226);
+            this.gridProdutos.Size = new System.Drawing.Size(1014, 226);
             this.gridProdutos.TabIndex = 27;
             this.gridProdutos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridProdutos_CellClick_1);
             this.gridProdutos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridProdutos_CellDoubleClick_1);
-            // 
-            // IdProduto
-            // 
-            this.IdProduto.DataPropertyName = "IdProduto";
-            dataGridViewCellStyle1.Format = "#,##0";
-            this.IdProduto.DefaultCellStyle = dataGridViewCellStyle1;
-            this.IdProduto.HeaderText = "IdProduto";
-            this.IdProduto.Name = "IdProduto";
-            this.IdProduto.ReadOnly = true;
-            this.IdProduto.Visible = false;
-            // 
-            // Nome
-            // 
-            this.Nome.DataPropertyName = "Produto";
-            this.Nome.HeaderText = "Produto";
-            this.Nome.Name = "Nome";
-            this.Nome.ReadOnly = true;
-            this.Nome.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Nome.Width = 200;
-            // 
-            // Descricao
-            // 
-            this.Descricao.DataPropertyName = "Descricao";
-            this.Descricao.HeaderText = "Descricao";
-            this.Descricao.Name = "Descricao";
-            this.Descricao.ReadOnly = true;
-            this.Descricao.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Descricao.Width = 210;
-            // 
-            // Estoque
-            // 
-            this.Estoque.DataPropertyName = "Estoque";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.Estoque.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Estoque.HeaderText = "Estoque";
-            this.Estoque.Name = "Estoque";
-            this.Estoque.ReadOnly = true;
-            this.Estoque.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Estoque.Width = 80;
-            // 
-            // ValorCompra
-            // 
-            this.ValorCompra.DataPropertyName = "ValorCompra";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "C2";
-            dataGridViewCellStyle3.NullValue = null;
-            this.ValorCompra.DefaultCellStyle = dataGridViewCellStyle3;
-            this.ValorCompra.HeaderText = "Valor da Compra";
-            this.ValorCompra.Name = "ValorCompra";
-            this.ValorCompra.ReadOnly = true;
-            this.ValorCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ValorCompra.Width = 130;
-            // 
-            // ValorUnit
-            // 
-            this.ValorUnit.DataPropertyName = "ValorUnit";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "C2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.ValorUnit.DefaultCellStyle = dataGridViewCellStyle4;
-            this.ValorUnit.HeaderText = "Valor Venda";
-            this.ValorUnit.Name = "ValorUnit";
-            this.ValorUnit.ReadOnly = true;
-            this.ValorUnit.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // Imagem
-            // 
-            this.Imagem.DataPropertyName = "Imagem";
-            this.Imagem.HeaderText = "Imagem";
-            this.Imagem.Name = "Imagem";
-            this.Imagem.ReadOnly = true;
-            this.Imagem.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Imagem.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Imagem.Visible = false;
-            // 
-            // Data
-            // 
-            this.Data.DataPropertyName = "DataCadastro";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.Format = "d";
-            dataGridViewCellStyle5.NullValue = null;
-            this.Data.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Data.HeaderText = "Data / Cadastro";
-            this.Data.Name = "Data";
-            this.Data.ReadOnly = true;
-            this.Data.Visible = false;
-            this.Data.Width = 120;
-            // 
-            // Fornecedor
-            // 
-            this.Fornecedor.DataPropertyName = "Fornecedor";
-            this.Fornecedor.HeaderText = "Fornecedor";
-            this.Fornecedor.Name = "Fornecedor";
-            this.Fornecedor.ReadOnly = true;
-            this.Fornecedor.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Fornecedor.Width = 180;
             // 
             // txtCod
             // 
@@ -414,12 +320,13 @@
             this.btExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btExcluir.Enabled = false;
             this.btExcluir.Image = global::SistemaHotel.Properties.Resources.botaoDeletar;
-            this.btExcluir.Location = new System.Drawing.Point(722, 441);
+            this.btExcluir.Location = new System.Drawing.Point(1110, 272);
             this.btExcluir.Name = "btExcluir";
             this.btExcluir.Size = new System.Drawing.Size(65, 65);
             this.btExcluir.TabIndex = 0;
             this.toolTipProdutos.SetToolTip(this.btExcluir, "EXCLUIR REGISTRO");
             this.btExcluir.UseVisualStyleBackColor = true;
+            this.btExcluir.Visible = false;
             this.btExcluir.Click += new System.EventHandler(this.BtExcluir_Click);
             // 
             // btEditar
@@ -427,12 +334,13 @@
             this.btEditar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btEditar.Enabled = false;
             this.btEditar.Image = global::SistemaHotel.Properties.Resources.botaoEditar;
-            this.btEditar.Location = new System.Drawing.Point(607, 441);
+            this.btEditar.Location = new System.Drawing.Point(1110, 368);
             this.btEditar.Name = "btEditar";
             this.btEditar.Size = new System.Drawing.Size(65, 65);
             this.btEditar.TabIndex = 0;
             this.toolTipProdutos.SetToolTip(this.btEditar, "ALTERAR REGISTRO");
             this.btEditar.UseVisualStyleBackColor = true;
+            this.btEditar.Visible = false;
             this.btEditar.Click += new System.EventHandler(this.BtEditar_Click);
             // 
             // btSalvar
@@ -440,7 +348,7 @@
             this.btSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btSalvar.Enabled = false;
             this.btSalvar.Image = global::SistemaHotel.Properties.Resources.botaoSalvar;
-            this.btSalvar.Location = new System.Drawing.Point(488, 441);
+            this.btSalvar.Location = new System.Drawing.Point(686, 446);
             this.btSalvar.Name = "btSalvar";
             this.btSalvar.Size = new System.Drawing.Size(65, 65);
             this.btSalvar.TabIndex = 7;
@@ -452,7 +360,7 @@
             // 
             this.btNovo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btNovo.Image = global::SistemaHotel.Properties.Resources.botaoNovo;
-            this.btNovo.Location = new System.Drawing.Point(369, 441);
+            this.btNovo.Location = new System.Drawing.Point(549, 446);
             this.btNovo.Name = "btNovo";
             this.btNovo.Size = new System.Drawing.Size(65, 65);
             this.btNovo.TabIndex = 0;
@@ -472,7 +380,7 @@
             this.btnSelecionarProdutoEdicao.FlatAppearance.BorderSize = 2;
             this.btnSelecionarProdutoEdicao.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSelecionarProdutoEdicao.ForeColor = System.Drawing.Color.Red;
-            this.btnSelecionarProdutoEdicao.Location = new System.Drawing.Point(977, 184);
+            this.btnSelecionarProdutoEdicao.Location = new System.Drawing.Point(1040, 184);
             this.btnSelecionarProdutoEdicao.Name = "btnSelecionarProdutoEdicao";
             this.btnSelecionarProdutoEdicao.Size = new System.Drawing.Size(183, 38);
             this.btnSelecionarProdutoEdicao.TabIndex = 57;
@@ -481,12 +389,46 @@
             this.btnSelecionarProdutoEdicao.UseVisualStyleBackColor = true;
             this.btnSelecionarProdutoEdicao.Click += new System.EventHandler(this.btnSelecionarProdutoEdicao_Click);
             // 
+            // btnSelecionarProdutoVendas
+            // 
+            this.btnSelecionarProdutoVendas.AllowDrop = true;
+            this.btnSelecionarProdutoVendas.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnSelecionarProdutoVendas.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSelecionarProdutoVendas.FlatAppearance.BorderSize = 2;
+            this.btnSelecionarProdutoVendas.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelecionarProdutoVendas.ForeColor = System.Drawing.Color.Red;
+            this.btnSelecionarProdutoVendas.Location = new System.Drawing.Point(1040, 184);
+            this.btnSelecionarProdutoVendas.Name = "btnSelecionarProdutoVendas";
+            this.btnSelecionarProdutoVendas.Size = new System.Drawing.Size(183, 38);
+            this.btnSelecionarProdutoVendas.TabIndex = 58;
+            this.btnSelecionarProdutoVendas.Text = "Selecionar Produto";
+            this.toolTipProdutos.SetToolTip(this.btnSelecionarProdutoVendas, "Selecione para alteração/exclusão");
+            this.btnSelecionarProdutoVendas.UseVisualStyleBackColor = true;
+            this.btnSelecionarProdutoVendas.Click += new System.EventHandler(this.btnSelecionarProdutoVendas_Click);
+            // 
+            // btnSelecionarProdutoEstoque
+            // 
+            this.btnSelecionarProdutoEstoque.AllowDrop = true;
+            this.btnSelecionarProdutoEstoque.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnSelecionarProdutoEstoque.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSelecionarProdutoEstoque.FlatAppearance.BorderSize = 2;
+            this.btnSelecionarProdutoEstoque.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelecionarProdutoEstoque.ForeColor = System.Drawing.Color.Red;
+            this.btnSelecionarProdutoEstoque.Location = new System.Drawing.Point(1040, 228);
+            this.btnSelecionarProdutoEstoque.Name = "btnSelecionarProdutoEstoque";
+            this.btnSelecionarProdutoEstoque.Size = new System.Drawing.Size(183, 38);
+            this.btnSelecionarProdutoEstoque.TabIndex = 59;
+            this.btnSelecionarProdutoEstoque.Text = "Selecionar Produto Estoque";
+            this.toolTipProdutos.SetToolTip(this.btnSelecionarProdutoEstoque, "Selecione para Estoque");
+            this.btnSelecionarProdutoEstoque.UseVisualStyleBackColor = true;
+            this.btnSelecionarProdutoEstoque.Click += new System.EventHandler(this.btnSelecionarProdutoEstoque_Click);
+            // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Blue;
-            this.label10.Location = new System.Drawing.Point(352, 509);
+            this.label10.Location = new System.Drawing.Point(532, 514);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(97, 13);
             this.label10.TabIndex = 53;
@@ -497,7 +439,7 @@
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.Blue;
-            this.label11.Location = new System.Drawing.Point(463, 509);
+            this.label11.Location = new System.Drawing.Point(661, 514);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(110, 13);
             this.label11.TabIndex = 54;
@@ -508,29 +450,129 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.Blue;
-            this.label12.Location = new System.Drawing.Point(582, 509);
+            this.label12.Location = new System.Drawing.Point(1085, 436);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(116, 13);
             this.label12.TabIndex = 55;
             this.label12.Text = "ALTERAR REGISTRO";
+            this.label12.Visible = false;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.Red;
-            this.label13.Location = new System.Drawing.Point(703, 509);
+            this.label13.Location = new System.Drawing.Point(1091, 340);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(112, 13);
             this.label13.TabIndex = 56;
             this.label13.Text = "EXCLUIR REGISTRO";
+            this.label13.Visible = false;
+            // 
+            // IdProduto
+            // 
+            this.IdProduto.DataPropertyName = "IdProduto";
+            dataGridViewCellStyle1.Format = "#,##0";
+            this.IdProduto.DefaultCellStyle = dataGridViewCellStyle1;
+            this.IdProduto.HeaderText = "IdProduto";
+            this.IdProduto.Name = "IdProduto";
+            this.IdProduto.ReadOnly = true;
+            this.IdProduto.Visible = false;
+            // 
+            // Nome
+            // 
+            this.Nome.DataPropertyName = "Produto";
+            this.Nome.HeaderText = "Produto";
+            this.Nome.Name = "Nome";
+            this.Nome.ReadOnly = true;
+            this.Nome.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Nome.Width = 220;
+            // 
+            // Descricao
+            // 
+            this.Descricao.DataPropertyName = "Descricao";
+            this.Descricao.HeaderText = "Descricao";
+            this.Descricao.Name = "Descricao";
+            this.Descricao.ReadOnly = true;
+            this.Descricao.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Descricao.Width = 220;
+            // 
+            // Estoque
+            // 
+            this.Estoque.DataPropertyName = "Estoque";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.Estoque.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Estoque.HeaderText = "Estoque";
+            this.Estoque.Name = "Estoque";
+            this.Estoque.ReadOnly = true;
+            this.Estoque.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Estoque.Width = 80;
+            // 
+            // ValorCompra
+            // 
+            this.ValorCompra.DataPropertyName = "ValorCompra";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "C2";
+            dataGridViewCellStyle3.NullValue = null;
+            this.ValorCompra.DefaultCellStyle = dataGridViewCellStyle3;
+            this.ValorCompra.HeaderText = "Valor da Compra";
+            this.ValorCompra.Name = "ValorCompra";
+            this.ValorCompra.ReadOnly = true;
+            this.ValorCompra.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ValorCompra.Width = 130;
+            // 
+            // ValorUnit
+            // 
+            this.ValorUnit.DataPropertyName = "ValorUnit";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "C2";
+            dataGridViewCellStyle4.NullValue = null;
+            this.ValorUnit.DefaultCellStyle = dataGridViewCellStyle4;
+            this.ValorUnit.HeaderText = "Valor Unit";
+            this.ValorUnit.Name = "ValorUnit";
+            this.ValorUnit.ReadOnly = true;
+            this.ValorUnit.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // Imagem
+            // 
+            this.Imagem.DataPropertyName = "Imagem";
+            this.Imagem.HeaderText = "Imagem";
+            this.Imagem.Name = "Imagem";
+            this.Imagem.ReadOnly = true;
+            this.Imagem.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Imagem.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Imagem.Visible = false;
+            // 
+            // Data
+            // 
+            this.Data.DataPropertyName = "DataCadastro";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.Format = "d";
+            dataGridViewCellStyle5.NullValue = null;
+            this.Data.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Data.HeaderText = "Data / Cadastro";
+            this.Data.Name = "Data";
+            this.Data.ReadOnly = true;
+            this.Data.Visible = false;
+            this.Data.Width = 120;
+            // 
+            // Fornecedor
+            // 
+            this.Fornecedor.DataPropertyName = "Fornecedor";
+            this.Fornecedor.HeaderText = "Fornecedor";
+            this.Fornecedor.Name = "Fornecedor";
+            this.Fornecedor.ReadOnly = true;
+            this.Fornecedor.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Fornecedor.Width = 200;
             // 
             // FrmProdutos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.ClientSize = new System.Drawing.Size(1166, 533);
+            this.ClientSize = new System.Drawing.Size(1235, 533);
+            this.Controls.Add(this.btnSelecionarProdutoEstoque);
+            this.Controls.Add(this.btnSelecionarProdutoVendas);
             this.Controls.Add(this.btnSelecionarProdutoEdicao);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
@@ -604,6 +646,14 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtVrCompra;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ToolTip toolTipProdutos;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button btnSelecionarProdutoEdicao;
+        private System.Windows.Forms.Button btnSelecionarProdutoVendas;
+        private System.Windows.Forms.Button btnSelecionarProdutoEstoque;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdProduto;
         private System.Windows.Forms.DataGridViewTextBoxColumn Nome;
         private System.Windows.Forms.DataGridViewTextBoxColumn Descricao;
@@ -613,11 +663,5 @@
         private System.Windows.Forms.DataGridViewImageColumn Imagem;
         private System.Windows.Forms.DataGridViewTextBoxColumn Data;
         private System.Windows.Forms.DataGridViewTextBoxColumn Fornecedor;
-        private System.Windows.Forms.ToolTip toolTipProdutos;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button btnSelecionarProdutoEdicao;
     }
 }

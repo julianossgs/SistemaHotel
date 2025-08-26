@@ -128,6 +128,7 @@
   <ItemGroup>
     <Compile Include="Dados\Conexao.cs" />
     <Compile Include="Models\Cargo.cs" />
+    <Compile Include="Models\DetalhesVenda.cs" />
     <Compile Include="Models\Fornecedor.cs" />
     <Compile Include="Models\Funcionario.cs" />
     <Compile Include="Models\Gasto.cs" />
@@ -173,9 +174,11 @@
     <Compile Include="Services\ErroMensageService.cs" />
     <Compile Include="Services\Globais.cs" />
     <Compile Include="Services\InputValidator.cs" />
+    <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\PasswordHelper.cs" />
     <Compile Include="Services\PlacaService.cs" />
     <Compile Include="Services\SucessoMensageService.cs" />
+    <Compile Include="Services\ValidarData.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Views\FrmCargos.cs">
       <SubType>Form</SubType>
@@ -230,6 +233,12 @@
     </Compile>
     <Compile Include="Views\FrmNovoServico.Designer.cs">
       <DependentUpon>FrmNovoServico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FrmPagamentos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FrmPagamentos.Designer.cs">
+      <DependentUpon>FrmPagamentos.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\FrmPrincipal.cs">
       <SubType>Form</SubType>
@@ -315,6 +324,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\FrmNovoServico.resx">
       <DependentUpon>FrmNovoServico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FrmPagamentos.resx">
+      <DependentUpon>FrmPagamentos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\FrmPrincipal.resx">
       <DependentUpon>FrmPrincipal.cs</DependentUpon>
